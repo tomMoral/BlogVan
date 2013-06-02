@@ -6,8 +6,8 @@ class photo
         mysql_connect("localhost", "root", "naruto") or
             die("Could not connect: " . mysql_error());
         mysql_select_db("photos");
-     -   $result = mysql_query("SELECT * FROM `photo` WHERE `id` IN (" .
-        implode(',', array_map('intval', $list_pics)) . ')';
+        $result = mysql_query("SELECT * FROM `photos` WHERE `id` IN (" .
+        implode(',', array_map('intval', $list_pics)) . ')');
         return $result;
     }
  

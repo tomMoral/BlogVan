@@ -7,6 +7,10 @@
         <link rel="icon" 
               type="image/png" 
               href="images/logo.png">
+        <?php
+          include('post.php');
+          include('photos.php');
+        ?>
     </head>
 
     <body>
@@ -36,7 +40,8 @@
            $articles = $post_db->get_post();
            print_r($articles);
            while ($row = mysql_fetch_array($articles, MYSQL_NUM)) {
-             $photos = (new photo()).get_pics($rows[4])
+             $photos = (new photo())->get_photo($rows[4])
+             printo $row;
              ?> <section pass="post">
                   <article>
                     <h1><img src="images/ico_epingle.png" alt="Catégorie voyage"

@@ -3,7 +3,7 @@ class post
 {
     function get_post()
     {
-        mysql_connect("localhost", "root", "naruto") or
+        mysql_connect("localhost", "root", "") or
             die("Could not connect: " . mysql_error());
         mysql_select_db("Blog");
 

@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
- <head>
-       <meta charset="utf-8" />
+    <head>
+        <meta charset="utf-8" />
         <link rel="stylesheet" href="style.css" />
         <title>Maxi blog du Van VW :)</title>
         <link rel="icon" 
               type="image/png" 
               href="images/logo.png">
-       <script type="text/javascript" src="jQuery.js"></script>
+        <script type="text/javascript" src="jQuery.js"></script>
         <script type="text/javascript" src="downloadScripts.js"></script>
         <script type="text/javascript" src="script.js"></script>
-       <?php
-          include('post.php');
-          include('photos.php');
+        <?php
+        include('post.php');
+        include('photos.php');
         ?>
-   </head>
+    </head>
 
     <body>
         <div id="bloc_page">
@@ -38,25 +38,25 @@
                 </div>
             </header>
 
-       <?php 
-           $post_db = new post();
-           $articles = $post_db->get_post();
-           echo "Articles : ";
-           print_r($articles);
-           echo "<br/><br/>";
-           foreach( $articles as $row ) {
-             ?> <section pass="post">
-                  <article>
-                    <h1><img src="images/ico_epingle.png" alt="Catégorie voyage"
-                    class="ico_categorie" /><?php echo $row[3]; ?></h1>
-                    <legend>by user the <?php $row[1] ?></legend>
-                    <p><?php echo $row[5]; ?></p>
-                  </article>
-                </section>
-        <?php
-            }
-        ?>
- 
+            <?php 
+              $post_db = new post();
+              $articles = $post_db->get_post();
+              echo "Articles : ";
+              print_r($articles);
+              echo "<br/><br/>";
+              foreach( $articles as $row ) {
+              ?> <section pass="post">
+              <article>
+              <h1><img src="images/ico_epingle.png" alt="Catégorie voyage"
+              class="ico_categorie" /><?php echo $row[3]; ?></h1>
+              <legend>by user the <?php $row[1] ?></legend>
+              <p><?php echo $row[5]; ?></p>
+              </article>
+              </section>
+              <?php
+              }
+              ?>
+
 
             <section class="post">
                 <article>
@@ -82,7 +82,14 @@
                             C'est la class, on geek un max n'est ce pas?
                         </p>
                     </div>
-                    <div class="write"><textarea class="write_comment" placeholder="write something"></textarea></div>
+                    <div class="write">
+                        <div class="fake_textarea">
+                            <textarea class="write_comment" placeholder="write something"></textarea>
+                            <div class="sumbit_comment">
+                                <input type="submit" value="post"/>
+                            </div>
+                        </div>
+                    </div>
                 </aside>
             </section>
 
@@ -130,7 +137,7 @@
                     </ul>
                 </div>
             </footer>
-          
-      </body>
+
+    </body>
 </html>
 

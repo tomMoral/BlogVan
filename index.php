@@ -12,7 +12,6 @@
         <script type="text/javascript" src="script.js"></script>
        <?php
           include('post.php');
-          include('photos.php');
         ?>
    </head>
 
@@ -39,19 +38,29 @@
             </header>
 
        <?php 
-           $post_db = new post();
-           $articles = $post_db->get_post();
-           echo "Articles : ";
-           print_r($articles);
-           echo "<br/><br/>";
-           foreach( $articles as $row ) {
-             ?> <section pass="post">
+           $post_db = new Posts();
+           foreach( $post_db->post_tab as $row ) {
+             ?> <section class="post">
                   <article>
                     <h1><img src="images/ico_epingle.png" alt="Catégorie voyage"
-                    class="ico_categorie" /><?php echo $row[3]; ?></h1>
-                    <legend>by user the <?php $row[1] ?></legend>
-                    <p><?php echo $row[5]; ?></p>
+                    class="ico_categorie" /><?php echo $row[4]; ?></h1>
+                    <legend>by user the <?php $row[2] ?></legend>
+                    <p><?php echo $row[7]; ?></p>
                   </article>
+                  <aside>
+                        <?php
+                            foreach($row[6]->coms_tab as $com)
+                            {
+                                ?>
+                                <div class="comment">
+                                    <h1><?php echo  $com[2].', the '.$com[1]; ?> </h1>
+                                    <p> <?php echo $com[3]; ?> </p>
+                                </div>
+                                <?php
+                            }
+                        ?>
+                        <div class="write"><textarea class="write_comment" placeholder="write something"></textarea></div>
+                  </aside>
                 </section>
         <?php
             }

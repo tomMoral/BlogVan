@@ -11,7 +11,7 @@ class Comments
 
     function get_com()
     {
-        mysql_connect("localhost", "root", "naruto") or
+        mysql_connect("localhost", "root", "") or
             die("Could not connect: " . mysql_error());
         mysql_select_db("Blog");
         $result = mysql_query("SELECT * FROM `comments` WHERE `id` IN (" .
@@ -25,7 +25,7 @@ class Comments
  
      static function add_comment($user, $coms)
      {
-        mysql_connect("localhost", "root", "naruto") or
+        mysql_connect("localhost", "root", "") or
              die("Could not connect: " . mysql_error());
 
         mysql_select_db("Blog");

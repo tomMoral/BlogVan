@@ -11,10 +11,10 @@
         <script type="text/javascript" src="downloadScripts.js"></script>
         <script type="text/javascript" src="script.js"></script>
 
-       <?php
-          include('post.php');
+        <?php
+        include('post.php');
         include('user.php');
-        $user= new user();
+        $user = new user();
         $user->create("g", "mdp");
         ?>
     </head>
@@ -40,34 +40,41 @@
                     </div>
                 </div>
             </header>
-       <?php 
-           $post_db = new Posts();
-           foreach( $post_db->post_tab as $row ) {
-             ?> <section class="post">
-                  <article>
-                    <h1><img src="images/ico_epingle.png" alt="Catégorie voyage"
-                    class="ico_categorie" /><?php echo $row[4]; ?></h1>
-                    <legend>by user the <?php $row[2] ?></legend>
-                    <p><?php echo $row[7]; ?></p>
-                  </article>
-                  <aside>
+            <?php
+            $post_db = new Posts();
+            foreach ($post_db->post_tab as $row) {
+                ?> <section class="post">
+                    <article>
+                        <h1><img src="images/ico_epingle.png" alt="Catégorie voyage"
+                                 class="ico_categorie" /><?php echo $row[4]; ?></h1>
+                        <legend>by user the <?php $row[2] ?></legend>
+                        <p><?php echo $row[7]; ?></p>
+                    </article>
+                    <aside>
                         <?php
-                            foreach($row[6]->coms_tab as $com)
-                            {
-                                ?>
-                                <div class="comment">
-                                    <h1><?php echo  $com[2].', the '.$com[1]; ?> </h1>
-                                    <p> <?php echo $com[3]; ?> </p>
-                                </div>
-                                <?php
-                            }
+                        foreach ($row[6]->coms_tab as $com) {
+                            ?>
+                            <div class="comment">
+                                <h1><?php echo $com[2] . ', the ' . $com[1]; ?> </h1>
+                                <p> <?php echo $com[3]; ?> </p>
+                            </div>
+                            <?php
+                        }
                         ?>
-                        <div class="write"><textarea class="write_comment" placeholder="write something"></textarea></div>
-                  </aside>
+
+                        <div class="write">
+                            <div class="fake_textarea">
+                                <textarea class="write_comment" placeholder="write something"></textarea>
+                                <div class="sumbit_comment">
+                                    <input type="submit" value="post"/>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
                 </section>
-        <?php
+                <?php
             }
-        ?>
+            ?>
 
             <section class="post">
                 <article>
@@ -124,7 +131,8 @@
                                 <input type="submit" value="post"/>
                             </div>
                         </div>
-                    </div></aside>
+                    </div>
+                </aside>
             </section>
 
             <footer>

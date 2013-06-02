@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="style.css" />
     <title>Maxi blog du Van VW :)</title>
+    <?php include('post.php');?>
   </head>
 
   <body>
@@ -40,21 +41,23 @@
           <p>On est au top au soleil de Californie...</p>
           <p>On va faire un maxi road trip en van VW...</p>
           <p>Et on fait de la planche et des hackerton...</p>
-        </article>
-
-        <aside>
-          <h1>Funny fact</h1>
-          <img src="images/bulle.png" alt="" id="fleche_bulle" />
-          <p id="photo_encart"><img src="images/zozor_classe.png" alt="Photo de fun" /></p>
-          <p>
-            C'est la class, on geek un max n'est ce pas?
-          </p>
-          <p> 
-            Ce blog sera alimente par mes fautes d'orthographe et mon nouveau
-            Nexus4.... yeah yeah :)
-          </p>
-          </aside>
-      </section>
+          <p> Post donne : </p>
+       </article>
+         
+       <?php 
+           $post_db = new post();
+           $articles = $post_db->get_post();
+           print_r($articles);
+           while ($row = mysql_fetch_array($articles, MYSQL_NUM)) {
+             ?> <article>
+                  <h1><img src="images/ico_epingle.png" alt="Catégorie voyage"
+                    class="ico_categorie" /><?php echo $row[3]; ?></h1>
+                    <p><?php echo $row[5]; ?></p>
+                </article>
+        <?php
+            }
+        ?>
+     </section>
        
       <footer>
         <div id="fact">

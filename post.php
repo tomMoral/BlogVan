@@ -15,17 +15,16 @@ class Posts
     }
     function get_post($offset=0, $number=10)
     {
-        mysql_connect("localhost", "root", "") or
-            die("Could not connect: " . mysql_error());
-        mysql_select_db("Blog");
+        $dbh = Database::connect();        
+        $query = $dbh->prepare("SELECT * FROM `posts` LIMIT ?,?");
 
-        $result_post = mysql_query("SELECT * FROM `posts` LIMIT $offset,$number");
 
+        $query->execute(array($offset,$number));
         $articles = array();
-        while ($row = mysql_fetch_array($result_post, MYSQL_NUM)) {
-            $row[5] = new Photos($row[5]);
-            $row[6] = new Comments($row[6]);
-            $row[7] = $this->parse_post($row[7], $row[5]->pics_tab);
+        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+            $row->pictures = new Photos($row->pictures);
+            $row->comments = new Comments($row->comments);
+            $row->body = $this->parse_post($row->body, $row->pictures->pics_tab);
             $articles[] = $row;
         }
         return $articles;
@@ -33,12 +32,8 @@ class Posts
 
     static function add_post($gps, $titre, $body, $pictures='', $comments='', $permission=0)
     {
-        mysql_connect("localhost", "root", "") or
-            die("Could not connect: " . mysql_error());
-        mysql_select_db("Blog");
-
-        if(!mysql_query("SHOW table LIKE 'posts'"))
-            mysql_query('CREATE TABLE IF NOT EXISTS `posts` (
+        $dbh = Database::connect();        
+        $query = $dbh->prepare('CREATE TABLE IF NOT EXISTS `posts` (
                           `id` int(11) NOT NULL AUTO_INCREMENT,
                           `permission` tinyint(1) NOT NULL,
                           `time` date NOT NULL,
@@ -50,13 +45,14 @@ class Posts
                           PRIMARY KEY (`id`)
                         ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;'
             );
+        $query->execute();
 
-        $query = ("INSERT INTO  `posts` ( 
+        $query = $dbh->prepare("INSERT INTO  `posts` ( 
             `permission`,`time`,`gps`,`title`,`pictures`,`comments`,`body`) 
-                   VALUES ( 
-            $permission,NOW(),'$gps','$titre','$pictures','$comments','$body')");
-        $r = mysql_query($query);
-        echo $query.','.$r.'<br/>';
+                   VALUES (?,NOW(),?,?,?,?,?)");
+        
+        $query->execute(array($permission, $gps, $titre, 
+            $pictures, $comments, $body));
     }
 
     function parse_post($text, $pics)
@@ -67,10 +63,9 @@ class Posts
         $count = preg_match_all('/\[p\]/', $text, $match);
         foreach( array_slice($pics, 0,$count) as $p )
         {
-            $url = $p[4];
-            $user = $p[1];
-            $date = $p[3];
-            $balise_pics[] = "<img src='$url' alt='$user,  $date' id='pics_post'>";
+            $url = $p->path;
+            $date = $p->date;
+            $balise_pics[] = "<img src='$url' alt='$date' id='pics_post'>";
         }
         $balise_text = array();
         foreach($match as $m){

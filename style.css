@@ -1,48 +1,30 @@
 /*definition des polices personnalisées */
- 
- @font-face
- {
-    font-family: 'BallparkWeiner';
-    src: url('polices/ballpark.eot');
-    src: url('polices/ballpark.eot?#iefix') format('embedded-opentype'),
-         url('polices/ballpark.woff') format('woff'),
-         url('polices/ballpark.ttf') format('truetype'),
-         url('polices/ballpark.svg#BallparkWeiner') format('svg');
-    font-weight: normal;
-    font-style: normal;
- }
-  
-  @font-face
-{
-    font-family: 'Dayrom';
-    src: url('polices/dayrom.eot');
-    src: url('polices/dayrom.eot?#iefix') format('embedded-opentype'),
-         url('polices/dayrom.woff') format('woff'),
-         url('polices/dayrom.ttf')  format('truetype'),
-         url('polices/dayrom.svg#Dayrom') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
+
 
 /* Eléments principaux de la page */
 body
 {
-    background: url('images/fond_jaune.png');
-    font-family: 'Trebuchet MS', Arial, sans-serif;
+    background-color: white;
+    font-family: Helvetica, Arial, sans-serif;
     color: #181818;
 }
-    
+
 #bloc_page
 {
     width: 900px;
     margin: auto;
 }
 
-section h1, footer h1, nav a
+.post h1, footer h1, nav a
 {
-    font-family: Dayrom, serif;
-    font-weight: normal;
+    font-family: Helvetica, Dayrom, serif;
+    font-weight: 400;
+    font-size:20px;
     text-transform: uppercase;
+}
+
+.post{
+    padding: 20px 0px;
 }
 
 /* Header */
@@ -87,20 +69,17 @@ header h2
 
 nav
 {
+    margin: 20px 0px;
     display: inline-block;
-    width: 740px;
-    text-align: right;
+    width: 900px;
+    text-align: center;
 }
 
-nav ul
-{
-    list-style-type: none;
-}
-
-nav li
+nav div
 {
     display: inline-block;
-    margin-right: 15px;
+    width: 170px;
+    text-align: center;
 }
 
 nav a
@@ -117,11 +96,17 @@ nav a:hover
     border-bottom: 3px solid #760001;
 }
 
+nav img
+{
+    margin:5px;
+}
+
 /* Bannière */
 
 #banniere_image {
     margin-top: 15px;
     height: 200px;
+    width: 900px;
     border-radius: 5px;
     background: url('images/sanfrancisco.jpg') no-repeat;
     position: relative;
@@ -153,7 +138,7 @@ nav a:hover
     right: 5px;
     bottom: 5px;
     background: url('images/fond_degraderouge.png')
-    repeat-x;
+        repeat-x;
     border: 1px solid #760001;
     border-radius: 5px;
     font-size: 1.2em;
@@ -161,7 +146,7 @@ nav a:hover
     padding: 3px 8px 0px 8px;
     color: white;
     text-decoration:
-    none;
+        none;
 }
 
 .bouton_rouge img
@@ -172,107 +157,209 @@ nav a:hover
 /* Corps */
 article, aside
 {
-  display: inline-block;
-  vertical-align: top;
-  text-align: justify;
+    display: inline-block;
+    vertical-align: top;
+    text-align: justify;
 }
 
 article
 {
-  width: 625px;
-  margin-right: 15px;
+    width: 550px;
+    margin-right: 15px;
+    padding: 0px 15px;
+}
+
+article h1{
+    font-size: 20px;
+}
+article legend
+{
+    font-size: 10px;
+    color:grey;
 }
 
 .ico_categorie
 {           
-  vertical-align: middle;
-  margin-right: 8px;
+    vertical-align: middle;
+    margin-right: 8px;
 }
 
 article p
 {
-  font-size: 0.8em;
+    font-size: 16px;
 }
 
-aside
+.comment
 {
-  position: relative;
-  width: 235px;
-  background-color: #706b64;
-  box-shadow: 0px 2px 5px #1c1a19;
-  border-radius: 5px;
-  padding: 10px;
-  color: white;
-  font-size: 0.9em;
+    position: relative;
+    width: 225px;
+    background-color: #706b64;
+    box-shadow: 0px 2px 5px #1c1a19;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom:10px;
+    color: white;
+    font-size: 0.9em;
+    background:#0089e0;
+    color:#fff;	
 }
 
-#fleche_bulle
+.comment:before{
+    content:"";
+    float:left;
+    position:absolute;
+    top:20px;
+    left:-12px;
+    width:0;
+    height:0;
+    border-color:transparent #0089e0 transparent transparent;
+    border-style:solid;
+    border-width:12px 12px 12px 0;		
+}
+
+.comment:after{
+    content:"";
+    position:absolute;
+    top:30px;
+    left:0;
+    float:left;
+    width:4px;
+    height:4px;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    background:#fff;
+    -moz-box-shadow:-1px -1px 2px #004977;
+    -webkit-box-shadow:-1px -1px 2px #004977;
+    box-shadow:-1px -1px 2px #004977;
+}
+
+.comment:hover{background:#555;}	
+
+.comment:hover:before{border-color:transparent #555 transparent transparent;}
+
+.comment h1
 {
-  position: absolute;
-  top: 100px;
-  left: -12px;
+    margin: 0px;
+}
+
+.comment p
+{
+    margin-bottom:0px;
+}
+
+.write 
+{
+    position: relative;
+    width: 225px;
+    background-color: #706b64;
+    box-shadow: 0px 2px 5px #1c1a19;
+    border-radius: 5px;
+    color: white;
+    padding:20px;
+    font-size: 0.9em;
+    background:#D8D8D8;
+    color:#fff;	
+}
+
+.write textarea
+{
+    max-width:220px;
+    min-width:220px;
+    min-height:38px;
+    max-height:38px;
+}
+
+.write:before{
+    content:"";
+    float:left;
+    position:absolute;
+    top:20px;
+    left:-12px;
+    width:0;
+    height:0;
+    border-color:transparent #D8D8D8 transparent transparent;
+    border-style:solid;
+    border-width:12px 12px 12px 0;		
+}
+
+.write:after{
+    content:"";
+    position:absolute;
+    top:30px;
+    left:0;
+    float:left;
+    width:4px;
+    height:4px;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    background:#fff;
+    -moz-box-shadow:-1px -1px 2px #004977;
+    -webkit-box-shadow:-1px -1px 2px #004977;
+    box-shadow:-1px -1px 2px #004977;
 }
 
 #photo_encart
 {
-  text-align: center;
+    text-align: center;
 }
 
 #photo_encart img
 {
-  border: 1px solid #181818;
+    border: 1px solid #181818;
 }
 
 aside img
 {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 
 /* Footer */
 
 footer
 {
-  background:  url('images/ico_top.png') no-repeat top center,
-  url('images/separateur.png') repeat-x top, url('images/ombre.png')
-  repeat-x top;
-  padding-top: 25px;
+    background:  url('images/ico_top.png') no-repeat top center,
+        url('images/separateur.png') repeat-x top, url('images/ombre.png')
+        repeat-x top;
+    padding-top: 25px;
 }
 
 footer p, footer ul
 {
-  font-size: 0.8em;
+    font-size: 0.8em;
 }
 
 footer h1
 {
-  font-size: 1.1em;
+    font-size: 1.1em;
 }
 
 #fact, #mes_photos, #mes_amis
 {
-  display: inline-block;
-  vertical-align: top;
+    display: inline-block;
+    vertical-align: top;
 }
 
 #fact
 {
-  width: 28%;
+    width: 28%;
 }
 
 #mes_photos
 {
-  width: 35%;
+    width: 35%;
 }
 
 #mes_amis
 {
-  width: 31%;
+    width: 31%;
 }
 
 #mes_photos img
 {
-  border: 1px solid #181818;
-  margin-right: 2px;
+    border: 1px solid #181818;
+    margin-right: 2px;
 }
 
 #mes_amis ul
@@ -282,7 +369,7 @@ footer h1
     margin-top: 0;
     width: 48%;
     list-style-image:
-    url('images/ico_liensexterne.png');
+        url('images/ico_liensexterne.png');
     padding-left: 2px;
 }
 
@@ -291,4 +378,3 @@ footer h1
     text-decoration: none;
     color: #760001;
 }
-

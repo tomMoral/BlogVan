@@ -3,7 +3,7 @@
 class Database {
 
     public static function connect() {
-        $bddname = "blog";
+        $bddname = "Blog";
         $bddmdp = "";
         $bdduser = 'root';
         $dsn = 'mysql:dbname=' . $bddname . ';host=127.0.0.1';

@@ -23,18 +23,19 @@ class user {
     }
 
     function create($name, $password, $email = NULL) {
-        $user = get($name);
+        $user = user::get($name);
         if ($user == null) {
-            $id = nextId();
+            $id = user::nextId();
             $dbh = Database::connect();
-            $sth = $dbh->prepare("INSERT INTO `user` (`id`, `name`, `email`, `first_connexion`,  `last_connexion`,  `password`, 'type') VALUES(?,?,?,?,?,?,?)");
-            $sth->execute(array($id, $name, $email, NOW(), NOW(), $password, 0));
+            $sth = $dbh->prepare("INSERT INTO `user` (`id`, `name`, `email`, `first_connexion`,  `last_connexion`,  `password`, `type`) VALUES(?,?,?,NOW(),NOW(),?,?)");
+            $sth->execute(array($id, $name, $email, $password, 0));
             $dbh = null;
         }
     }
 
-    function nextId() {
+    static function nextId() {
         $query = "SELECT `id` FROM `user` ORDER BY id DESC;";
+        $dbh = Database::connect();
         $sth = $dbh->prepare($query);
         $sth->execute();
         $courant = $sth->fetch(PDO::FETCH_ASSOC);

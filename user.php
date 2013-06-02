@@ -23,10 +23,9 @@ class user {
     }
 
     function create($name, $password, $email = NULL) {
-        
+
         $dbh = Database::connect();
-        if(!mysql_query("SHOW table LIKE 'user'"))
-            mysql_query('CREATE TABLE IF NOT EXISTS `user` (
+        $sth = $dbh->prepare('CREATE TABLE IF NOT EXISTS `user` (
                             `id` int(11) NOT NULL,
                             `name` varchar(255) NOT NULL,
                             `email` varchar(255) DEFAULT NULL,
@@ -35,10 +34,10 @@ class user {
                             `password` varchar(255) NOT NULL,
                             `type` int(11) NOT NULL,
                             PRIMARY KEY (`id`)
-                          ) ENGINE=InnoDB DEFAULT CHARSET=latin1;'
-            );
-        
-        
+                          ) ENGINE=InnoDB DEFAULT CHARSET=latin1;');
+        $sth->execute();
+
+
         $user = user::get($name);
         if ($user == null) {
             $id = user::nextId();
@@ -72,6 +71,7 @@ class user {
         $dbh = null;
         return $user;
     }
+
 }
 
 /*

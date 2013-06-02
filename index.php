@@ -65,7 +65,7 @@
                         <div class="write">
                             <div class="fake_textarea">
                                 <textarea class="write_comment" placeholder="write something"></textarea>
-                                <div class="sumbit_comment">
+                                <div class="submit_comment">
                                     <input type="submit" value="post"/>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                     <div class="write">
                         <div class="fake_textarea">
                             <textarea class="write_comment" placeholder="write something"></textarea>
-                            <div class="sumbit_comment">
+                            <div class="submit_comment">
                                 <input type="submit" value="post"/>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                     <div class="write">
                         <div class="fake_textarea">
                             <textarea class="write_comment" placeholder="write something"></textarea>
-                            <div class="sumbit_comment">
+                            <div class="submit_comment">
                                 <input type="submit" value="post"/>
                             </div>
                         </div>

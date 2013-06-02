@@ -6,7 +6,7 @@
 
 $(document).ready(function() {
     $('textarea').autosize();
-    $('.sumbit_comment').hide();
+    $('.submit_comment').hide();
     set_text_area_background_color();
 });
 
@@ -22,7 +22,7 @@ set_text_area_background_color = function() {
             this.parentNode.style.border = '1px solid #FD5400';
             this.parentNode.className += ' shadow';
             for (var i = 0; i < this.parentNode.childNodes.length; i++) {
-                if (this.parentNode.childNodes[i].className === "sumbit_comment") {
+                if (this.parentNode.childNodes[i].className === "submit_comment") {
                     $(this).parent().children().show();
                 }
             }
@@ -30,8 +30,10 @@ set_text_area_background_color = function() {
         textareas[i].onblur = function() {
             this.parentNode.style.border = '1px solid #A1A4A3';
             this.parentNode.className = 'fake_textarea';
-            if (this.parentNode.childNodes[i].className === "sumbit_comment") {
-                $(this).parent().children().eq(1).hide();
+            for (var i = 0; i < this.parentNode.childNodes.length; i++) {
+                if (this.parentNode.childNodes[i].className === "submit_comment") {
+                    $(this).parent().children().eq(1).hide();
+                }
             }
         };
     }

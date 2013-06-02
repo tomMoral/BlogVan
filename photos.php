@@ -11,7 +11,7 @@ class Photos
 
     function get_photo()
     {
-        mysql_connect("localhost", "root", "naruto") or
+        mysql_connect("localhost", "root", "") or
             die("Could not connect: " . mysql_error());
         mysql_select_db("Blog");
         $result = mysql_query("SELECT * FROM `photos` WHERE `id` IN (" .

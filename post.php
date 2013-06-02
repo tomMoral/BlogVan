@@ -15,7 +15,7 @@ class Posts
     }
     function get_post($offset=0, $number=10)
     {
-        mysql_connect("localhost", "root", "naruto") or
+        mysql_connect("localhost", "root", "") or
             die("Could not connect: " . mysql_error());
         mysql_select_db("Blog");
 

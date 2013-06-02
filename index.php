@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
- <head>
-       <meta charset="utf-8" />
+    <head>
+        <meta charset="utf-8" />
         <link rel="stylesheet" href="style.css" />
         <title>Maxi blog du Van VW :)</title>
         <link rel="icon" 
               type="image/png" 
               href="images/logo.png">
-       <script type="text/javascript" src="jQuery.js"></script>
+        <script type="text/javascript" src="jQuery.js"></script>
         <script type="text/javascript" src="downloadScripts.js"></script>
         <script type="text/javascript" src="script.js"></script>
+
        <?php
           include('post.php');
         ?>
-   </head>
+    </head>
 
     <body>
         <div id="bloc_page">
@@ -36,7 +37,6 @@
                     </div>
                 </div>
             </header>
-
        <?php 
            $post_db = new Posts();
            foreach( $post_db->post_tab as $row ) {
@@ -65,7 +65,6 @@
         <?php
             }
         ?>
- 
 
             <section class="post">
                 <article>
@@ -91,7 +90,14 @@
                             C'est la class, on geek un max n'est ce pas?
                         </p>
                     </div>
-                    <div class="write"><textarea class="write_comment" placeholder="write something"></textarea></div>
+                    <div class="write">
+                        <div class="fake_textarea">
+                            <textarea class="write_comment" placeholder="write something"></textarea>
+                            <div class="sumbit_comment">
+                                <input type="submit" value="post"/>
+                            </div>
+                        </div>
+                    </div>
                 </aside>
             </section>
 
@@ -139,7 +145,7 @@
                     </ul>
                 </div>
             </footer>
-          
-      </body>
+
+    </body>
 </html>
 

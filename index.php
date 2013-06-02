@@ -1,27 +1,20 @@
 <!DOCTYPE html>
 <html>
-<<<<<<< HEAD
-    <head>
-=======
-  <head>
->>>>>>> 8d4ddb9dfd223b44f829f8a87c4a5aae3c31f25f
-        <meta charset="utf-8" />
+ <head>
+       <meta charset="utf-8" />
         <link rel="stylesheet" href="style.css" />
         <title>Maxi blog du Van VW :)</title>
         <link rel="icon" 
               type="image/png" 
               href="images/logo.png">
-<<<<<<< HEAD
-        <script type="text/javascript" src="jQuery.js"></script>
+       <script type="text/javascript" src="jQuery.js"></script>
         <script type="text/javascript" src="downloadScripts.js"></script>
         <script type="text/javascript" src="script.js"></script>
-=======
-        <?php
+       <?php
           include('post.php');
           include('photos.php');
         ?>
->>>>>>> 8d4ddb9dfd223b44f829f8a87c4a5aae3c31f25f
-    </head>
+   </head>
 
     <body>
         <div id="bloc_page">
@@ -48,17 +41,17 @@
        <?php 
            $post_db = new post();
            $articles = $post_db->get_post();
+           echo "Articles : ";
            print_r($articles);
-           while ($row = mysql_fetch_array($articles, MYSQL_NUM)) {
-             $photos = (new photo())->get_photo($row[4]);
-             print_r( $row);
+           echo "<br/><br/>";
+           foreach( $articles as $row ) {
              ?> <section pass="post">
                   <article>
                     <h1><img src="images/ico_epingle.png" alt="Catégorie voyage"
                     class="ico_categorie" /><?php echo $row[3]; ?></h1>
-                    <legend>by user the <?php $rows[1] ?></legend>
+                    <legend>by user the <?php $row[1] ?></legend>
                     <p><?php echo $row[5]; ?></p>
-                </article>
+                  </article>
                 </section>
         <?php
             }
@@ -137,13 +130,7 @@
                     </ul>
                 </div>
             </footer>
-<<<<<<< HEAD
-           
-                        </body>
-                        </html>
-=======
-        
-       </div>
-    </body>
+          
+      </body>
 </html>
->>>>>>> 8d4ddb9dfd223b44f829f8a87c4a5aae3c31f25f
+

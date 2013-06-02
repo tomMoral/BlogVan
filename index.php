@@ -46,17 +46,17 @@
                 ?> <section class="post">
                     <article>
                         <h1><img src="images/ico_epingle.png" alt="Catégorie voyage"
-                                 class="ico_categorie" /><?php echo $row[4]; ?></h1>
-                        <legend>by user the <?php $row[2] ?></legend>
-                        <p><?php echo $row[7]; ?></p>
+                                 class="ico_categorie" /><?php echo $row['title']; ?></h1>
+                        <legend>by user the <?php $row['time'] ?></legend>
+                        <p><?php echo $row['body']; ?></p>
                     </article>
                     <aside>
                         <?php
-                        foreach ($row[6]->coms_tab as $com) {
+                        foreach ($row['comments']->coms_tab as $com) {
                             ?>
                             <div class="comment">
-                                <h1><?php echo $com[2] . ', the ' . $com[1]; ?> </h1>
-                                <p> <?php echo $com[3]; ?> </p>
+                                <h1><?php echo $com['user'] . ', the ' . $com['time']; ?> </h1>
+                                <p> <?php echo $com['body']; ?> </p>
                             </div>
                             <?php
                         }

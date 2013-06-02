@@ -16,15 +16,15 @@ class Posts
     function get_post($offset=0, $number=10)
     {
         $dbh = Database::connect();        
-        $query = $dbh->prepare("SELECT * FROM `posts` LIMIT ?,?");
+        $query = $dbh->prepare("SELECT * FROM `posts` LIMIT $offset,$number");
 
 
-        $query->execute(array($offset,$number));
+        $query->execute();
         $articles = array();
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-            $row->pictures = new Photos($row->pictures);
-            $row->comments = new Comments($row->comments);
-            $row->body = $this->parse_post($row->body, $row->pictures->pics_tab);
+            $row['pictures'] = new Photos($row['pictures']);
+            $row['comments'] = new Comments($row['comments']);
+            $row['body'] = $this->parse_post($row['body'], $row['pictures']->pics_tab);
             $articles[] = $row;
         }
         return $articles;
@@ -63,8 +63,8 @@ class Posts
         $count = preg_match_all('/\[p\]/', $text, $match);
         foreach( array_slice($pics, 0,$count) as $p )
         {
-            $url = $p->path;
-            $date = $p->date;
+            $url = $p['path'];
+            $date = $p['date'];
             $balise_pics[] = "<img src='$url' alt='$date' id='pics_post'>";
         }
         $balise_text = array();

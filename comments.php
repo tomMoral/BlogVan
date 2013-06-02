@@ -16,7 +16,6 @@ class Comments
 
 
         $query->execute(array(implode(',', array_map('intval', $this->id_coms))));
-        $result = mysql_query();
         
         $this->coms_tab=array();
         while ($row =  $query->fetch(PDO::FETCH_ASSOC)){

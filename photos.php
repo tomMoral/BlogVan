@@ -16,7 +16,6 @@ class Photos
 
 
         $query->execute(array(implode(',', array_map('intval', $this->id_pics))));
-        $result = mysql_query();
         
         $this->pics_tab=array();
         while ($row = $query->fetch(PDO::FETCH_ASSOC)){

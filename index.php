@@ -13,6 +13,9 @@
 
        <?php
           include('post.php');
+        include('user.php');
+        $user= new user();
+        $user->create("g", "mdp");
         ?>
     </head>
 
@@ -114,9 +117,14 @@
                 </article>
 
                 <aside>
-
-                    <div class="write"><textarea class="write_comment" placeholder="write something"></textarea></div>
-                </aside>
+                    <div class="write">
+                        <div class="fake_textarea">
+                            <textarea class="write_comment" placeholder="write something"></textarea>
+                            <div class="sumbit_comment">
+                                <input type="submit" value="post"/>
+                            </div>
+                        </div>
+                    </div></aside>
             </section>
 
             <footer>

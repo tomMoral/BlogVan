@@ -23,10 +23,25 @@ class user {
     }
 
     function create($name, $password, $email = NULL) {
+        
+        $dbh = Database::connect();
+        if(!mysql_query("SHOW table LIKE 'user'"))
+            mysql_query('CREATE TABLE IF NOT EXISTS `user` (
+                            `id` int(11) NOT NULL,
+                            `name` varchar(255) NOT NULL,
+                            `email` varchar(255) DEFAULT NULL,
+                            `first_connexion` date NOT NULL,
+                            `last_connexion` date NOT NULL,
+                            `password` varchar(255) NOT NULL,
+                            `type` int(11) NOT NULL,
+                            PRIMARY KEY (`id`)
+                          ) ENGINE=InnoDB DEFAULT CHARSET=latin1;'
+            );
+        
+        
         $user = user::get($name);
         if ($user == null) {
             $id = user::nextId();
-            $dbh = Database::connect();
             $sth = $dbh->prepare("INSERT INTO `user` (`id`, `name`, `email`, `first_connexion`,  `last_connexion`,  `password`, `type`) VALUES(?,?,?,NOW(),NOW(),?,?)");
             $sth->execute(array($id, $name, $email, $password, 0));
             $dbh = null;

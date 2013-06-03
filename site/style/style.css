@@ -1,0 +1,447 @@
+/*definition des polices personnalisées */
+
+
+/* Eléments principaux de la page */
+body
+{
+    background-color: white;
+    font-family: Helvetica, Arial, sans-serif;
+    color: #181818;
+}
+
+#bloc_page
+{
+    width: 900px;
+    margin: auto;
+}
+
+.post h1, footer h1, nav a
+{
+    font-family: Helvetica, Dayrom, serif;
+    font-weight: 400;
+    font-size:20px;
+    text-transform: uppercase;
+}
+
+.post{
+    padding: 20px 0px;
+}
+
+/* Header */
+
+header
+{
+}
+
+#titre_principal
+{
+    display: inline-block;
+}
+
+header h1
+{
+    font-family: 'BallparkWeiner', serif;
+    font-size: 2.5em;
+    font-weight: normal;
+}
+
+#logo, header h1
+{
+    display: inline-block;
+    margin-bottom: 0px;
+}
+
+#logo
+{
+    height:2.5em
+}
+
+header h2
+{
+    font-family: Dayrom, serif;
+    font-size: 1.1em;
+    margin-top: 0px;
+    font-weight: normal;
+}
+
+/* Navigation */
+
+nav
+{
+    margin: 20px 0px;
+    display: inline-block;
+    width: 900px;
+    text-align: center;
+}
+
+nav div
+{
+    display: inline-block;
+    width: 170px;
+    text-align: center;
+}
+
+nav a
+{
+    font-size: 1.3em;
+    color: #181818;
+    padding-bottom: 3px;
+    text-decoration: none;
+}
+
+nav a:hover
+{
+    color: #760001;
+    border-bottom: 3px solid #760001;
+}
+
+nav img
+{
+    margin:5px;
+}
+
+/* Bannière */
+
+#banniere_image {
+    margin-top: 15px;
+    height: 200px;
+    width: 900px;
+    border-radius: 5px;
+    background: url('../../images/baniere.png') no-repeat;
+    position: relative;
+    box-shadow: 0px 4px 4px #1c1a19;
+    margin-bottom: 25px;
+}
+
+#banniere_description
+{
+    position: absolute;
+    bottom: 0;
+    border-radius: 0px 0px 5px 5px;
+    width: 99.5%;
+    height: 33px;
+    padding-top: 15px;
+    padding-left: 4px;
+    background-color: rgb(24,24,24); /* Pour
+    les anciens navigateurs */
+    background-color: rgba(24,24,24,0.8);
+    color: white;
+    font-size: 0.8em;
+}
+
+.bouton_rouge
+{
+    display: inline-block;
+    height: 25px;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    background: url('../../images/fond_degraderouge.png')
+        repeat-x;
+    border: 1px solid #760001;
+    border-radius: 5px;
+    font-size: 1.2em;
+    text-align: center;
+    padding: 3px 8px 0px 8px;
+    color: white;
+    text-decoration:
+        none;
+}
+
+.bouton_rouge img
+{
+    border: 0;
+}
+
+/* Corps */
+article, aside
+{
+    display: inline-block;
+    vertical-align: top;
+    text-align: justify;
+}
+
+article
+{
+    width: 550px;
+    margin-right: 15px;
+    padding: 0px 15px;
+}
+
+article h1{
+    font-size: 20px;
+}
+article legend
+{
+    font-size: 10px;
+    color:grey;
+}
+.comment legend
+{
+    position: absolute;
+    right:10px;
+    top:30px;
+    font-size: 10px;
+}
+
+.ico_categorie
+{           
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+article p
+{
+    font-size: 16px;
+}
+
+.comment
+{
+    position: relative;
+    width: 225px;
+    background-color: #706b64;
+    box-shadow: 0px 2px 5px #1c1a19;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom:10px;
+    color: white;
+    font-size: 0.9em;
+    background:#0089e0;
+    color:#fff;	
+}
+
+.comment:before{
+    content:"";
+    float:left;
+    position:absolute;
+    top:20px;
+    left:-12px;
+    width:0;
+    height:0;
+    border-color:transparent #0089e0 transparent transparent;
+    border-style:solid;
+    border-width:12px 12px 12px 0;		
+}
+
+.comment:after{
+    content:"";
+    position:absolute;
+    top:30px;
+    left:0;
+    float:left;
+    width:4px;
+    height:4px;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    background:#fff;
+    -moz-box-shadow:-1px -1px 2px #004977;
+    -webkit-box-shadow:-1px -1px 2px #004977;
+    box-shadow:-1px -1px 2px #004977;
+}
+
+.comment:hover{background:#555;}	
+
+.comment:hover:before{border-color:transparent #555 transparent transparent;}
+
+.comment h1
+{
+    margin: 0px;
+}
+
+.comment p
+{
+    margin-bottom:0px;
+}
+
+.write 
+{
+    position: relative;
+    width: 225px;
+    background-color: #706b64;
+    box-shadow: 0px 2px 5px #1c1a19;
+    border-radius: 5px;
+    color: white;
+    padding:20px;
+    font-size: 0.9em;
+    background:#D8D8D8;
+    color:#fff;	
+}
+
+.write textarea
+{
+    max-width:210px;
+    min-width:210px;
+    min-height:38px;
+    resize:none;
+    border:none;
+}
+
+
+.fake_textarea
+{
+    -moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    border-radius:3px;
+    border: 1px solid #A1A4A3;
+    background: white;
+    font: medium -moz-fixed;
+    font: -webkit-small-control;
+    resize: both;
+    padding:5px;
+}
+
+.box_password
+{
+    -moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    border-radius:3px;
+    border: 1px solid #A1A4A3;
+    background: white;
+    font: medium -moz-fixed;
+    font: -webkit-small-control;
+    resize: both;
+    padding:0px;
+    width:250px;
+    font-size:20px;
+}
+
+.box_password input
+{
+    max-width:240px;
+    min-width:240px;
+    min-height:38px;
+    padding:5px;
+    margin: 0px -3px;
+    resize:none;
+    border:none;
+}
+.box_password .name,.box_password .email
+{
+    border-bottom: 1px solid grey;
+}
+
+.shadow {
+   -moz-box-shadow:    inset 0 0 3px #FD5400;
+   -webkit-box-shadow: inset 0 0 3px #FD5400;
+   box-shadow:         inset 0 0 3px #FD5400;
+}
+
+.center
+{
+margin-left:auto;
+margin-right:auto;
+width:70%;
+background-color:#b0e0e6;
+}
+.sumbit_comment
+{
+    margin-top:5px;
+    text-align: right;
+}
+
+.write:before{
+    content:"";
+    float:left;
+    position:absolute;
+    top:20px;
+    left:-12px;
+    width:0;
+    height:0;
+    border-color:transparent #D8D8D8 transparent transparent;
+    border-style:solid;
+    border-width:12px 12px 12px 0;		
+}
+
+.write:after{
+    content:"";
+    position:absolute;
+    top:30px;
+    left:0;
+    float:left;
+    width:4px;
+    height:4px;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    background:#fff;
+    -moz-box-shadow:-1px -1px 2px #004977;
+    -webkit-box-shadow:-1px -1px 2px #004977;
+    box-shadow:-1px -1px 2px #004977;
+}
+
+#photo_encart
+{
+    text-align: center;
+}
+
+#photo_encart img
+{
+    border: 1px solid #181818;
+}
+
+aside img
+{
+    margin-right: 5px;
+}
+
+/* Footer */
+
+footer
+{
+   
+}
+
+footer p, footer ul
+{
+    font-size: 0.8em;
+}
+
+footer h1
+{
+    font-size: 1.1em;
+}
+
+#fact, #mes_photos, #mes_amis
+{
+    display: inline-block;
+    vertical-align: top;
+}
+
+#fact
+{
+    width: 28%;
+}
+
+#mes_photos
+{
+    width: 35%;
+}
+
+#mes_amis
+{
+    width: 31%;
+}
+
+#mes_photos img
+{
+    border: 1px solid #181818;
+    margin-right: 2px;
+}
+
+#mes_amis ul
+{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 0;
+    width: 48%;
+    list-style-image:
+        url('../../images/ico_liensexterne.png');
+    padding-left: 2px;
+}
+
+#mes_amis a
+{
+    text-decoration: none;
+    color: #760001;
+}

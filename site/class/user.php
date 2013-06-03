@@ -22,7 +22,7 @@ class user {
         $this->type = -1;
     }
 
-    function create($name, $password, $email = NULL) {
+     static function create($name, $password, $email = NULL) {
 
         $dbh = Database::connect();
         $sth = $dbh->prepare('CREATE TABLE IF NOT EXISTS `user` (

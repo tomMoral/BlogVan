@@ -1,5 +1,6 @@
 <?php
 
+include("database.php");
 include("photos.php");
 include('comments.php');
 

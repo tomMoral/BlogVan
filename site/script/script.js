@@ -38,3 +38,48 @@ set_text_area_background_color = function() {
         };
     }
 };
+
+
+//ajax scripts:
+
+function getXMLHttpRequest() {
+        var xhr = null;
+
+        if (window.XMLHttpRequest || window.ActiveXObject) {
+            if (window.ActiveXObject) {
+                try {
+                    xhr = new ActiveXObject("Msxml2.XMLHTTP");
+                } catch (e) {
+                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            } else {
+                xhr = new XMLHttpRequest();
+            }
+        } else {
+            alert("Votre navigateur ne supporte pas l'objet XMLHTTPRequest...");
+            return null;
+        }
+
+        return xhr;
+    }
+
+    
+function request(callback,page,arg) {
+    //page is the page we send the arg to and wich return the value display by callback
+    //cf connexion for an example
+    var xhr = null;
+    if (xhr && xhr.readyState != 0) {
+        xhr.abort(); // On annule la requête en cours !
+    }
+
+    xhr = getXMLHttpRequest(); // plus de mot clé 'var'
+	
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+            callback(xhr.responseText);
+        }
+    };
+	
+    xhr.open("GET", page + "?arg=" + arg, true);
+    xhr.send(null);
+}

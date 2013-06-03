@@ -1,5 +1,6 @@
 
 <?php
+date_default_timezone_set('America/Los_Angeles'); //les post sont enregistré avec notre horloge, donc heure USA
 include("header.php");
 ?>
 <div id="banniere_image">

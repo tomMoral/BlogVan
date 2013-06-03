@@ -2,6 +2,7 @@
 function dateToDuree($date) {
     //renvoie un truc du genre 'il y a 5 jours' à partir d'une datte au format 2013-03-01 00:11:56
     $a = strptime($date, "%Y-%m-%d %H:%M:%S");
+    
     $timestamp = mktime($a['tm_hour'], $a['tm_min'], $a['tm_sec'], $a['tm_mon'] + 1, $a['tm_mday'], $a['tm_year'] + 1900);
     $diff = time() - $timestamp;
     if ($diff < 60) {

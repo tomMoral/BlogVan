@@ -17,7 +17,7 @@ class Posts
     function get_post($offset=0, $number=10)
     {
         $dbh = Database::connect();        
-        $query = $dbh->prepare("SELECT * FROM `posts` LIMIT $offset,$number");
+        $query = $dbh->prepare("SELECT * FROM `posts` ORDER BY time DESC LIMIT $offset,$number");
 
 
         $query->execute();

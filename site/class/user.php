@@ -38,7 +38,7 @@ class user {
         $sth->execute();
 
 
-        $user = user::get($name);
+        $user = user::getByName($name);
         if ($user == null) {
             $id = user::nextId();
             $sth = $dbh->prepare("INSERT INTO `user` (`id`, `name`, `email`, `first_connexion`,  `last_connexion`,  `password`, `type`) VALUES(?,?,?,NOW(),NOW(),?,?)");
@@ -57,7 +57,7 @@ class user {
         return $id;
     }
 
-    public static function get($name) {
+    public static function getByName($name) {
         $dbh = Database::connect();
         $query = "SELECT * FROM `user` WHERE `name` = \"$name\"";
         $sth = $dbh->prepare($query);
@@ -71,6 +71,23 @@ class user {
         $dbh = null;
         return $user;
     }
+    
+    public static function getByEmail($email) {
+        $dbh = Database::connect();
+        $query = "SELECT * FROM `user` WHERE `email` = \"$email\"";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'user');
+        $request_succeeded = $sth->execute();
+        $user = null;
+        if ($request_succeeded) {
+            $user = $sth->fetch();
+        }
+        $sth->closeCursor();
+        $dbh = null;
+        return $user;
+    }
+    
+    
 }
 
 ?>

@@ -16,7 +16,8 @@ class Comments
         foreach ($this->id_coms as $n => $val){ $newparams[] = ":id_$n"; }
         $query = $dbh->prepare("SELECT * FROM `comments` WHERE `id` IN (" . implode(", ",$newparams). ")");
         foreach ($this->id_coms as $n => $val){
-            $query->bindParam(":id_$n", intval($val), PDO::PARAM_INT);
+            $value = intval($val);
+            $query->bindParam(":id_$n", $value, PDO::PARAM_INT);
         }
 
         $query->execute();

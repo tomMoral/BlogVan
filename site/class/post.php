@@ -1,9 +1,5 @@
 <?php
 
-include("database.php");
-include("photos.php");
-include('comments.php');
-
 class Posts
 {
     public $offset = 0;

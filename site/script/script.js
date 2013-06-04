@@ -32,7 +32,7 @@ set_text_area_background_color = function() {
             this.parentNode.className = 'fake_textarea';
             for (var i = 0; i < this.parentNode.childNodes.length; i++) {
                 if (this.parentNode.childNodes[i].className === "submit_comment") {
-                    $(this).parent().children().eq(1).hide();
+                    //$(this).parent().children().eq(1).hide();
                 }
             }
         };

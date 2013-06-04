@@ -6,10 +6,10 @@ htmlHeader("blog");
 ?>
 <script>
     $(document).ready(function() {
-    $('textarea').autosize();
-    $('.submit_comment').hide();
-    set_text_area_background_color();
-});
+        $('textarea').autosize();
+        $('.submit_comment').hide();
+        set_text_area_background_color();
+    });
 </script>
 <div id="banniere_image">
     <div id="banniere_description">
@@ -22,7 +22,8 @@ htmlHeader("blog");
 </div>
 <?php
 $post_db = new Posts();
-foreach ($post_db->post_tab as $row) {  ?>
+foreach ($post_db->post_tab as $row) {
+    ?>
     <section class="post">
         <article>
             <h1><?php echo $row['title']; ?></h1>
@@ -42,15 +43,15 @@ foreach ($post_db->post_tab as $row) {  ?>
             ?>
 
             <div class="write" >
-                <div class="fake_textarea">
-                    <form action="new_comment.php" method="post">
-                        <?php echo "<input type='hidden' name='id' value='".$row['id']."'>"; ?>
+                <form action="new_comment.php" method="post">
+                    <div class="fake_textarea">
                         <textarea class="write_comment" placeholder="Write something" name='body'></textarea>
                         <div class="submit_comment">
                             <input type="submit" value="post"/>
-                        </div>
-                    </form>
-                </div>
+                        </div><?php echo "<input type='hidden' name='id' value='" . $row['id'] . "'>"; ?>
+                        
+                    </div>
+                </form>
             </div>
         </aside>
     </section>

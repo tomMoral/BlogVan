@@ -1,8 +1,9 @@
 
 <?php
+include_once("headerPHP.php");
 echo 'post';
+print_r($_POST);
 	if (isset($_POST['body'])){
-		include("class/post.php");
 		$perm = (isset($_POST['permission']))?1:0;
 		Posts::add_comment($_POST['id'], 'User1', $_POST['body']);
 		echo 'post ';

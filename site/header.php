@@ -1,3 +1,14 @@
+<?php
+
+ini_set('session.use_trans_sid', '0');
+session_name("fatBlog");
+session_start();
+//require "loginFrankiz.php";
+if (!isset($_SESSION['initiated'])) {
+    session_regenerate_id();
+    $_SESSION['initiated'] = true;
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,3 +42,4 @@
                 <div><a href="connexion.php"><img src="../images/face_yellow.png" alt="Logo VW" id="logo" />Get in</a></div>
             </nav>
         </header>
+   

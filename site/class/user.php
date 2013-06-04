@@ -4,13 +4,13 @@ include_once("database.php");
 
 class user {
 
-    private $id;
-    private $name;
-    private $email;
-    private $password;
-    private $first_connexion;
-    private $last_connexion;
-    private $type;
+    public $id;
+    public $name;
+    public $email;
+    public $password;
+    public $first_connexion;
+    public $last_connexion;
+    public $type;
 
     function __construct() {
         $this->id = -1;
@@ -22,7 +22,7 @@ class user {
         $this->type = -1;
     }
 
-     static function create($name, $password, $email = NULL) {
+    static function create($name, $password, $email = NULL) {
 
         $dbh = Database::connect();
         $sth = $dbh->prepare('CREATE TABLE IF NOT EXISTS `user` (
@@ -61,12 +61,9 @@ class user {
         $dbh = Database::connect();
         $query = "SELECT * FROM `user` WHERE `name` = \"$name\"";
         $sth = $dbh->prepare($query);
-        $sth->setFetchMode(PDO::FETCH_CLASS, 'user');
-        $request_succeeded = $sth->execute();
-        $user = null;
-        if ($request_succeeded) {
-            $user = $sth->fetch();
-        }
+        $sth->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'user');
+        $sth->execute();
+        $user = $sth->fetch();
         $sth->closeCursor();
         $dbh = null;
         return $user;
@@ -76,18 +73,91 @@ class user {
         $dbh = Database::connect();
         $query = "SELECT * FROM `user` WHERE `email` = \"$email\"";
         $sth = $dbh->prepare($query);
-        $sth->setFetchMode(PDO::FETCH_CLASS, 'user');
-        $request_succeeded = $sth->execute();
-        $user = null;
-        if ($request_succeeded) {
-            $user = $sth->fetch();
-        }
+        $sth->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'user');
+        $sth->execute();
+        $user = $sth->fetch();
         $sth->closeCursor();
         $dbh = null;
         return $user;
     }
     
+    public static function getSessionUser() {
+        $dbh = Database::connect();
+        $id=$_SESSION['user'];
+        $query = "SELECT * FROM `user` WHERE `id` = \"$id\"";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'user');
+        $sth->execute();
+        $user = $sth->fetch();
+        $sth->closeCursor();
+        $dbh = null;
+        return $user;
+    }
+
+    public function loginByName($name, $password) {
+        $user = user::getByName($name);
+        if ($password == $user->password) {
+            $_SESSION['user'] = $user->id;
+            $this->set_last_connexion();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function loginByEmail($email, $password) {
+        $user = user::getByEmail($email);
+        if ($password == $user->password) {
+            $_SESSION['user'] = $user->id;
+            $this->set_last_connexion();
+            return true;
+        } else {
+            return false;
+        }
+    }
     
+    public function logOut(){
+        $_SESSION['user']=null;
+        header('Location: index.php?deconnexion=true');
+    }
+
+    public function set_last_connexion() {
+        $dbh = Database::connect();
+        $query = "UPDATE user SET last_connexion = NOW() WHERE id = '$this->id'";
+        $sth = $dbh->prepare($query);
+        //$sth->setFetchMode(PDO::FETCH_CLASS, 'Utilisateurs');
+        $sth->execute();
+        $dbh = null;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function getFirstConnexion() {
+        return $this->first_connexion;
+    }
+
+    public function getLastConnexion() {
+        return $this->last_connexion;
+    }
+
+    public function getType() {
+        return $this->type;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
 }
 
 ?>

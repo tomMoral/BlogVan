@@ -1,8 +1,16 @@
 
 <?php
+include("headerPHP.php");
 date_default_timezone_set('America/Los_Angeles'); //les post sont enregistré avec notre horloge, donc heure USA
-include("header.php");
+htmlHeader("blog");
 ?>
+<script>
+    $(document).ready(function() {
+    $('textarea').autosize();
+    $('.submit_comment').hide();
+    set_text_area_background_color();
+});
+</script>
 <div id="banniere_image">
     <div id="banniere_description">
         Blog du VW bus...

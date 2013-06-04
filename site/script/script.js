@@ -4,11 +4,11 @@
  */
 
 
-$(document).ready(function() {
-    $('textarea').autosize();
-    $('.submit_comment').hide();
-    set_text_area_background_color();
-});
+function validateEmail(email) { 
+    var at = email.indexOf('@');
+    var point = email.indexOf('.');
+    return at>0 && point>at;
+} 
 
 
 set_text_area_background_color = function() {
@@ -43,28 +43,28 @@ set_text_area_background_color = function() {
 //ajax scripts:
 
 function getXMLHttpRequest() {
-        var xhr = null;
+    var xhr = null;
 
-        if (window.XMLHttpRequest || window.ActiveXObject) {
-            if (window.ActiveXObject) {
-                try {
-                    xhr = new ActiveXObject("Msxml2.XMLHTTP");
-                } catch (e) {
-                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-            } else {
-                xhr = new XMLHttpRequest();
+    if (window.XMLHttpRequest || window.ActiveXObject) {
+        if (window.ActiveXObject) {
+            try {
+                xhr = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
             }
         } else {
-            alert("Votre navigateur ne supporte pas l'objet XMLHTTPRequest...");
-            return null;
+            xhr = new XMLHttpRequest();
         }
-
-        return xhr;
+    } else {
+        alert("Votre navigateur ne supporte pas l'objet XMLHTTPRequest...");
+        return null;
     }
 
-    
-function request(callback,page,arg) {
+    return xhr;
+}
+
+
+function request(callback, page, arg) {
     //page is the page we send the arg to and wich return the value display by callback
     //cf connexion for an example
     var xhr = null;
@@ -73,13 +73,13 @@ function request(callback,page,arg) {
     }
 
     xhr = getXMLHttpRequest(); // plus de mot clé 'var'
-	
+
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
             callback(xhr.responseText);
         }
     };
-	
+
     xhr.open("GET", page + "?arg=" + arg, true);
     xhr.send(null);
 }

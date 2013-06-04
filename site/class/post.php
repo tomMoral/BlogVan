@@ -37,7 +37,7 @@ class Posts
         $query = $dbh->prepare('CREATE TABLE IF NOT EXISTS `posts` (
                           `id` int(11) NOT NULL AUTO_INCREMENT,
                           `permission` tinyint(1) NOT NULL,
-                          `time` date NOT NULL,
+                          `time` datetime NOT NULL,
                           `gps` varchar(255) DEFAULT \'""\',
                           `title` varchar(255) NOT NULL DEFAULT \'""\',
                           `pictures` text NOT NULL,
@@ -56,6 +56,18 @@ class Posts
             $pictures, $comments, $body));
     }
 
+    static function add_comment($id, $user, $body)
+    {
+
+        $id_com = Comments::add_comment($user, $body);
+        echo $id_com;
+        $dbh = Database::connect();
+        $query = $dbh->prepare("UPDATE `posts` SET `comments` = CASE WHEN `comments` = '' THEN :com ELSE CONCAT(CONCAT(`comments`,','),:com) END WHERE `id`=:post;");
+        $query->bindParam(':com', $id_com, PDO::PARAM_STR);
+        $query->bindParam(':post', $id, PDO::PARAM_INT);
+        $query->execute();
+    }
+
     function parse_post($text, $pics)
     {
 
@@ -65,7 +77,7 @@ class Posts
         foreach( array_slice($pics, 0,$count) as $p )
         {
             $url = $p['path'];
-            $date = $p['date'];
+            $date = $p['time'];
             $balise_pics[] = "<img src='$url' alt='$date' id='pics_post'>";
         }
         $balise_text = array();

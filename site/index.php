@@ -14,8 +14,8 @@ include("header.php");
 </div>
 <?php
 $post_db = new Posts();
-foreach ($post_db->post_tab as $row) {
-    ?> <section class="post">
+foreach ($post_db->post_tab as $row) {  ?>
+    <section class="post">
         <article>
             <h1><?php echo $row['title']; ?></h1>
             <legend><?php echo dateToDuree($row['time']) . ' ago' ?></legend>
@@ -33,12 +33,15 @@ foreach ($post_db->post_tab as $row) {
             }
             ?>
 
-            <div class="write">
+            <div class="write" >
                 <div class="fake_textarea">
-                    <textarea class="write_comment" placeholder="write something"></textarea>
-                    <div class="submit_comment">
-                        <input type="submit" value="post"/>
-                    </div>
+                    <form action="new_comment.php" method="post">
+                        <?php echo "<input type='hidden' name='id' value='".$row['id']."'>"; ?>
+                        <textarea class="write_comment" placeholder="Write something" name='body'></textarea>
+                        <div class="submit_comment">
+                            <input type="submit" value="post"/>
+                        </div>
+                    </form>
                 </div>
             </div>
         </aside>

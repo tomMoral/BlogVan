@@ -7,7 +7,7 @@
 <div id="post">
 	<form action="new_post.php" method="post">
 		Titre: <input type="text" name='title'><br>
-		Post: <input type="text" name="post"><br>
+		Post: <textarea type="text" name="post" placeholder='New Post, insert photo at [p]'></textarea><br>
 		Permission: <input type="checkbox" name="permission" value=1 checked="checked">All<br>
 		<input type="submit">
 	</form>

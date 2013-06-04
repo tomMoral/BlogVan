@@ -29,14 +29,14 @@ class Photos
         $query = $dbh->prepare('CREATE TABLE IF NOT EXISTS `photos` (
                           `id` int(11) NOT NULL AUTO_INCREMENT,
                           `gps` varchar(255) NOT NULL,
-                          `date` date NOT NULL,
+                          `time` datetime NOT NULL,
                           `path` text NOT NULL,
                           PRIMARY KEY (`id`)
                         ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;'
             );
         $query->execute();
 
-        $query = $dbh->prepare("INSERT INTO  `photos` (`gps`,`date`,`path`) 
+        $query = $dbh->prepare("INSERT INTO  `photos` (`gps`,`time`,`path`) 
                     VALUES (?, NOW(), ?)");
         $query->execute(array($gps,$path));
      }

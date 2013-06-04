@@ -35,6 +35,7 @@ if (!isset($_SESSION['initiated'])) {
         <div id="bloc_page"><header> 
 
             <nav>
+                <div><a href="index.php"><img src="../images/face.png" alt="Logo VW" id="logo" />Acceuil</a></div>
                 <div><a href="#"><img src="../images/face.png" alt="Logo VW" id="logo" />Photos</a></div>
                 <div><a href="#"><img src="../images/face_blue.png" alt="Logo VW" id="logo" />Trajet</a></div>
                 <div><a href="#"><img src="../images/face_red.png" alt="Logo VW" id="logo" />Team</a></div>

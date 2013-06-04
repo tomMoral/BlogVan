@@ -5,31 +5,36 @@ class Comments
     public $coms_tab;
 
     function __construct($list_coms) {
-        $this->id_coms = explode(',', $list_coms);
+        $this->id_coms = preg_split('/,/', $list_coms);
         $this->get_com();
     }
 
     function get_com()
     {
-        $dbh = Database::connect();        
-        $query = $dbh->prepare("SELECT * FROM `comments` WHERE `id` IN (?)");
+        $dbh = Database::connect();
+        $newparams = array();
+        foreach ($this->id_coms as $n => $val){ $newparams[] = ":id_$n"; }
+        $query = $dbh->prepare("SELECT * FROM `comments` WHERE `id` IN (" . implode(", ",$newparams). ")");
+        foreach ($this->id_coms as $n => $val){
+            $value = intval($val);
+            $query->bindParam(":id_$n", $value, PDO::PARAM_INT);
+        }
 
+        $query->execute();
 
-        $query->execute(array(implode(',', array_map('intval', $this->id_coms))));
-        
         $this->coms_tab=array();
         while ($row =  $query->fetch(PDO::FETCH_ASSOC)){
-            $this->coms_tab[]=$row;     
+            $this->coms_tab[]=$row;
         }
     }
  
-     static function add_comment($user, $coms)
+     static function add_comment($user, $body)
      {
         $dbh = Database::connect();        
         $query = $dbh->prepare('CREATE TABLE IF NOT EXISTS `comments` (
                             `id` int(11) NOT NULL AUTO_INCREMENT,
-                            `time` date NOT NULL,
-                            `user` varchar(255) DEFAULT \'""\',
+                            `time` datetime NOT NULL,
+                            `user` varchar(255) DEFAULT "",
                             `body` text NOT NULL,
                             PRIMARY KEY (`id`)
                             )  ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4'
@@ -38,8 +43,10 @@ class Comments
 
         $query = $dbh->prepare("INSERT INTO  `comments` (
                     `user` , `time` ,  `body` ) 
-                    VALUES ('$user', NOW(), '$coms' )");
-        $query->execute(array($user,$coms));
+                    VALUES (?, NOW(), ? )");
+        $query->execute(array($user,$body));
+
+        return $dbh->lastInsertId() ;
      }
 }
 

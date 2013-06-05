@@ -1,7 +1,10 @@
 
 <?php
+	include("headerPHP.php");
+
 	if (!isset($_POST['post'])){
-		include("header.php");
+		date_default_timezone_set('America/Los_Angeles'); //les post sont enregistré avec notre horloge, donc heure USA
+		htmlHeader("blog");
 ?>
 
 <div id="post">
@@ -15,10 +18,15 @@
 <?php
 	}
 	else{
-		include("class/post.php");
 		$perm = (isset($_POST['permission']))?1:0;
-		Posts::add_post('GPS1', $_POST['title'], $_POST['post'], '','',$perm);
-		header("Location: index.php");
+		$count = preg_match_all('/\[([^:]:?)+\]/', $_POST['post']);
+		if($count ==0) $comments = '';
+		else $comments = 'v';
+		$return = Posts::add_post('GPS1', $_POST['title'], $_POST['post'], '', $comments, $perm);
+		if ($return == '')
+			header("Location: index.php");
+		else
+			echo $return;
 		exit;
 	}
 ?>

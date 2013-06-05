@@ -23,13 +23,14 @@ htmlHeader("blog");
 <?php
 $post_db = new Posts();
 foreach ($post_db->post_tab as $row) {
-    ?>
+?>
     <section class="post">
         <article>
             <h1><?php echo $row['title']; ?></h1>
             <legend><?php echo dateToDuree($row['time']) . ' ago' ?></legend>
             <p><?php echo $row['body']; ?></p>
         </article>
+        <?if(!isset($row['voters'])){ ?>
         <aside>
             <?php
             foreach ($row['comments']->coms_tab as $com) {
@@ -54,6 +55,7 @@ foreach ($post_db->post_tab as $row) {
                 </form>
             </div>
         </aside>
+        <?php } ?>
     </section>
     <?php
 }

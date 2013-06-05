@@ -114,6 +114,7 @@ htmlHeader("connexion");
 
     function readData(sData) {
         //used for ajax
+        alert(sData);
         if (sData === "good") {
             if (thirdRow) {
                 deleteRow();

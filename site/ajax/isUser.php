@@ -1,5 +1,5 @@
 <?php
-
+require '../class/database.php';
 require '../class/user.php';
 
 $nom = (isset($_GET["arg"])) ? $_GET["arg"] : NULL;

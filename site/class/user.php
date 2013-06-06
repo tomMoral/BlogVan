@@ -95,6 +95,9 @@ class user {
 
     public function loginByName($name, $password) {
         $user = user::getByName($name);
+        echo $user->name.'</br>';
+        echo $user->password.'</br>';
+        echo $password;
         if ($password == $user->password) {
             $_SESSION['user'] = $user->id;
             $this->set_last_connexion();

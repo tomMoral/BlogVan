@@ -4,12 +4,14 @@ include("headerPHP.php");
 $bad_password = false;
 if (isset($_POST['name'])) {
 
+    echo "connexion...";
     $name = $_POST['name'];
     $password = sha1($_POST['password']);
     $pos = strrpos($name, '@');
     $type = ($pos === false) ? 'name' : 'email';
 
     if ($type == 'name') {
+        echo "Name..";
         $user = user::getByName($name);
         if ($user == null) {
             //then create user
@@ -17,9 +19,13 @@ if (isset($_POST['name'])) {
             user::create($name, $password, $email);
             header('Location: index.php?firstconnexion=true');
         } else {
+
+            echo "User..";
             //then identify user
             if($user->loginByName($name, $password)){
+                echo "TRue";
             }else{
+                echo "Bad";
                 $bad_password=true;
             }
         }
@@ -94,12 +100,15 @@ htmlHeader("connexion");
             var a = $("#email").val();
             value = a;
             if (name !== "" && pass !== "") {
+                alert("here1");
                 request(readData, 'ajax/isUser.php', name);
                 if (validateEmail(a)) {
                     $("#go").show();
+                alert("here t");
                 }
                 else {
                     $("#go").hide();
+                alert("here f");
                 }
             } else {
                 if (name === "" && thirdRow) {

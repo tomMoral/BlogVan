@@ -6,8 +6,10 @@
 
 function validateEmail(email) { 
     var at = email.indexOf('@');
-    var point = email.indexOf('.');
-    return at>0 && point>at;
+    var spl = email.split('.').pop();
+    alert(spl);
+    var point = spl.indexOf('@');
+    return at>0 && point==-1;
 } 
 
 

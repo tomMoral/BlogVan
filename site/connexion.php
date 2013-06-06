@@ -123,24 +123,26 @@ htmlHeader("connexion");
 
     function readData(sData) {
         //used for ajax
-        alert(sData);
         if (sData === "good") {
             if (thirdRow) {
                 deleteRow();
             }
             $("#go").show();
         }
-        if (sData === "user name") {
+        else if (sData === "user name") {
             if (thirdRow) {
                 deleteRow();
             }
             add("Email");
         }
-        if (sData === "email") {
+        else if (sData === "email") {
             if (thirdRow) {
                 deleteRow();
             }
             add("User name");
+        }
+        else{
+            alert(sData);
         }
     }
 

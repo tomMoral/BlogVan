@@ -5,11 +5,11 @@
 
 
 function validateEmail(email) { 
-    var at = email.indexOf('@');
-    var spl = email.split('.').pop();
-    alert(spl);
-    var point = spl.indexOf('@');
-    return at>0 && point==-1;
+
+    var reverse = email.split("").reverse().join("");
+    var at = reverse.indexOf('@');
+    var point = reverse.indexOf('.');
+    return point>0 && at>point;
 } 
 
 

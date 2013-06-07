@@ -100,15 +100,12 @@ htmlHeader("connexion");
             var a = $("#email").val();
             value = a;
             if (name !== "" && pass !== "") {
-                alert("here1");
                 request(readData, 'ajax/isUser.php', name);
                 if (validateEmail(a)) {
                     $("#go").show();
-                    alert("here t");
                 }
                 else {
                     $("#go").hide();
-                    alert("here f");
                 }
             } else {
                 if (name === "" && thirdRow) {

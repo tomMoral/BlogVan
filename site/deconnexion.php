@@ -1,5 +1,6 @@
 <?php
 require_once("initSession.php");
+require_once("class/database.php");
 require_once("class/user.php");
 user::getSessionUser()->logOut();
 /*

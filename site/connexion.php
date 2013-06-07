@@ -22,30 +22,30 @@ if (isset($_POST['name'])) {
 
             echo "User..";
             //then identify user
-            if($user->loginByName($name, $password)){
-                echo "TRue";
-            }else{
-                echo "Bad";
-                $bad_password=true;
+            if ($user->loginByName($name, $password)) {
+                header('Location: index.php?connexion=true');
+            } else {
+                $bad_password = true;
             }
         }
     } else {
         //similar to first case
         $user = user::getByEmail($name);
         if ($user == null) {
-             //then create user
+            //then create user
             $email = $_POST['email'];
             user::create($email, $password, $name);
             header('Location: index.php?firstconnexion=true');
         } else {
             //then identify user
-            if($user->loginByEmail($name, $password)){
-            }else{
-                $bad_password=true;
+            if ($user->loginByEmail($name, $password)) {
+                header('Location: index.php?connexion=true');
+            } else {
+                $bad_password = true;
             }
         }
     }
-} 
+}
 htmlHeader("connexion");
 ?>
 <script type="text/javascript">
@@ -104,11 +104,11 @@ htmlHeader("connexion");
                 request(readData, 'ajax/isUser.php', name);
                 if (validateEmail(a)) {
                     $("#go").show();
-                alert("here t");
+                    alert("here t");
                 }
                 else {
                     $("#go").hide();
-                alert("here f");
+                    alert("here f");
                 }
             } else {
                 if (name === "" && thirdRow) {
@@ -118,7 +118,8 @@ htmlHeader("connexion");
             }
         }
 
-    };
+    }
+    ;
 
 
     function readData(sData) {
@@ -141,7 +142,7 @@ htmlHeader("connexion");
             }
             add("User name");
         }
-        else{
+        else {
             alert(sData);
         }
     }
@@ -162,12 +163,18 @@ htmlHeader("connexion");
         <table style="font-size:12px">
             <tr>
                 <td>
-                    <input type=text name="name" class="name" id="name" maxlength="255" required="required" placeholder="Username/Email" <?php if(
-                $bad_password){echo "value=\"$name\"";}?>/>
+                    <input type=text name="name" class="name" id="name" maxlength="255" required="required" placeholder="Username/Email" <?php if (
+        $bad_password) {
+    echo "value=\"$name\"";
+}
+?>/>
                 </td>
                 <td><div id="bad_password"></div>
-<?php if(
-                $bad_password){echo "<font color=\"red\">Oups, it seems you are too high to remember you password. Try again!</font>";}?></td>
+<?php if (
+        $bad_password) {
+    echo "<font color=\"red\">Oups, it seems you are too high to remember you password. Try again!</font>";
+}
+?></td>
             </tr>
             <tr id="secondRow">
                 <td>
@@ -184,7 +191,6 @@ htmlHeader("connexion");
 </div>
 
 <?php
-
 include("footer.php");
 ?>
 

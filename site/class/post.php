@@ -126,7 +126,7 @@ class Posts
             $tmp .= "<input type='hidden' name='id' value='" . $id. "'>\n";
             $tmp .= "</form>";
             $usr = user::getSessionUser();
-            if($usr == null or in_array($usr->id, $voters)){
+            if(($usr == null || ($voters!=null) && in_array($usr->id, $voters))){
                 $tmp = '<div class="results">';
                 $n_votes = array_sum($results);
                 foreach ($opts as $n => $prop) {

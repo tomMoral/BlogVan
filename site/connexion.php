@@ -88,7 +88,11 @@ htmlHeader("connexion");
         var pass = $("#password").val();
         if (thirdRow === false) {
             if (name !== "" && pass !== "") {
-                request(readData, 'ajax/isUser.php', name);
+
+                $.post("ajax/isUser.php", {name: name})
+                        .done(function(data) {
+                    callBack(data);
+                });
             } else {
                 $("#go").hide();
             }
@@ -100,7 +104,10 @@ htmlHeader("connexion");
             var a = $("#email").val();
             value = a;
             if (name !== "" && pass !== "") {
-                request(readData, 'ajax/isUser.php', name);
+                $.post("ajax/isUser.php", {name: name})
+                        .done(function(data) {
+                    callBack(data);
+                });
                 if (validateEmail(a)) {
                     $("#go").show();
                 }
@@ -119,7 +126,7 @@ htmlHeader("connexion");
     ;
 
 
-    function readData(sData) {
+    function callBack(sData) {
         //used for ajax
         if (sData === "good") {
             if (thirdRow) {
@@ -160,18 +167,20 @@ htmlHeader("connexion");
         <table style="font-size:12px">
             <tr>
                 <td>
-                    <input type=text name="name" class="name" id="name" maxlength="255" required="required" placeholder="Username/Email" <?php if (
-        $bad_password) {
-    echo "value=\"$name\"";
-}
-?>/>
+                    <input type=text name="name" class="name" id="name" maxlength="255" required="required" placeholder="Username/Email" <?php
+                    if (
+                            $bad_password) {
+                        echo "value=\"$name\"";
+                    }
+                    ?>/>
                 </td>
                 <td><div id="bad_password"></div>
-<?php if (
-        $bad_password) {
-    echo "<font color=\"red\">Oups, it seems you are too high to remember you password. Try again!</font>";
-}
-?></td>
+                    <?php
+                    if (
+                            $bad_password) {
+                        echo "<font color=\"red\">Oups, it seems you are too high to remember you password. Try again!</font>";
+                    }
+                    ?></td>
             </tr>
             <tr id="secondRow">
                 <td>

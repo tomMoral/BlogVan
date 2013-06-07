@@ -42,8 +42,9 @@ function htmlHeader($tohide) {
 
     <body>
         <div id="bloc_page"><header> 
-
-                <nav>';
+<div id="banniere_image">
+    <div id="banniere_description">
+        <nav>';
     if ($tohide != "blog") {
         echo '                    <div><a href="index.php"><img src="../images/face.png" alt="Logo VW" id="logo" />Blog</a></div>';
     }
@@ -71,6 +72,10 @@ function htmlHeader($tohide) {
     }
     echo '
                 </nav>
+        
+    </div>
+</div>
+                
             </header>';
 }
 ?>

@@ -2,7 +2,7 @@
 include("headerPHP.php");
 htmlHeader("blog");
 $user = user::getSessionUser();
-if ($user->type == 2) {
+if ($user != null && $user->type == 2) {
     ?>
 
     <div>
@@ -19,21 +19,30 @@ if ($user->type == 2) {
 
     <script type="text/javascript">
         $(document).ready(function() {
-            var champs = new Array;
-            champs[0] = 'name';
-            champs[1] = 'email';
-            requestMultiFields(readData, 'ajax/findmember.php', champs);
+            var name = $("#name").val();
+            var email = $("#email").val();
+            $.post("ajax/findmember.php", {name: name, email: email})
+                    .done(function(data) {
+                $("#divutilisateur").html(data);
+            });
             $("#name").keyup(function() {
-                requestMultiFields(readData, 'ajax/findmember.php', champs);
+                name = $("#name").val();
+                email = $("#email").val();
+                $.post("ajax/findmember.php", {name: name, email: email})
+                        .done(function(data) {
+                    $("#divutilisateur").html(data);
+                });
             });
             $("#email").keyup(function() {
-                requestMultiFields(readData, 'ajax/findmember.php', champs);
+                name = $("#name").val();
+                email = $("#email").val();
+                $.post("ajax/findmember.php", {name: name, email: email})
+                        .done(function(data) {
+                    $("#divutilisateur").html(data);
+                });
             });
         });
 
-        function readData(sData) {
-            $("#divutilisateur").html(sData);
-        }
     </script>
 
 

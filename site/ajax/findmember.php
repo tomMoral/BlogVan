@@ -5,8 +5,8 @@ include("../headerPHP.php");
     <br/><br/><br/>users:
     <br/></div>
 <?php
-$name = (isset($_GET["arg0"])) ? $_GET["arg0"] : "";
-$email = (isset($_GET["arg1"])) ? $_GET["arg1"] : "";
+$name = (isset($_POST["name"])) ? $_POST["name"] : "";
+$email = (isset($_POST["email"])) ? $_POST["email"] : "";
 
 $i = 0;
 if ($name OR $email) {

@@ -68,7 +68,7 @@ header h2
 
 nav
 {
-    margin: 20px 0px;
+    margin: 0px 0px;
     display: inline-block;
     width: 900px;
     text-align: center;
@@ -84,14 +84,13 @@ nav div
 nav a
 {
     font-size: 1.3em;
-    color: #181818;
+    color: white;
     padding-bottom: 3px;
     text-decoration: none;
 }
 
 nav a:hover
 {
-    color: #760001;
     border-bottom: 3px solid #760001;
 }
 
@@ -119,8 +118,8 @@ nav img
     bottom: 0;
     border-radius: 0px 0px 5px 5px;
     width: 99.5%;
-    height: 33px;
-    padding-top: 15px;
+    height: 50px;
+    padding-top: 4px;
     padding-left: 4px;
     background-color: rgb(24,24,24); /* Pour
     les anciens navigateurs */
@@ -239,10 +238,6 @@ article p
     -webkit-box-shadow:-1px -1px 2px #004977;
     box-shadow:-1px -1px 2px #004977;
 }
-
-.comment:hover{background:#555;}	
-
-.comment:hover:before{border-color:transparent #555 transparent transparent;}
 
 .comment h1
 {
@@ -473,4 +468,60 @@ footer h1
 {   
     margin:10px;
     padding:10px;
+}
+
+.green{
+    background: none no-repeat scroll 0 0 #00CC00;
+    color: #FFFFFF;
+}
+
+.green
+{
+    position: relative;
+    width: 225px;
+    background-color: #00CC00;
+    box-shadow: 0px 2px 5px #1c1a19;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom:10px;
+    color: white;
+    font-size: 0.9em;
+    background:#00CC00;
+    color:#fff;	
+}
+
+.green:before{
+    content:"";
+    float:left;
+    position:absolute;
+    top:20px;
+    left:-12px;
+    width:0;
+    height:0;
+    border-color:transparent #00CC00 transparent transparent;
+    border-style:solid;
+    border-width:12px 12px 12px 0;		
+}
+
+.green:after{
+    content:"";
+    position:absolute;
+    top:30px;
+    left:0;
+    float:left;
+    width:4px;
+    height:4px;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    background:#fff;
+    -moz-box-shadow:-1px -1px 2px #00CC00;
+    -webkit-box-shadow:-1px -1px 2px #00CC00;
+    box-shadow:-1px -1px 2px #00CC00;
+}
+
+aside a
+{
+    color: white;
+    text-decoration:none;
 }

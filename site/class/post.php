@@ -87,6 +87,7 @@ class Posts
         }
         $query->bindParam(':post', $id, PDO::PARAM_INT);
         $query->execute();
+        return $id_com;
     }
 
     function parse_post($text, $pics, $id, $results = NULL, $voters=NULL)

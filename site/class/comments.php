@@ -4,7 +4,7 @@ class Comments
     public $id_com;
     public $coms_tab;
 
-    function __construct($list_coms) {
+    function __construct($list_coms="") {
         $this->id_coms = preg_split('/,/', $list_coms);
         $this->get_com();
     }
@@ -48,6 +48,19 @@ class Comments
 
         return $dbh->lastInsertId() ;
      }
+     
+     static function get_com_by_id($id)
+    {
+        $dbh = Database::connect();
+        $query = "SELECT * FROM `comments` WHERE `id` = \"$id\"";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'comments');
+        $sth->execute();
+        $com = $sth->fetch();
+        $sth->closeCursor();
+        $dbh = null;
+        return $com;
+    }
 }
 
 ?>

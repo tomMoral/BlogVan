@@ -1,6 +1,5 @@
 <?php
 
-
 class user {
 
     public $id;
@@ -68,7 +67,7 @@ class user {
         $dbh = null;
         return $user;
     }
-    
+
     public static function getByEmail($email) {
         $dbh = Database::connect();
         $query = "SELECT * FROM `user` WHERE `email` = \"$email\"";
@@ -80,24 +79,28 @@ class user {
         $dbh = null;
         return $user;
     }
-    
+
     public static function getSessionUser() {
         $dbh = Database::connect();
-        $id=$_SESSION['user'];
-        $query = "SELECT * FROM `user` WHERE `id` = \"$id\"";
-        $sth = $dbh->prepare($query);
-        $sth->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'user');
-        $sth->execute();
-        $user = $sth->fetch();
-        $sth->closeCursor();
-        $dbh = null;
-        return $user;
+        if (isset($_SESSION['user'])) {
+            $id = $_SESSION['user'];
+            $query = "SELECT * FROM `user` WHERE `id` = \"$id\"";
+            $sth = $dbh->prepare($query);
+            $sth->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'user');
+            $sth->execute();
+            $user = $sth->fetch();
+            $sth->closeCursor();
+            $dbh = null;
+            return $user;
+        } else {
+            return null;
+        }
     }
 
     public function loginByName($name, $password) {
         $user = user::getByName($name);
-        echo $user->name.'</br>';
-        echo $user->password.'</br>';
+        echo $user->name . '</br>';
+        echo $user->password . '</br>';
         echo $password;
         if ($password == $user->password) {
             $_SESSION['user'] = $user->id;
@@ -120,9 +123,9 @@ class user {
             return false;
         }
     }
-    
-    public function logOut(){
-        $_SESSION['user']=null;
+
+    public function logOut() {
+        $_SESSION['user'] = null;
         header('Location: index.php?deconnexion=true');
     }
 
@@ -133,7 +136,7 @@ class user {
         $sth->execute();
         $dbh = null;
     }
-    
+
     public static function set_status($status, $id) {
         $dbh = Database::connect();
         $query = "UPDATE user SET type = '$status' WHERE id = '$id'";
@@ -141,10 +144,10 @@ class user {
         $sth->execute();
         $dbh = null;
     }
-    
+
     public function increase_num_connexion() {
         $dbh = Database::connect();
-        $num=$this->num_connexion+1;
+        $num = $this->num_connexion + 1;
         $query = "UPDATE user SET num_connexion = '$num' WHERE id = '$this->id'";
         $sth = $dbh->prepare($query);
         $sth->execute();

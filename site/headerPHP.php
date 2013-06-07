@@ -9,4 +9,5 @@ include_once('class/comments.php');
 include_once('utils.php');
 $user = new user();
 $user->create("t", "mdp");
+date_default_timezone_set('America/Los_Angeles');
 ?>

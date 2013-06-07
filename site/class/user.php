@@ -9,6 +9,7 @@ class user {
     public $password;
     public $first_connexion;
     public $last_connexion;
+    public $num_connexion;
     public $type;
 
     function __construct() {
@@ -100,6 +101,7 @@ class user {
         echo $password;
         if ($password == $user->password) {
             $_SESSION['user'] = $user->id;
+            $user->increase_num_connexion();
             $this->set_last_connexion();
             return true;
         } else {
@@ -111,6 +113,7 @@ class user {
         $user = user::getByEmail($email);
         if ($password == $user->password) {
             $_SESSION['user'] = $user->id;
+            $user->increase_num_connexion();
             $this->set_last_connexion();
             return true;
         } else {
@@ -127,7 +130,23 @@ class user {
         $dbh = Database::connect();
         $query = "UPDATE user SET last_connexion = NOW() WHERE id = '$this->id'";
         $sth = $dbh->prepare($query);
-        //$sth->setFetchMode(PDO::FETCH_CLASS, 'Utilisateurs');
+        $sth->execute();
+        $dbh = null;
+    }
+    
+    public static function set_status($status, $id) {
+        $dbh = Database::connect();
+        $query = "UPDATE user SET type = '$status' WHERE id = '$id'";
+        $sth = $dbh->prepare($query);
+        $sth->execute();
+        $dbh = null;
+    }
+    
+    public function increase_num_connexion() {
+        $dbh = Database::connect();
+        $num=$this->num_connexion+1;
+        $query = "UPDATE user SET num_connexion = '$num' WHERE id = '$this->id'";
+        $sth = $dbh->prepare($query);
         $sth->execute();
         $dbh = null;
     }

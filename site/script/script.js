@@ -32,6 +32,7 @@ set_text_area_background_color = function() {
         textareas[i].onblur = function() {
             this.parentNode.style.border = '1px solid #A1A4A3';
             this.parentNode.className = 'fake_textarea';
+            $(this).parent().children(".submit_comment").hide();
             for (var i = 0; i < this.parentNode.childNodes.length; i++) {
                 if (this.parentNode.childNodes[i].className === "submit_comment") {
                     //$(this).parent().children().eq(1).hide();
@@ -83,5 +84,32 @@ function request(callback, page, arg) {
     };
 
     xhr.open("GET", page + "?arg=" + arg, true);
+    xhr.send(null);
+}
+
+function requestMultiFields(callback,page,champs) {
+    var xhr = null;
+    if (xhr && xhr.readyState != 0) {
+        xhr.abort(); // On annule la requête en cours !
+    }
+
+    xhr = getXMLHttpRequest(); // plus de mot clé 'var'
+	
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+            callback(xhr.responseText);
+        }
+    };
+    var n=champs.length;
+    var arg=new Array;
+    var string="";
+    arg[0] = encodeURIComponent(document.getElementById(champs[0]).value);
+    string=string + "&arg" + 0 +"=" + arg[0];
+    for (i=1; i<n; i++) {
+        arg[i] = encodeURIComponent(document.getElementById(champs[i]).value);
+        string=string + "&arg" + i +"=" + arg[i];
+    }
+    
+    xhr.open("GET", page + "?" + string, true);
     xhr.send(null);
 }

@@ -80,6 +80,17 @@ class user {
         return $user;
     }
 
+    public static function getById($id) {
+        $dbh = Database::connect();
+        $query = "SELECT * FROM `user` WHERE `id` = \"$id\"";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'user');
+        $sth->execute();
+        $user = $sth->fetch();
+        $sth->closeCursor();
+        $dbh = null;
+        return $user;
+    }
     public static function getSessionUser() {
         $dbh = Database::connect();
         if (isset($_SESSION['user'])) {

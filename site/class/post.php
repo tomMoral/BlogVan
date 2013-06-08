@@ -133,7 +133,7 @@ class Posts
                 foreach ($opts as $n => $prop) {
                     if(!isset($results[$n]))
                         $results[$n] = 0;
-                    $tmp.= '<p>'.$prop.': '.(100*$results[$n]/$n_votes).'%</p>';
+                    $tmp.= '<p>'.$prop.': '.number_format(100*$results[$n]/$n_votes,1).'%</p>';
                 }
                 $tmp .= '</div>' ;
             }

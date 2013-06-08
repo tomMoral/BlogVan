@@ -109,6 +109,7 @@ class Posts
 
         $res = str_replace($balise_text, $balise_pics, $text);
         $match = array();
+        $text = str_replace('[p]','',$text);
         $count = preg_match_all('/\[([^:]:?)+\]/', $text, $match);
 
 

@@ -46,28 +46,28 @@ function htmlHeader($tohide) {
     <div id="banniere_description">
         <nav>';
     if ($tohide != "blog") {
-        echo '                    <div><a href="index.php"><img src="../images/face.png" alt="Logo VW" id="logo" />Blog</a></div>';
+        echo '                    <a href="index.php"><div><img src="../images/face.png" alt="Logo VW" id="logo" />Blog</div></a>';
     }
     if ($tohide != "photo") {
-        echo '               <div><a href="#"><img src="../images/face.png" alt="Logo VW" id="logo" />Photos</a></div>';
+        echo '               <a href="#"><div><img src="../images/face.png" alt="Logo VW" id="logo" />Photos</div></a>';
     }
     if ($tohide != "travel") {
         echo '       
-                    <div><a href="#"><img src="../images/face_blue.png" alt="Logo VW" id="logo" />Travel</a></div>';
+                    <a href="#"><div><img src="../images/face_blue.png" alt="Logo VW" id="logo" />Travel</div></a>';
     }
     if ($tohide != "team") {
         echo '       
-                    <div><a href="#"><img src="../images/face_red.png" alt="Logo VW" id="logo" />Team</a></div>';
+                    <a href="#"><div><img src="../images/face_red.png" alt="Logo VW" id="logo" />Team</div></a>';
     }
     if ($tohide != "van") {
         echo '       
-                    <div><a href="#"><img src="../images/face_green.png" alt="Logo VW" id="logo" />Van</a></div>';
+                    <div><a href="#"><img src="../images/face_green.png" alt="Logo VW" id="logo" />Van</div></a>';
     }
     if ($tohide != "connexion") {
         if (!isset($_SESSION['user'])) {
-            echo '<div><a href="connexion.php"><img src="../images/face_yellow.png" alt="Logo VW" id="logo" />Get in</a></div>';
+            echo '<a href="connexion.php"><div><img src="../images/face_yellow.png" alt="Logo VW" id="logo" />Get in</div></a>';
         } else {
-            echo '<div><a href="deconnexion.php"><img src="../images/face_yellow.png" alt="Logo VW" id="logo" />Get out</a></div>';
+            echo '<a href="deconnexion.php"><div><img src="../images/face_yellow.png" alt="Logo VW" id="logo" />Get out</div></a>';
         }
     }
     echo '

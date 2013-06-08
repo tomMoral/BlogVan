@@ -2,6 +2,7 @@
 <?php
 include("headerPHP.php"); //les post sont enregistré avec notre horloge, donc heure USA
 htmlHeader("blog");
+$user=user::getSessionUser();
 ?>
 <script>
     $(document).ready(function() {
@@ -12,14 +13,26 @@ htmlHeader("blog");
     });
 </script>
 <?php
+if(isset($_SESSION['last_connexion'])){
+    echo $_SESSION['last_connexion'];
+}
 $post_db = new Posts();
 foreach ($post_db->post_tab as $row) {
     ?>
     <section class="post">
         <article>
-            <h1><?php echo $row['title']; ?></h1>
-            <legend><?php echo dateToDuree($row['time']) . ' ago' ?></legend>
-            <p><?php echo $row['body']; ?></p>
+            <div class="title">
+                <h1>
+                    <?php echo $row['title']; ?>
+                    <legend>
+                        <?php echo dateToDuree($row['time']) . ' ago' ?>
+                    </legend>
+                </h1>
+
+            </div>
+            <p>
+                <?php echo $row['body']; ?>
+            </p>
         </article>
         <? if (!isset($row['voters'])) { ?>
             <aside>
@@ -46,8 +59,7 @@ foreach ($post_db->post_tab as $row) {
                 <?php } else {
                     ?>
                     <a href="connexion.php"><div class="green" >
-                            Get in to be able to write !   <img src="../images/face_yellow.png" alt="Logo VW" id="logo" />
-                        </div>
+                            Get in to be able to comment!                          </div>
                     </a>
                 <?php } ?>
             </aside>

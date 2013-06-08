@@ -99,9 +99,6 @@ class user {
 
     public function loginByName($name, $password) {
         $user = user::getByName($name);
-        echo $user->name . '</br>';
-        echo $user->password . '</br>';
-        echo $password;
         if ($password == $user->password) {
             $_SESSION['user'] = $user->id;
             $user->increase_num_connexion();
@@ -126,11 +123,13 @@ class user {
 
     public function logOut() {
         $_SESSION['user'] = null;
+        $_SESSION['last_connexion'] = null;
         header('Location: index.php?deconnexion=true');
     }
 
     public function set_last_connexion() {
         $dbh = Database::connect();
+        $_SESSION['last_connexion']=$this->last_connexion;
         $query = "UPDATE user SET last_connexion = NOW() WHERE id = '$this->id'";
         $sth = $dbh->prepare($query);
         $sth->execute();

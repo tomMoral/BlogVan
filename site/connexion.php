@@ -3,15 +3,12 @@ include("headerPHP.php");
 
 $bad_password = false;
 if (isset($_POST['name'])) {
-
-    echo "connexion...";
     $name = $_POST['name'];
     $password = sha1($_POST['password']);
     $pos = strrpos($name, '@');
     $type = ($pos === false) ? 'name' : 'email';
 
     if ($type == 'name') {
-        echo "Name..";
         $user = user::getByName($name);
         if ($user == null) {
             //then create user
@@ -19,8 +16,6 @@ if (isset($_POST['name'])) {
             user::create($name, $password, $email);
             header('Location: index.php?firstconnexion=true');
         } else {
-
-            echo "User..";
             //then identify user
             if ($user->loginByName($name, $password)) {
                 header('Location: index.php?connexion=true');
@@ -57,9 +52,10 @@ htmlHeader("connexion");
         thirdRow = true;
         str = '<tr id="new"> <td><input type=text name="email" class="email" id="email" maxlength="255" placeholder="' + label + '" value="' + value + '"/></td>';
         if (label === "Email") {
-            str += '<td><font color="green">You don\'t seem to be registered yet, please provide an email adress</font></td></tr>';
+            $("#side").html('<font color="green">You don\'t seem to be registered yet, please provide an email adress</font>');
+
         } else {
-            str += '<td><font color="green">You don\'t seem to be registered yet, please provide a user name</font></td></tr>';
+            $("#side").html('<font color="green">You don\'t seem to be registered yet, please provide a user name</font>');
         }
         var newRow = $(str);
         $("#secondRow").after(newRow);
@@ -80,6 +76,7 @@ htmlHeader("connexion");
         thirdRow = false;
         var row = document.getElementById("new");
         row.parentNode.removeChild(row);
+        $("#side").html("");
     }
 
     function update() {
@@ -174,13 +171,16 @@ htmlHeader("connexion");
                     }
                     ?>/>
                 </td>
-                <td><div id="bad_password"></div>
-                    <?php
+                <td rowspan="3">
+                    <div id="side">
+<?php
                     if (
                             $bad_password) {
                         echo "<font color=\"red\">Oups, it seems you are too high to remember you password. Try again!</font>";
                     }
-                    ?></td>
+                    ?>
+                    </div>
+                </td>
             </tr>
             <tr id="secondRow">
                 <td>

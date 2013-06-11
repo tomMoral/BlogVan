@@ -46,7 +46,7 @@ function htmlHeader($tohide) {
     <div id="banniere_description">
         <nav>';
     if ($tohide != "blog") {
-        echo '                    <a href="index.php"><div><img src="../images/face.png" alt="Logo VW" id="logo" />Blog</div></a>';
+        echo '<a href="index.php"><div><img src="../images/face.png" alt="Logo VW" id="logo" />Blog</div></a>';
     }
     if ($tohide != "photo") {
         echo '               <a href="#"><div><img src="../images/face.png" alt="Logo VW" id="logo" />Photos</div></a>';

@@ -177,8 +177,8 @@ article h1{
 }
 article legend
 {
-    position: relative;
-    right:-480px;
+    position: absolute;
+    right:0px;
     bottom: 15px;
     font-size: 10px;
     color:grey;
@@ -187,8 +187,10 @@ article legend
 
 article .title
 {
+    position: relative;
     border-bottom: solid 1px grey;
     margin-bottom: 30px;
+    width: 530px;
 }
 
 .title h1

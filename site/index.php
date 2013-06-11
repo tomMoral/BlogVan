@@ -2,7 +2,7 @@
 <?php
 include("headerPHP.php"); //les post sont enregistré avec notre horloge, donc heure USA
 htmlHeader("blog");
-$user=user::getSessionUser();
+$user = user::getSessionUser();
 ?>
 <script>
     $(document).ready(function() {
@@ -13,7 +13,7 @@ $user=user::getSessionUser();
     });
 </script>
 <?php
-if(isset($_SESSION['last_connexion'])){
+if (isset($_SESSION['last_connexion'])) {
     echo $_SESSION['last_connexion'];
 }
 $post_db = new Posts();
@@ -24,11 +24,11 @@ foreach ($post_db->post_tab as $row) {
             <div class="title">
                 <h1>
                     <?php echo $row['title']; ?>
-                    <legend>
-                        <?php echo dateToDuree($row['time']) . ' ago' ?>
-                    </legend>
-                </h1>
 
+                </h1>
+                <legend>
+                    <?php echo dateToDuree($row['time']) . ' ago' ?>
+                </legend>
             </div>
             <p>
                 <?php echo $row['body']; ?>

@@ -1,8 +1,8 @@
 <?php
 include("headerPHP.php");
-htmlHeader("blog");
 $user = user::getSessionUser();
 if ($user != null && $user->type == 2) {
+    htmlHeader("blog");
     ?>
 
     <div>

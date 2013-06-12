@@ -3,8 +3,8 @@ include("headerPHP.php");
 
 $bad_password = false;
 if (isset($_POST['name'])) {
-    $name = $_POST['name'];
-    $password = sha1($_POST['password']);
+    $name = htmlspecialchars($_POST['name']);
+    $password = sha1(htmlspecialchars($_POST['password']));
     $pos = strrpos($name, '@');
     $type = ($pos === false) ? 'name' : 'email';
 
@@ -12,7 +12,7 @@ if (isset($_POST['name'])) {
         $user = user::getByName($name);
         if ($user == null) {
             //then create user
-            $email = $_POST['email'];
+            $email = htmlspecialchars($_POST['email']);
             user::create($name, $password, $email);
             header('Location: index.php?firstconnexion=true');
         } else {
@@ -28,7 +28,7 @@ if (isset($_POST['name'])) {
         $user = user::getByEmail($name);
         if ($user == null) {
             //then create user
-            $email = $_POST['email'];
+            $email = htmlspecialchars($_POST['email']);
             user::create($email, $password, $name);
             header('Location: index.php?firstconnexion=true');
         } else {

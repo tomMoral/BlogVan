@@ -7,7 +7,7 @@
 new_comment = function() {
     $(".button").click(function() {
         var body = $(this).parent().parent().parent();
-        var text = body.children(".fake_textarea").children(".write_comment").val();
+        var text = body.children(".fake_textarea").children(".write_comment").val().replace(/\r?\n/g, 'linebreak');
         var id_post = body.children(".fake_textarea").children("input").val();
         $.post("ajax/createcomment.php", {text: text, id_post: id_post})
                 .done(function(data) {

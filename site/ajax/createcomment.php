@@ -1,7 +1,10 @@
 <?php
 include("../headerPHP.php");
 $user = user::getSessionUser();
-$text = isset($_POST['text']) && htmlspecialchars($_POST['text']) != "" ? htmlspecialchars($_POST['text']) : NULL;
+
+
+
+$text = isset($_POST['text']) && htmlspecialchars($_POST['text']) != "" ? str_replace('linebreak','<br/>',htmlspecialchars($_POST['text'])) : NULL;
 $id_post = isset($_POST['id_post']) && htmlspecialchars($_POST['id_post']) != "" ? htmlspecialchars($_POST['id_post']) : NULL;
 $id_com = Posts::add_comment($id_post, $user->name, $text);
 $com=Comments::get_com_by_id($id_com);

@@ -6,6 +6,7 @@ function dateToDuree($date) {
 
     $timestamp = mktime($a['tm_hour'], $a['tm_min'], $a['tm_sec'], $a['tm_mon'] + 1, $a['tm_mday'], $a['tm_year'] + 1900);
     $diff = time() - $timestamp;
+    
     if ($diff < 60) {
         return "less than one minute";
     } elseif ($diff < 3600) {
@@ -53,7 +54,7 @@ function htmlHeader($tohide) {
     }
     if ($tohide != "travel") {
         echo '       
-                    <a href="#"><div><img src="../images/face_blue.png" alt="Logo VW" id="logo" />Travel</div></a>';
+                    <a href="travel.php"><div><img src="../images/face_blue.png" alt="Logo VW" id="logo" />Travel</div></a>';
     }
     if ($tohide != "team") {
         echo '       

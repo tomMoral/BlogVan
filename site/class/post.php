@@ -10,7 +10,7 @@ class Posts
     {
         $this->post_tab = $this->get_post();
     }
-    function get_post($offset=0, $number=10)
+    function get_post($offset=0, $number=50)
     {
         $dbh = Database::connect();        
         $query = $dbh->prepare("SELECT * FROM `posts` ORDER BY time DESC LIMIT $offset,$number");

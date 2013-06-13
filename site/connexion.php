@@ -47,23 +47,60 @@ htmlHeader("connexion");
 
     var thirdRow = false;
     var value = "";
+    var changedEmail = false;
+
+    function check(type) {
+        $("#email").keyup(function() {
+            var email = $("#email").val();
+            if (email !== "") {
+                $.post("ajax/isUser.php", {name: email})
+                        .done(function(data) {
+                    callBackCheck(data, type);
+                });
+            }
+        });
+    }
+    ;
+
+    function callBackCheck(sData, type) {
+        //used for ajax
+        if (sData === "good") {
+            $("#side").html('<font color="red">Someone is already using this ' + type + ', try an other one!</font>');
+            $("#go").hide();
+            changedEmail = true;
+        }
+        else if (sData !== "user name" && sData !== "email") {
+            alert(sData);
+        }
+        else {
+            if (changedEmail) {
+                $("#side").html('<font color="green">This ' + type + ' is available!</font>');
+            } else {
+                $("#side").html('');
+            }
+        }
+    }
 
     function add(label) {
         thirdRow = true;
         str = '<tr id="new"> <td><input type=text name="email" class="email" id="email" maxlength="255" placeholder="' + label + '" value="' + value + '"/></td>';
         if (label === "Email") {
             $("#side").html('<font color="green">You don\'t seem to be registered yet, please provide an email adress</font>');
-
         } else {
             $("#side").html('<font color="green">You don\'t seem to be registered yet, please provide a user name</font>');
         }
         var newRow = $(str);
         $("#secondRow").after(newRow);
         $("#email").keyup(function() {
+            if (label === "Email") {
+                check('email');
+            } else {
+                check('user name');
+            }
             var name = $("#name").val();
             var pass = $("#password").val();
             var a = $("#email").val();
-            if (name !== "" && pass !== "" && validateEmail(a)) {
+            if (name !== "" && pass !== "" && (label !== "Email" || validateEmail(a))) {
                 $("#go").show();
             }
             else {
@@ -118,7 +155,6 @@ htmlHeader("connexion");
                 $("#go").hide();
             }
         }
-
     }
     ;
 
@@ -173,12 +209,12 @@ htmlHeader("connexion");
                 </td>
                 <td rowspan="3">
                     <div id="side">
-<?php
-                    if (
-                            $bad_password) {
-                        echo "<font color=\"red\">Oups, it seems you are too high to remember you password. Try again!</font>";
-                    }
-                    ?>
+                        <?php
+                        if (
+                                $bad_password) {
+                            echo "<font color=\"red\">Oups, it seems you are too high to remember you password. Try again!</font>";
+                        }
+                        ?>
                     </div>
                 </td>
             </tr>

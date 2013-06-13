@@ -13,8 +13,11 @@ $user = user::getSessionUser();
     });
 </script>
 <?php
-if (isset($_SESSION['last_connexion'])) {
-    echo $_SESSION['last_connexion'];
+if (isset($_SESSION['last_connexion']) && isset($_GET['connexion']) && $_GET['connexion']=='true') {
+    welcome_message($_SESSION['last_connexion']);
+}
+if(isset($_GET['deconnexion']) && $_GET['deconnexion']=='true'){
+    good_bye_message($_SESSION['last_connexion']);
 }
 $post_db = new Posts();
 foreach ($post_db->post_tab as $row) {

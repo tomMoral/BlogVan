@@ -133,6 +133,7 @@ class user {
     }
 
     public function logOut() {
+        $_SESSION['last_user'] = user::getSessionUser()->name;
         $_SESSION['user'] = null;
         $_SESSION['last_connexion'] = null;
         header('Location: index.php?deconnexion=true');

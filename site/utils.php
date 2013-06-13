@@ -1,12 +1,44 @@
 <?php
 
+function welcome_message($last_connexion) {
+    echo "<div class='welcome'><div id='div1'>";
+    $user = user::getSessionUser();
+    $last_posts = 0;
+    $dbh = Database::connect();
+    $query = "SELECT * FROM `posts` WHERE `time` > \"$last_connexion\"";
+    $sth = $dbh->prepare($query);
+    $sth->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'user');
+    $sth->execute();
+    while ($post = $sth->fetch()) {
+        $last_posts++;
+    }
+    $sth->closeCursor();
+    $dbh = null;
+
+    echo "Welcome back " . $user->name . "!";
+    if ($last_posts==1) {
+        echo " $last_posts posts has been written since your last visit:)";
+    }else if($last_posts){
+         echo " $last_posts posts have been written since your last visit:)";
+    }
+    echo "</div><div id='div2'><img src='../images/6.png'/></div></div>";
+}
+
+function good_bye_message($last_connexion) {
+    echo "<div class='welcome'><div id='div1'>";
+    $user = isset($_SESSION['last_user']) ? $_SESSION['last_user'] : "";
+    echo "See you soon " . $user . "!";
+    
+    echo "</div><div id='div2'><img src='../images/6.png'/></div></div>";
+}
+
 function dateToDuree($date) {
     //renvoie un truc du genre 'il y a 5 jours' à partir d'une datte au format 2013-03-01 00:11:56
     $a = strptime($date, "%Y-%m-%d %H:%M:%S");
 
     $timestamp = mktime($a['tm_hour'], $a['tm_min'], $a['tm_sec'], $a['tm_mon'] + 1, $a['tm_mday'], $a['tm_year'] + 1900);
     $diff = time() - $timestamp;
-    
+
     if ($diff < 60) {
         return "less than one minute";
     } elseif ($diff < 3600) {
@@ -79,4 +111,5 @@ function htmlHeader($tohide) {
                 
             </header>';
 }
+
 ?>

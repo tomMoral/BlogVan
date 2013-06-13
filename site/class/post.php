@@ -22,6 +22,7 @@ class Posts
             $row['voters'] = NULL;
             $row['results'] = NULL;
             $row['pictures'] = new Photos($row['pictures']);
+
             if($row['comments'] == '' or $row['comments'][0] != 'v') $row['comments'] = new Comments($row['comments']);
             else{
                 $row['voters'] = array();
@@ -44,7 +45,7 @@ class Posts
         return $articles;
     }
 
-    static function add_post($gps, $titre, $body, $pictures='', $comments='', $permission=0)
+    static function add_post($gps, $titre, $body, $pictures, $comments='', $permission=0)
     {
         $dbh = Database::connect();        
         $query = $dbh->prepare('CREATE TABLE IF NOT EXISTS `posts` (
@@ -94,22 +95,20 @@ class Posts
     {
 
         $balise_pics = array();
+        $balise_text = array();
         $match = array();
-        $count = preg_match_all('/\[p\]/', $text, $match);
-        foreach( array_slice($pics, 0,$count) as $p )
+        $count = preg_match_all('/\[p[0-9]\]/', $text, $match);
+        foreach( array_slice($pics, 0,$count) as $n => $p )
         {
             $url = $p['path'];
             $date = $p['time'];
             $balise_pics[] = "<img src='$url' alt='$date' id='pics_post'>";
+            echo $url."</br>";
+            $balise_text[] = "[p$n]";
         }
-        $balise_text = array();
-        foreach($match as $m){
-            if(count($m) > 0) $balise_text[] = $m[0];
-        }
-
         $res = str_replace($balise_text, $balise_pics, $text);
         $match = array();
-        $text = str_replace('[p]','',$text);
+        $text = preg_replace('/\[p[0-9]\]/','',$text);
         $count = preg_match_all('/\[([^:]:?)+\]/', $text, $match);
 
 
@@ -133,7 +132,7 @@ class Posts
                 foreach ($opts as $n => $prop) {
                     if(!isset($results[$n]))
                         $results[$n] = 0;
-                    $tmp.= '<p>'.$prop.': '.number_format(100*$results[$n]/$n_votes,1).'%</p>';
+                    $tmp.= '<p>'.$prop.': '.number_format(100*$results[$n]/max($n_votes,1),1).'%</p>';
                 }
                 $tmp .= '</div>' ;
             }

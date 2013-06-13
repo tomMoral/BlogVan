@@ -5,17 +5,17 @@ class Photos
     public $pics_tab;
 
     function __construct($list_pics) {
-        $this->id_pics = preg_split('/,/', $list_pics);
+        $this->id_pics =$list_pics;
         $this->get_photo();
     }
 
     function get_photo()
     {
         $dbh = Database::connect();        
-        $query = $dbh->prepare("SELECT * FROM `photos` WHERE `id` IN (?)");
+        $query = $dbh->prepare("SELECT * FROM `photos` WHERE `id` IN (".$this->id_pics.")");
 
 
-        $query->execute(array(implode(',', array_map('intval', $this->id_pics))));
+        $query->execute(array());
         
         $this->pics_tab=array();
         while ($row = $query->fetch(PDO::FETCH_ASSOC)){
@@ -39,6 +39,7 @@ class Photos
         $query = $dbh->prepare("INSERT INTO  `photos` (`gps`,`time`,`path`) 
                     VALUES (?, NOW(), ?)");
         $query->execute(array($gps,$path));
+        return $dbh->lastInsertId() ;
      }
 }
 

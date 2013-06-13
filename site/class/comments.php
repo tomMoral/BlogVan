@@ -5,22 +5,18 @@ class Comments
     public $coms_tab;
 
     function __construct($list_coms="") {
-        $this->id_coms = preg_split('/,/', $list_coms);
+        $this->id_coms = $list_coms;
         $this->get_com();
     }
 
     function get_com()
     {
+        echo $this->id_coms;
         $dbh = Database::connect();
         $newparams = array();
-        foreach ($this->id_coms as $n => $val){ $newparams[] = ":id_$n"; }
-        $query = $dbh->prepare("SELECT * FROM `comments` WHERE `id` IN (" . implode(", ",$newparams). ")");
-        foreach ($this->id_coms as $n => $val){
-            $value = intval($val);
-            $query->bindParam(":id_$n", $value, PDO::PARAM_INT);
-        }
-
-        $query->execute();
+        $query = $dbh->prepare("SELECT * FROM `comments` WHERE `id` IN (" . $this->id_coms. ")");
+        
+        $query->execute(array());
 
         $this->coms_tab=array();
         while ($row =  $query->fetch(PDO::FETCH_ASSOC)){

@@ -103,7 +103,6 @@ class Posts
             $url = $p['path'];
             $date = $p['time'];
             $balise_pics[] = "<img src='$url' alt='$date' id='pics_post'>";
-            echo $url."</br>";
             $balise_text[] = "[p$n]";
         }
         $res = str_replace($balise_text, $balise_pics, $text);

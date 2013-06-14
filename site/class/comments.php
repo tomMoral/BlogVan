@@ -11,7 +11,6 @@ class Comments
 
     function get_com()
     {
-        echo $this->id_coms;
         $dbh = Database::connect();
         $newparams = array();
         $query = $dbh->prepare("SELECT * FROM `comments` WHERE `id` IN (" . $this->id_coms. ")");

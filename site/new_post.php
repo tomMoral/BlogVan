@@ -60,7 +60,7 @@ if ($user != null && $user->type == 2) {
 		     $i += 1;
 		}
 		$perm = (isset($_POST['permission']))?1:0;
-		$count = preg_match_all('/\[([^:]:?)+\]/', $_POST['post']);
+		$count = preg_match_all('/\[([^:]:)+[^\]]\]/', $_POST['post']);
 		if($count ==0) $comments = '';
 		else $comments = 'v';
 		echo $pics;
@@ -71,4 +71,5 @@ if ($user != null && $user->type == 2) {
 			echo $return;
 		exit;
 	}
+}
 ?>

@@ -12,7 +12,7 @@ class Photos
     function get_photo()
     {
         $dbh = Database::connect();        
-        $query = $dbh->prepare("SELECT * FROM `photos` WHERE `id` IN (".$this->id_pics.")");
+        $query = $dbh->prepare("SELECT * FROM `photos` WHERE `id` IN (0".$this->id_pics.")");
 
 
         $query->execute(array());

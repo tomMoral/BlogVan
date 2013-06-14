@@ -48,10 +48,7 @@ if ($user != null && $user->type == 2) {
 		     if(move_uploaded_file($_FILES["pic$i"]['tmp_name'], $dossier . $fichier)) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
 		     {
 		          echo 'Upload effectué avec succès !';
-		          if($picss != '')
-		          	$pics .= ',';
-		          $pics .= Photos::add_photo('', $dossier . $fichier);
-
+		          $pics .='.'.Photos::add_photo('', $dossier . $fichier);
 		     }
 		     else //Sinon (la fonction renvoie FALSE).
 		     {

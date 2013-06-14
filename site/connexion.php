@@ -1,9 +1,14 @@
 <?php
 include("headerPHP.php");
-
 $bad_password = false;
 if (isset($_POST['name'])) {
     $name = htmlspecialchars($_POST['name']);
+    if (isset($_SESSION['try_connexion'][$name])) {
+        $_SESSION['try_connexion'][$name]++;
+    } else {
+        $_SESSION['try_connexion'] = null;
+        $_SESSION['try_connexion'][$name] = 1;
+    }
     $password = sha1(htmlspecialchars($_POST['password']));
     $pos = strrpos($name, '@');
     $type = ($pos === false) ? 'name' : 'email';
@@ -185,6 +190,14 @@ htmlHeader("connexion");
     }
 
     $(document).ready(function() {
+        $("#engine_start").hide();
+        $("#go").click(function() {
+        //    alert("test");
+            setTimeout(function() {
+                document.getElementById("form").submit();
+            }, 5000);
+            document.getElementById("engine_start").play();
+        });
         $("#go").hide();
         $("#name").keyup(function() {
             update();
@@ -196,7 +209,7 @@ htmlHeader("connexion");
 </script>
 <div class="center">
     <h1>Welcome on board!</h1>
-    <form action="connexion.php" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form action="connexion.php" method="post" id="form" enctype="multipart/form-data" autocomplete="off">
         <table style="font-size:12px">
             <tr>
                 <td>
@@ -210,9 +223,10 @@ htmlHeader("connexion");
                 <td rowspan="3">
                     <div id="side">
                         <?php
-                        if (
-                                $bad_password) {
-                            echo "<font color=\"red\">Oups, it seems you are too high to remember you password. Try again!</font>";
+                        if (isset($name) && isset($_SESSION['try_connexion'][$name]) && $_SESSION['try_connexion'][$name] > 1) {
+                            echo "<font color=\"green\">Hey $name! If this is your first time, try another username. This on is already taken :(</font>";
+                        } else if ($bad_password) {
+                            echo "<font color=\"red\">Oups, try again!</font>";
                         }
                         ?>
                     </div>
@@ -229,6 +243,12 @@ htmlHeader("connexion");
                 </td>
             </tr>
         </table> 
+        <audio controls id="engine_start">
+            <source src="../sounds/engine_starting.mp3" type="audio/mpeg">
+            <source src="../sounds/engine_starting.ogg" type="audio/webm">
+            <source src="../sounds/engine_starting.webm" type="audio/webm">
+            Your browser does not support the audio element.
+        </audio> 
     </form>
 </div>
 

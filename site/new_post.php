@@ -69,4 +69,7 @@ if ($user != null && $user->type == 2) {
 		exit;
 	}
 }
+else{
+      header('Location: index.php');
+}
 ?>

@@ -554,6 +554,7 @@ aside a
 
 #side
 {
+    margin:0px 10px;
     font-size:20px;
 }
 
@@ -590,4 +591,11 @@ aside a
     display: inline-block;
     width: 150px;
     margin:-20px -20px -20px 0px;
+}
+
+#engine_start
+{
+    position: absolute;
+    top: -1000px;
+    left: -1000px;
 }

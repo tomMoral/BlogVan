@@ -21,15 +21,15 @@ function welcome_message($last_connexion) {
     }else if($last_posts){
          echo " $last_posts posts have been written since your last visit:)";
     }
-    echo "</div><div id='div2'><img src='../images/6.png'/></div></div>";
+    echo "</div><div id='div2'><img src='../images/dogface.png'/></div></div>";
 }
 
 function good_bye_message($last_connexion) {
     echo "<div class='welcome'><div id='div1'>";
     $user = isset($_SESSION['last_user']) ? $_SESSION['last_user'] : "";
     echo "See you soon " . $user . "!";
-    
-    echo "</div><div id='div2'><img src='../images/6.png'/></div></div>";
+    echo "</div><div id='div2'><img src='../images/dogface.png'/></div></div>";
+    $_SESSION['last_user']=null;
 }
 
 function dateToDuree($date) {
@@ -79,14 +79,14 @@ function htmlHeader($tohide) {
     <div id="banniere_description">
         <nav>';
     if ($tohide != "blog") {
-        echo '<a href="index.php"><div><img src="../images/face.png" alt="Logo VW" id="logo" />Blog</div></a>';
+        echo '<a href="index.php"><div><img src="../images/face_purple.png" alt="Logo VW" id="logo" />Blog</div></a>';
     }
     if ($tohide != "photo") {
         echo '               <a href="#"><div><img src="../images/face.png" alt="Logo VW" id="logo" />Photos</div></a>';
     }
     if ($tohide != "travel") {
         echo '       
-                    <a href="travel.php"><div><img src="../images/face_blue.png" alt="Logo VW" id="logo" />Travel</div></a>';
+                    <a href="travel.php"><div><img src="../images/face_blue2.png" alt="Logo VW" id="logo" />Travel</div></a>';
     }
     if ($tohide != "team") {
         echo '       

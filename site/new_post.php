@@ -48,7 +48,7 @@ if ($user != null && $user->type == 2) {
 		     if(move_uploaded_file($_FILES["pic$i"]['tmp_name'], $dossier . $fichier)) //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
 		     {
 		          echo 'Upload effectué avec succès !';
-		          $pics .='.'.Photos::add_photo('', $dossier . $fichier);
+		          $pics .=','.Photos::add_photo('', $dossier . $fichier);
 		     }
 		     else //Sinon (la fonction renvoie FALSE).
 		     {
@@ -57,7 +57,7 @@ if ($user != null && $user->type == 2) {
 		     $i += 1;
 		}
 		$perm = (isset($_POST['permission']))?1:0;
-		$count = preg_match_all('/\[([^:]:)+[^\]]\]/', $_POST['post']);
+		$count = preg_match_all('/\[([^:]+:)+[^\]]+\]/', $_POST['post']);
 		if($count ==0) $comments = '';
 		else $comments = 'v';
 		echo $pics;

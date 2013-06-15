@@ -84,6 +84,7 @@ class Posts
         }
         else{
             $tmp = $user.':'.$body;
+            echo $tmp;
             $query->bindParam(':com' , $tmp );
         }
         $query->bindParam(':post', $id, PDO::PARAM_INT);
@@ -103,6 +104,7 @@ class Posts
             $url = $p['path'];
             $date = $p['time'];
             $balise_pics[] = "<img src='$url' alt='$date' id='pics_post'>";
+            $n ++;
             $balise_text[] = "[p$n]";
         }
         $res = str_replace($balise_text, $balise_pics, $text);

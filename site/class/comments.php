@@ -1,31 +1,35 @@
 <?php
-class Comments
-{
+
+class Comments {
+
     public $id_com;
     public $coms_tab;
 
-    function __construct($list_coms="") {
+    function __construct($list_coms = "") {
         $this->id_coms = $list_coms;
         $this->get_com();
     }
 
-    function get_com()
-    {
-        $dbh = Database::connect();
-        $newparams = array();
-        $query = $dbh->prepare("SELECT * FROM `comments` WHERE `id` IN (" . $this->id_coms. ")");
-        
-        $query->execute(array());
+    function get_com() {
+        if ($this->id_coms != "") {
+            $dbh = Database::connect();
+            $newparams = array();
+            $query = $dbh->prepare("SELECT * FROM `comments` WHERE `id` IN (" . $this->id_coms . ")");
 
-        $this->coms_tab=array();
-        while ($row =  $query->fetch(PDO::FETCH_ASSOC)){
-            $this->coms_tab[]=$row;
+            $query->execute(array());
+
+            $this->coms_tab = array();
+            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                $this->coms_tab[] = $row;
+            }
+        }
+        else{
+            $this->coms_tab = array();
         }
     }
- 
-     static function add_comment($user, $body)
-     {
-        $dbh = Database::connect();        
+
+    static function add_comment($user, $body) {
+        $dbh = Database::connect();
         $query = $dbh->prepare('CREATE TABLE IF NOT EXISTS `comments` (
                             `id` int(11) NOT NULL AUTO_INCREMENT,
                             `time` datetime NOT NULL,
@@ -33,19 +37,18 @@ class Comments
                             `body` text NOT NULL,
                             PRIMARY KEY (`id`)
                             )  ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4'
-            );
+        );
         $query->execute();
 
         $query = $dbh->prepare("INSERT INTO  `comments` (
                     `user` , `time` ,  `body` ) 
                     VALUES (?, NOW(), ? )");
-        $query->execute(array($user,$body));
+        $query->execute(array($user, $body));
 
-        return $dbh->lastInsertId() ;
-     }
-     
-     static function get_com_by_id($id)
-    {
+        return $dbh->lastInsertId();
+    }
+
+    static function get_com_by_id($id) {
         $dbh = Database::connect();
         $query = "SELECT * FROM `comments` WHERE `id` = \"$id\"";
         $sth = $dbh->prepare($query);
@@ -56,6 +59,7 @@ class Comments
         $dbh = null;
         return $com;
     }
+
 }
 
 ?>

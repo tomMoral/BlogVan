@@ -49,12 +49,13 @@ if (isset($_POST['name'])) {
 htmlHeader("connexion");
 ?>
 <script type="text/javascript">
-
+//this script is used for managing the connexion/inscription
     var thirdRow = false;
     var value = "";
     var changedEmail = false;
 
     function check(type) {
+        //tell if the name/email is already used
         $("#email").keyup(function() {
             var email = $("#email").val();
             if (email !== "") {
@@ -68,7 +69,7 @@ htmlHeader("connexion");
     ;
 
     function callBackCheck(sData, type) {
-        //used for ajax
+        //if the name/email is already used, we say so
         if (sData === "good") {
             $("#side").html('<font color="red">Someone is already using this ' + type + ', try an other one!</font>');
             $("#go").hide();
@@ -87,6 +88,7 @@ htmlHeader("connexion");
     }
 
     function add(label) {
+        //if needed, add a row for inscription
         thirdRow = true;
         str = '<tr id="new"> <td><input type=text name="email" class="email" id="email" maxlength="255" placeholder="' + label + '" value="' + value + '"/></td>';
         if (label === "Email") {
@@ -115,6 +117,7 @@ htmlHeader("connexion");
     }
 
     function deleteRow() {
+        //if we don't need the row anymore, we delete it
         thirdRow = false;
         var row = document.getElementById("new");
         row.parentNode.removeChild(row);
@@ -122,7 +125,7 @@ htmlHeader("connexion");
     }
 
     function update() {
-
+        //after each change, look what to do
         var name = $("#name").val();
         var pass = $("#password").val();
         if (thirdRow === false) {
@@ -169,7 +172,7 @@ htmlHeader("connexion");
 
 
     function callBack(sData) {
-        //used for ajax
+        //look if it is need to add a row for registration
         if (sData === "good") {
             if (thirdRow) {
                 deleteRow();
@@ -197,26 +200,8 @@ htmlHeader("connexion");
             alert(sData);
         }
     }
-    var t0;
     $(document).ready(function() {
-        //  $("#for_password").hide();
-        $("#engine_start").hide();
-        $("#go").click(function() {
-            var pass = sha1($("#password").val());
-            if (pass === $("#for_password").html()) {
-                //    alert("test");
-
-
-                t0 = new Date().getTime();
-                myInterval = setInterval(function() {
-                    $("#bloc_page").css({"z-index": "1"});
-                    create();
-                }, 100);
-                document.getElementById("engine_start").play();
-            }
-
-        });
-        $("#go").hide();
+        // $("#go").hide();
         $("#name").keyup(function() {
             update();
         });
@@ -272,7 +257,25 @@ htmlHeader("connexion");
 </div>
 <div id="for_cloud"></div>
 <script>
+    //this script is used for the smoke
+    var t0;
+    $(document).ready(function() {
+        //  $("#for_password").hide();
+        $("#engine_start").hide();
+        $("#go").click(function() {
+            var pass = sha1($("#password").val());
+            //if (pass === $("#for_password").html()) {
+            if (true) {
+                t0 = new Date().getTime();
+                myInterval = setInterval(function() {
+                    $("#bloc_page").css({"z-index": "1"});
+                    create();
+                }, 100);
+                document.getElementById("engine_start").play();
+            }
 
+        });
+    });
     var Tmax = 5000;
     var img_w = 326;
     var img_h = 250;
@@ -280,14 +283,17 @@ htmlHeader("connexion");
     var myInterval;
     function create() {
         var t = new Date().getTime() - t0;
-
+        var myid = numCloud;
+        if (myid === 1 && t > Tmax) {
+            alert("test");
+            $.post("ajax/index.php")
+                    .done(function(data) {
+                $("#bloc_page").html(data);
+            });
+        }
         $("#bloc_page").css({"opacity": "" + ((Tmax - t) * (Tmax - t) * (Tmax - t) * (Tmax - t) / Tmax / Tmax / Tmax / Tmax)});
         if (t > 2 * Tmax) {
-            for (var i = 0; i < numClouds; i++) {
-                alert("test");
-
-                $("#cloud" + i).css({"width": "0px"});
-                $("#cloud" + i).css({"height": "0px"});
+            for (var i = 0; i < numCloud; i++) {
                 var image_x = document.getElementById('cloud' + i);
                 image_x.parentNode.removeChild(image_x);
 
@@ -295,14 +301,7 @@ htmlHeader("connexion");
                 window.innerWidth = w;
             }
             clearInterval(myInterval);
-            for (var i = 0; i < numClouds; i++) {
-                alert("test");
 
-                $("#cloud" + i).css({"width": "0px"});
-                $("#cloud" + i).css({"height": "0px"});
-                var image_x = document.getElementById('cloud' + i);
-                image_x.parentNode.removeChild(image_x);
-            }
         }
         if (t < Tmax) {
             var chance = Math.random();
@@ -315,7 +314,6 @@ htmlHeader("connexion");
                 var y = r * Math.sin(theta) + w / 2 - img_w / 2;
                 $("body").append('<img id ="cloud' + numCloud + '" src="../images/cloud.png" style="position:absolute; top:' + x + 'px;  left:' + y + 'px; width:326px; height:250px; z-index:' + (-1000 + numCloud) + ';"/>');
 
-                var myid = numCloud;
                 var w0 = x;
                 var h0 = y;
                 var r1 = img_w / img_h;

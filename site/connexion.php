@@ -163,6 +163,10 @@ htmlHeader("connexion");
     }
     ;
 
+    function callBackPassword(sData) {
+        $("#for_password").html(sData);
+    }
+
 
     function callBack(sData) {
         //used for ajax
@@ -170,6 +174,11 @@ htmlHeader("connexion");
             if (thirdRow) {
                 deleteRow();
             }
+            var name = $("#name").val();
+            $.post("ajax/getPassword.php", {name: name})
+                    .done(function(data) {
+                callBackPassword(data);
+            });
             $("#go").show();
         }
         else if (sData === "user name") {
@@ -188,15 +197,24 @@ htmlHeader("connexion");
             alert(sData);
         }
     }
-
+    var t0;
     $(document).ready(function() {
+        //  $("#for_password").hide();
         $("#engine_start").hide();
         $("#go").click(function() {
-        //    alert("test");
-            setTimeout(function() {
-                document.getElementById("form").submit();
-            }, 5000);
-            document.getElementById("engine_start").play();
+            var pass = sha1($("#password").val());
+            if (pass === $("#for_password").html()) {
+                //    alert("test");
+
+
+                t0 = new Date().getTime();
+                myInterval = setInterval(function() {
+                    $("#bloc_page").css({"z-index": "1"});
+                    create();
+                }, 100);
+                document.getElementById("engine_start").play();
+            }
+
         });
         $("#go").hide();
         $("#name").keyup(function() {
@@ -239,7 +257,7 @@ htmlHeader("connexion");
             </tr>
             <tr id="go">
                 <td >
-                    <input type=submit class="submit" value="Let's go!"/>
+                    <div>Let's go!</div><input type=submit class="submit" value="Let's go!"/>
                 </td>
             </tr>
         </table> 
@@ -249,9 +267,77 @@ htmlHeader("connexion");
             <source src="../sounds/engine_starting.webm" type="audio/webm">
             Your browser does not support the audio element.
         </audio> 
+        <div id="for_password"></div>
     </form>
 </div>
+<div id="for_cloud"></div>
+<script>
 
+    var Tmax = 5000;
+    var img_w = 326;
+    var img_h = 250;
+    var numCloud = 0;
+    var myInterval;
+    function create() {
+        var t = new Date().getTime() - t0;
+
+        $("#bloc_page").css({"opacity": "" + ((Tmax - t) * (Tmax - t) * (Tmax - t) * (Tmax - t) / Tmax / Tmax / Tmax / Tmax)});
+        if (t > 2 * Tmax) {
+            for (var i = 0; i < numClouds; i++) {
+                alert("test");
+
+                $("#cloud" + i).css({"width": "0px"});
+                $("#cloud" + i).css({"height": "0px"});
+                var image_x = document.getElementById('cloud' + i);
+                image_x.parentNode.removeChild(image_x);
+
+                window.innerHeight = h;
+                window.innerWidth = w;
+            }
+            clearInterval(myInterval);
+            for (var i = 0; i < numClouds; i++) {
+                alert("test");
+
+                $("#cloud" + i).css({"width": "0px"});
+                $("#cloud" + i).css({"height": "0px"});
+                var image_x = document.getElementById('cloud' + i);
+                image_x.parentNode.removeChild(image_x);
+            }
+        }
+        if (t < Tmax) {
+            var chance = Math.random();
+            if (chance > 1 - t / Tmax) {
+                var h = window.innerHeight;
+                var w = window.innerWidth;
+                var theta = 2 * Math.PI * Math.random();
+                var r = Math.random() * t * w / Tmax;
+                var x = r * Math.cos(theta) + h / 2 - img_h / 2;
+                var y = r * Math.sin(theta) + w / 2 - img_w / 2;
+                $("body").append('<img id ="cloud' + numCloud + '" src="../images/cloud.png" style="position:absolute; top:' + x + 'px;  left:' + y + 'px; width:326px; height:250px; z-index:' + (-1000 + numCloud) + ';"/>');
+
+                var myid = numCloud;
+                var w0 = x;
+                var h0 = y;
+                var r1 = img_w / img_h;
+                var h = window.innerHeight;
+                var w = window.innerWidth;
+                var r2 = w / h;
+                var obj = 300;
+                numCloud += 1;
+                $("#cloud" + myid).animate({
+                    width: obj + "%",
+                    height: "" + (obj / r1 * r2) + "%",
+                    opacity: 0,
+                    marginLeft: w0 - obj / 200 * w + "px",
+                    marginTop: h0 - obj * r2 / r1 / 200 * h + "px",
+                    fontSize: "3em",
+                    borderWidth: "10px"
+                }, Tmax);
+                //$("#cloud" + myid).parent().remove("#div" + myid);
+            }
+        }
+    }
+</script>
 <?php
 include("footer.php");
 ?>

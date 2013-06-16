@@ -1,6 +1,6 @@
 <?php
 
-function welcome_message($last_connexion) {
+function welcome_message($last_connexion, $show_smoke = false) {
     echo "<div class='welcome'><div id='div1'>";
     $user = user::getSessionUser();
     $last_posts = 0;
@@ -15,11 +15,15 @@ function welcome_message($last_connexion) {
     $sth->closeCursor();
     $dbh = null;
 
-    echo "Welcome back " . $user->name . "!";
-    if ($last_posts==1) {
-        echo " $last_posts posts has been written since your last visit:)";
-    }else if($last_posts){
-         echo " $last_posts posts have been written since your last visit:)";
+    if ($show_smoke) {
+         echo "Don't worry " . $user->name . ", it happends quite often ;)<br/> Welcome back!";
+    } else {
+        echo "Welcome back " . $user->name . "!";
+    }
+    if ($last_posts == 1) {
+        echo "<br/> $last_posts posts has been written since your last visit:)";
+    } else if ($last_posts) {
+        echo "<br/> $last_posts posts have been written since your last visit:)";
     }
     echo "</div><div id='div2'><img src='../images/dogface.png'/></div></div>";
 }
@@ -29,7 +33,7 @@ function good_bye_message($last_connexion) {
     $user = isset($_SESSION['last_user']) ? $_SESSION['last_user'] : "";
     echo "See you soon " . $user . "!";
     echo "</div><div id='div2'><img src='../images/dogface.png'/></div></div>";
-    $_SESSION['last_user']=null;
+    $_SESSION['last_user'] = null;
 }
 
 function dateToDuree($date) {

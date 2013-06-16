@@ -10,6 +10,8 @@ if ($user != null && $user->type == 2) {
 	<form action="new_post.php" method="post" enctype="multipart/form-data" id="np">
 		Titre: <input type="text" name="title"></br>
 		Post: <textarea type="text" name="post" placeholder='New Post, insert photo at [pi]'></textarea><br>
+                ([prop1:prop2:...:propn] for a vote)<br>
+                (photo ?)<br>
 		Permission: <input type="checkbox" name="permission" value=1 checked="checked">All<br>
 		<input type="submit"></br>
 		pics :</br><input type="file" name="pic1" id="pic1"></br>

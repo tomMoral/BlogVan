@@ -91,6 +91,7 @@ class user {
         $dbh = null;
         return $user;
     }
+
     public static function getSessionUser() {
         $dbh = Database::connect();
         if (isset($_SESSION['user'])) {
@@ -133,15 +134,17 @@ class user {
     }
 
     public function logOut() {
-        $_SESSION['last_user'] = user::getSessionUser()->name;
-        $_SESSION['user'] = null;
-        $_SESSION['last_connexion'] = null;
+        $user = user::getSessionUser();
+        $_SESSION=null;
+        if ($user) {
+            $_SESSION['last_user'] = user::getSessionUser()->name;
+        }
         header('Location: index.php?deconnexion=true');
     }
 
     public function set_last_connexion() {
         $dbh = Database::connect();
-        $_SESSION['last_connexion']=$this->last_connexion;
+        $_SESSION['last_connexion'] = $this->last_connexion;
         $query = "UPDATE user SET last_connexion = NOW() WHERE id = '$this->id'";
         $sth = $dbh->prepare($query);
         $sth->execute();

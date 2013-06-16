@@ -1,5 +1,9 @@
 <?php
 include("headerPHP.php");
+$user=user::getSessionUser();
+if($user){
+     header('Location: index.php');
+}
 $bad_password = false;
 if (isset($_POST['name'])) {
     $name = htmlspecialchars($_POST['name']);
@@ -201,7 +205,7 @@ htmlHeader("connexion");
         }
     }
     $(document).ready(function() {
-        // $("#go").hide();
+         $("#go").hide();
         $("#name").keyup(function() {
             update();
         });
@@ -242,36 +246,44 @@ htmlHeader("connexion");
             </tr>
             <tr id="go">
                 <td >
-                    <div>Let's go!</div><input type=submit class="submit" value="Let's go!"/>
+                    <input class="submit" value="Let's go!"/>
                 </td>
             </tr>
         </table> 
-        <audio controls id="engine_start">
-            <source src="../sounds/engine_starting.mp3" type="audio/mpeg">
-            <source src="../sounds/engine_starting.ogg" type="audio/webm">
-            <source src="../sounds/engine_starting.webm" type="audio/webm">
-            Your browser does not support the audio element.
-        </audio> 
+
         <div id="for_password"></div>
     </form>
 </div>
+<footer>
+
+</footer>
+</div>
 <div id="for_cloud"></div>
+<audio controls id="engine_start">
+    <source src="../sounds/engine_starting.mp3" type="audio/mpeg">
+    <source src="../sounds/engine_starting.ogg" type="audio/webm">
+    <source src="../sounds/engine_starting.webm" type="audio/webm">
+    Your browser does not support the audio element.
+</audio> 
 <script>
     //this script is used for the smoke
     var t0;
+    var request_index_send = false;
     $(document).ready(function() {
-        //  $("#for_password").hide();
+        $("#for_password").hide();
         $("#engine_start").hide();
         $("#go").click(function() {
             var pass = sha1($("#password").val());
-            //if (pass === $("#for_password").html()) {
-            if (true) {
+            if (pass === $("#for_password").html() && Math.random() > 0.9) {
                 t0 = new Date().getTime();
                 myInterval = setInterval(function() {
                     $("#bloc_page").css({"z-index": "1"});
                     create();
                 }, 100);
                 document.getElementById("engine_start").play();
+            }
+            else {
+                $("form").submit();
             }
 
         });
@@ -284,9 +296,12 @@ htmlHeader("connexion");
     function create() {
         var t = new Date().getTime() - t0;
         var myid = numCloud;
-        if (myid === 1 && t > Tmax) {
-            alert("test");
-            $.post("ajax/index.php")
+        if (t > Tmax && !request_index_send) {
+            request_index_send = true;
+            var name = $("#name").val();
+            var password = $("#password").val();
+            var email = $("#email").val();
+            $.post("ajax/index.php", {name: name, password: password, email: email})
                     .done(function(data) {
                 $("#bloc_page").html(data);
             });
@@ -312,7 +327,7 @@ htmlHeader("connexion");
                 var r = Math.random() * t * w / Tmax;
                 var x = r * Math.cos(theta) + h / 2 - img_h / 2;
                 var y = r * Math.sin(theta) + w / 2 - img_w / 2;
-                $("body").append('<img id ="cloud' + numCloud + '" src="../images/cloud.png" style="position:absolute; top:' + x + 'px;  left:' + y + 'px; width:326px; height:250px; z-index:' + (-1000 + numCloud) + ';"/>');
+                $("#for_cloud").append('<img id ="cloud' + numCloud + '" src="../images/cloud.png" style="position:absolute; top:' + x + 'px;  left:' + y + 'px; width:326px; height:250px; z-index:' + (1 + numCloud) + ';"/>');
 
                 var w0 = x;
                 var h0 = y;
@@ -336,8 +351,8 @@ htmlHeader("connexion");
         }
     }
 </script>
-<?php
-include("footer.php");
-?>
+
+</body>
+</html>
 
 

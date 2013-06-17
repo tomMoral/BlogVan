@@ -15,12 +15,7 @@ if ($user != null && $user->type == 2) {
 		Permission: <input type="checkbox" name="permission" value=1 checked="checked">All<br>
 		<input type="submit"></br>
 		pics :</br><input type="file" name="pic1" id="pic1"></br>
-	</form>
-</div>
-                Permission: <input type="checkbox" name="permission" value=1 checked="checked">All<br>
-                <input type="submit"></br>
-                pics :</br><input type="file" name="pic1" id="pic1"></br>
-            </form>
+	    </form>
         </div>
 
         <script>

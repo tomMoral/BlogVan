@@ -94,10 +94,37 @@ nav a
     text-decoration: none;
 }
 
-nav a:hover
+nav .blog:hover
 {
-    border-bottom: 3px solid #760001;
+    border-bottom: 3px solid #57007F;
 }
+
+nav .photo:hover
+{
+    border-bottom: 3px solid #FE6A00;
+}
+
+nav .travel:hover
+{
+    border-bottom: 3px solid #004A7F;
+}
+
+nav .team:hover
+{
+    border-bottom: 3px solid #F11515;
+}
+
+nav .van:hover
+{
+    border-bottom: 3px solid #007F0E;
+}
+
+nav .connexion:hover
+{
+    border-bottom: 3px solid #ECD01C;
+}
+
+
 
 nav img
 {

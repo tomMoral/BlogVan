@@ -37,12 +37,14 @@ class user {
         $sth->execute();
 
 
-        $user = user::getByName($name);
-        if ($user == null) {
+        $user1 = user::getByName($name);
+        $user2 = user::getByEmail($email);
+        if ($user1 == null && $user2 == null) {
             $id = user::nextId();
             $sth = $dbh->prepare("INSERT INTO `user` (`id`, `name`, `email`, `first_connexion`,  `last_connexion`,  `password`, `type`) VALUES(?,?,?,NOW(),NOW(),?,?)");
             $sth->execute(array($id, $name, $email, $password, 0));
             $dbh = null;
+            $_SESSION['user']=$id;
         }
     }
 
@@ -137,8 +139,9 @@ class user {
         $user = user::getSessionUser();
         $_SESSION=null;
         if ($user) {
-            $_SESSION['last_user'] = user::getSessionUser()->name;
+            $_SESSION['last_user'] = $user->name;
         }
+        print_r($_SESSION);
         header('Location: index.php?deconnexion=true');
     }
 

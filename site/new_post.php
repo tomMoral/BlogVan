@@ -1,22 +1,47 @@
 <?php
+
 include("headerPHP.php");
 $user = user::getSessionUser();
 if ($user != null && $user->type == 2) {
     if (!isset($_POST['post'])) {
         htmlHeader("blog");
         ?>
+        <table>
+            <tr>
+                <td>
+                    <div id="post">
+                        <form action="new_post.php" method="post" enctype="multipart/form-data" id="np">
+                            Titre: <input type="text" name="title" id="title"></br>
+                            Post: <textarea type="text" id="postarea" name="post" placeholder='New Post, insert photo at [pi]'></textarea><br>
+                            ([prop1:prop2:...:propn] for a vote)<br>
+                            (photo [p1]...[p9])<br>
+                            Permission: <input type="checkbox" name="permission" value=1 checked="checked">All<br>
+                            <input type="submit"></br>
+                            pics :</br><input type="file" name="pic1" id="pic1"></br>
+                        </form>
+                    </div>
+                </td>
+                <td>
+                    <section class="post">
+                        <article>
+                            <div class="title">
+                                <h1>
+                                    <div id="titlevisualization"></div>
 
-        <div id="post">
-            <form action="new_post.php" method="post" enctype="multipart/form-data" id="np">
-                Titre: <input type="text" name="title"></br>
-                Post: <textarea type="text" name="post" placeholder='New Post, insert photo at [pi]'></textarea><br>
-                ([prop1:prop2:...:propn] for a vote)<br>
-                (photo [p1]...[p9])<br>
-		Permission: <input type="checkbox" name="permission" value=1 checked="checked">All<br>
-		<input type="submit"></br>
-		pics :</br><input type="file" name="pic1" id="pic1"></br>
-	    </form>
-        </div>
+                                </h1>
+                                <legend>
+                                    less than one minute ago
+                                </legend>
+                            </div>
+                            <p>
+                            <div id="bodyvisualization"></div>
+                            </p>
+                        </article>
+
+                    </section>
+                </td>
+            </tr>
+        </table>
 
         <script>
             function on_change($input, $i) {
@@ -34,8 +59,20 @@ if ($user != null && $user->type == 2) {
             }
             $inp = document.getElementById('pic1')
             $inp.onchange = on_change($inp, 2);
+
+            $(document).ready(function() {
+                $("#postarea").keyup(function() {
+                    var text = document.getElementById("postarea").value;
+                    $("#bodyvisualization").html(text);
+                });
+                $("#title").keyup(function() {
+                    var text = document.getElementById("title").value;
+                    $("#titlevisualization").html(text);
+                });
+            });
         </script>
         <?php
+
     } else {
         $i = 1;
         $pics = '';

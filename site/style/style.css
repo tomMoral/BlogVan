@@ -31,7 +31,6 @@ body
 {
     background-color:white;
 }
-
 /* Header */
 
 header
@@ -318,6 +317,14 @@ article p
 {
     max-width:210px;
     min-width:210px;
+    min-height:38px;
+    resize:none;
+    border:none;
+}
+
+textarea{
+    max-width:510px;
+    min-width:510px;
     min-height:38px;
     resize:none;
     border:none;

@@ -94,13 +94,8 @@ class Posts
 
     function parse_post($text, $pics, $id, $results = NULL, $voters=NULL)
     {
-
-        $balise_pics = array();
         $balise_text = array();
-        $match = array();
-        $count = preg_match_all('/\[([^:]:?)+\]/', $text, $match);
-
-
+        $count = preg_match_all('/\[((?:[^:]+:)+[^\]]+)\]/', $text, $match);
         $balise_text = array();
         $balise_vote = array();
         if(count($match[0]) != 0)
@@ -128,7 +123,7 @@ class Posts
             $balise_vote[] =$tmp;
         }
 
-        $res = str_replace($balise_text, $balise_vote, $res);
+        $res = str_replace($balise_text, $balise_vote, $text);
 
         return $res;
 

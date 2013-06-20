@@ -12,7 +12,7 @@ if ($user != null && $user->type == 2) {
                         <form action="new_post.php" method="post" enctype="multipart/form-data" id="np">
                             <input type="hidden" name="visualization" id="visualization" value=0/>
                             Titre: <input type="text" name="title" id="title"></br>
-                            Post: <textarea type="text" id="postarea" name="post"  class="new_post" placeholder='New Post, insert photo at [pi]'></textarea><br>
+                            Post: <textarea type="text" id="postarea" name="post"  class="new_post" placeholder='New Post, insert photo at pi'></textarea><br>
                             ([prop1:prop2:...:propn] for a vote)<br>
                             (photo p1...p9)<br>
                             Permission: <input type="checkbox" name="permission" value=1 checked="checked">All<br>
@@ -74,6 +74,7 @@ if ($user != null && $user->type == 2) {
                 if (move_uploaded_file($_FILES["pic$i"]['tmp_name'], $dossier . $fichier)) { //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
                     $pics .=',' . Photos::add_photo('', $dossier . $fichier);
                 } else { //Sinon (la fonction renvoie FALSE).
+                    echo 'echec de l\'upload';
                 }
                 $i += 1;
             }
@@ -98,8 +99,10 @@ if ($user != null && $user->type == 2) {
             $dossier = 'pics_up/';
             while (isset($_FILES["pic$i"])) {
                 $fichier = basename($_FILES["pic$i"]['name']);
-                if (move_uploaded_file($_FILES["pic$i"]['tmp_name'], $dossier . $fichier)) { //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
+                $upload_succeed = move_uploaded_file($_FILES["pic$i"]['tmp_name'], $dossier . $fichier);
+                if ($upload_succeed) { //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
                 } else { //Sinon (la fonction renvoie FALSE).
+                    echo 'echec de l\'upload';
                 }
                 $i += 1;
             }
@@ -112,7 +115,7 @@ if ($user != null && $user->type == 2) {
                             <form action="new_post.php" method="post" enctype="multipart/form-data" id="np">
                                 <input type="hidden" name="visualization" id="visualization" value=0/>
                                 Titre: <input type="text" name="title" id="title" value="<?php echo $_POST['title']; ?>"></br>
-                                Post: <textarea type="text" id="postarea" class="new_post" name="post" placeholder='New Post, insert photo at [pi]'><?php echo $_POST['post']; ?></textarea><br>
+                                Post: <textarea type="text" id="postarea" class="new_post" name="post" placeholder='New Post, insert photo at pi'><?php echo $_POST['post']; ?></textarea><br>
                                 ([prop1:prop2:...:propn] for a vote)<br>
                                 (photo [p1]...[p9])<br>
                                 Permission: <input type="checkbox" name="permission" value=<?php echo $perm = (isset($_POST['permission'])) ? 1 : 0; ?> checked="checked">All<br>
@@ -147,7 +150,6 @@ if ($user != null && $user->type == 2) {
 
 
                 $(document).ready(function() {
-                   // $('textarea').autosize();
                     var pic = [<?php
             $i = 1;
             while (isset($_POST["p$i"])) {
@@ -155,8 +157,10 @@ if ($user != null && $user->type == 2) {
                 echo "{code: \"p$i\", name:\"" . $_POST["p$i"] . "\"}";
                 $i++;
             }
-            echo $i == 1 ? "" : ",";
-            echo "{code: \"p$i\", name:\"" . $dossier . $fichier . "\"}";
+            if ($upload_succeed) {
+                echo $i == 1 ? "" : ",";
+                echo "{code: \"p$i\", name:\"" . $dossier . $fichier . "\"}";
+            }
             ?>];
                     for (var i = 0; i < pic.length; i++) {
                         $("form").append("</br>" + pic[i].code + " : " + pic[i].name + "  upload succeeded!");

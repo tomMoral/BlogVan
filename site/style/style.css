@@ -323,9 +323,9 @@ article p
 }
 
 textarea{
-    max-width:510px;
-    min-width:510px;
-    min-height:38px;
+    max-width:310px;
+    min-width:310px;
+    min-height:338px;
     resize:none;
     border:none;
 }

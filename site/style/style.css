@@ -224,6 +224,23 @@ article .title
     margin: 15px 0px 0px 0px;
     padding: 0px;
 }
+
+.tablepost
+{
+    position:relative;
+    margin-top: 30px;
+}
+
+.tablepost td
+{
+   min-width: 295px;
+}
+
+.tablepost input
+{
+    width:270px;
+}
+
 .comment legend
 {
     position: absolute;
@@ -323,9 +340,9 @@ article p
 }
 
 textarea{
-    max-width:310px;
-    min-width:310px;
-    min-height:338px;
+    max-width:270px;
+    min-width:270px;
+    min-height:38px;
     resize:none;
     border:none;
 }

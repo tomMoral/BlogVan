@@ -14,7 +14,7 @@ if ($user != null && $user->type == 2) {
                             Titre: <input type="text" name="title" id="title"></br>
                             Post: <textarea type="text" id="postarea" name="post"  class="new_post" placeholder='New Post, insert photo at pi'></textarea><br>
                             ([prop1:prop2:...:propn] for a vote)<br>
-                            (photo p1...p9)<br>
+                            (photo @0...@9)<br>
                             Permission: <input type="checkbox" name="permission" value=1 checked="checked">All<br>
                             <input type="submit"></br>
                             pics :</br><input type="file" name="pic1" id="pic1"></br>

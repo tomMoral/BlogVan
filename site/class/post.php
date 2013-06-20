@@ -98,18 +98,6 @@ class Posts
         $balise_pics = array();
         $balise_text = array();
         $match = array();
-        $count = preg_match_all('/\[p[0-9]\]/', $text, $match);
-        foreach( array_slice($pics, 0,$count) as $n => $p )
-        {
-            $url = $p['path'];
-            $date = $p['time'];
-            $balise_pics[] = "<img src='$url' alt='$date' id='pics_post'>";
-            $n ++;
-            $balise_text[] = "[p$n]";
-        }
-        $res = str_replace($balise_text, $balise_pics, $text);
-        $match = array();
-        $text = preg_replace('/\[p[0-9]\]/','',$text);
         $count = preg_match_all('/\[([^:]:?)+\]/', $text, $match);
 
 

@@ -85,7 +85,7 @@ function htmlHeader($tohide) {
         echo '<a href="index.php" class="blog"><div><img src="../images/face_purple.png" alt="Logo VW" id="logo" />Blog</div></a>';
     }
     if ($tohide != "photo") {
-        echo '               <a href="#" class="photo"><div><img src="../images/face.png" alt="Logo VW" id="logo" />Photos</div></a>';
+        echo '               <a href="photos.php" class="photo"><div><img src="../images/face.png" alt="Logo VW" id="logo" />Photos</div></a>';
     }
     if ($tohide != "travel") {
         echo '       

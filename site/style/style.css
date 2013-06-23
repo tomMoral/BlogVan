@@ -219,6 +219,36 @@ article .title
     width: 530px;
 }
 
+article .vote
+{
+    position: relative;
+    min-width:510px;
+    max-width:510px;
+    margin:10px 0px;
+    padding: 10px;
+    border: solid 1px grey;
+}
+
+article .button
+{
+    position: absolute;
+    right:15px;
+    bottom:50%;
+}
+
+article .button_vote
+{
+    position: absolute;
+    right:15px;
+    bottom:50%;
+}
+
+article .inside
+{
+    position: relative;
+    margin-bottom: -25%;
+}
+
 .title h1
 {
     margin: 15px 0px 0px 0px;
@@ -233,7 +263,7 @@ article .title
 
 .tablepost td
 {
-   min-width: 295px;
+    min-width: 295px;
 }
 
 .tablepost input
@@ -259,6 +289,11 @@ article .title
 article p
 {
     font-size: 16px;
+}
+
+.body_post
+{
+    position:relative;
 }
 
 .comment
@@ -525,6 +560,12 @@ footer h1
 {
     border: 1px solid #181818;
     margin-right: 2px;
+}
+
+.all_photos
+{
+    width:446px;
+    margin:1px;
 }
 
 #mes_amis ul

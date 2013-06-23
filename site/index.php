@@ -30,23 +30,24 @@ if (isset($_GET['firstconnexion']) && $_GET['firstconnexion'] == 'true') {
 }
 $post_db = new Posts();
 foreach ($post_db->post_tab as $row) {
-    ?>
-    <section class="post">
-        <article>
-            <div class="title">
-                <h1>
-                    <?php echo $row['title']; ?>
+    if ($row['permission'] != 0 || ($user != null && $user->type != 0)) {
+        ?>
+        <section class="post">
+            <article>
+                <div class="title">
+                    <h1>
+                        <?php echo $row['title']; ?>
 
-                </h1>
-                <legend>
-                    <?php echo dateToDuree($row['time']) . ' ago' ?>
-                </legend>
-            </div>
-            <p>
-                <?php echo $row['body']; ?>
-            </p>
-        </article>
-        <? if (!isset($row['voters'])) { ?>
+                    </h1>
+                    <legend>
+                        <?php echo dateToDuree($row['time']) . ' ago' ?>
+                    </legend>
+                </div>
+                <div class="body_post">
+                    <p>
+                        <?php echo $row['body']; ?>
+                    </p></div>
+            </article>
             <aside>
                 <?php
                 foreach ($row['comments']->coms_tab as $com) {
@@ -75,9 +76,9 @@ foreach ($post_db->post_tab as $row) {
                     </a>
                 <?php } ?>
             </aside>
-        <?php } ?>
-    </section>
-    <?php
+        </section>
+        <?php
+    }
 }
 ?>
 

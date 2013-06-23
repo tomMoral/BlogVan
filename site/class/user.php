@@ -139,6 +139,7 @@ class user {
         $user = user::getSessionUser();
         $_SESSION=null;
         if ($user) {
+            $user->set_last_connexion();
             $_SESSION['last_user'] = $user->name;
         }
         print_r($_SESSION);

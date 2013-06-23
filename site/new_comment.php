@@ -8,7 +8,8 @@ $usr = user::getSessionUser();
 		Posts::add_comment(htmlspecialchars($_POST['id']), $usr->id, htmlspecialchars($_POST['body']));
 	}
 	elseif (isset($_POST['vote'])) {
-		Posts::add_comment(htmlspecialchars($_POST['id']), $usr->id, htmlspecialchars($_POST['vote']), 1);
+		Posts::vote(htmlspecialchars($_POST['id']), $usr, htmlspecialchars($_POST['vote']));
+	header("Location: index.php?vote=true");
 	}
 	header("Location: index.php");
 	exit;

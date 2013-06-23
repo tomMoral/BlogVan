@@ -14,7 +14,8 @@ class Comments {
         if ($this->id_coms != "") {
             $dbh = Database::connect();
             $newparams = array();
-            $query = $dbh->prepare("SELECT * FROM `comments` WHERE `id` IN (" . $this->id_coms . ")");
+            $coms = $this->id_coms;
+            $query = $dbh->prepare("SELECT * FROM `comments` WHERE `id` IN ($coms)");
 
             $query->execute(array());
 
@@ -22,8 +23,7 @@ class Comments {
             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 $this->coms_tab[] = $row;
             }
-        }
-        else{
+        } else {
             $this->coms_tab = array();
         }
     }

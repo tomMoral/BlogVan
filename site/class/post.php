@@ -32,12 +32,13 @@ class Posts {
                 }
             }
             $row['body'] = $this->parse_post($row['body'], $row['id'], $row['results'], $row['voters']);
+            $row['body_french'] = $this->parse_post($row['body_french'], $row['id'], $row['results'], $row['voters']);
             $articles[] = $row;
         }
         return $articles;
     }
 
-    static function add_post($gps, $titre, $body, $pictures, $comments = '', $permission = 0) {
+    static function add_post($gps, $titre, $titre_french, $body,$body_french, $pictures, $comments = '', $permission = 0) {
         $dbh = Database::connect();
         $query = $dbh->prepare('CREATE TABLE IF NOT EXISTS `posts` (
                           `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -45,20 +46,23 @@ class Posts {
                           `time` datetime NOT NULL,
                           `gps` varchar(255) DEFAULT \'""\',
                           `title` varchar(255) NOT NULL DEFAULT \'""\',
+                          `title_french` varchar(255) NOT NULL DEFAULT \'""\',
                           `pictures` text NOT NULL,
                           `comments` text NOT NULL,
+                          `vote` text NOT NULL,
                           `body` text NOT NULL,
+                          `body_french` text NOT NULL,
                           PRIMARY KEY (`id`)
                         ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;'
         );
         $query->execute();
 
         $query = $dbh->prepare("INSERT INTO  `posts` ( 
-            `permission`,`time`,`gps`,`title`,`pictures`,`comments`,`body`) 
-                   VALUES (?,NOW(),?,?,?,?,?)");
+            `permission`,`time`,`gps`,`title`,`title_french`,`pictures`,`comments`,`body`,`body_french`) 
+                   VALUES (?,NOW(),?,?,?,?,?,?,?)");
 
-        if (!$query->execute(array($permission, $gps, $titre,
-                    $pictures, $comments, $body))) {
+        if (!$query->execute(array($permission, $gps, $titre,$titre_french,
+                    $pictures, $comments, $body, $body_french))) {
             return $query->errorInfo();
         }
         else

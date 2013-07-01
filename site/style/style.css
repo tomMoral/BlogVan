@@ -23,6 +23,11 @@ body
     text-transform: uppercase;
 }
 
+.comment h1
+{
+    text-transform: none;
+}
+
 .post{
     padding: 20px 0px;
 }
@@ -33,6 +38,15 @@ body
 }
 /* Header */
 
+.new div
+{   
+    font-size:20px;
+    display:inline-block;
+    min-width:150px;
+    max-width:150px;
+    text-align:center;
+    margin:10px;
+}
 header
 {
 }
@@ -49,13 +63,22 @@ header h1
     font-weight: normal;
 }
 
-#logo, header h1
+.logo, header h1
 {
     display: inline-block;
     margin-bottom: 0px;
 }
 
-#logo
+.image_logo
+{
+    max-width: 40px;
+}
+
+.text_logo
+{
+    max-width: 100px;
+}
+.logo
 {
     height:2.5em
 }
@@ -137,7 +160,7 @@ nav img
     height: 200px;
     width: 900px;
     border-radius: 5px;
-    background: url('../../images/baniere.png') no-repeat;
+    background: url('../../images/baniere2.JPG') no-repeat;
     position: relative;
     box-shadow: 0px 4px 4px #1c1a19;
     margin-bottom: 25px;
@@ -414,6 +437,28 @@ textarea{
     border-bottom: 1px solid #A1A4A3;
 
 }
+
+.left
+{
+    float:left;
+}
+
+.right
+{
+    float:right;
+}
+
+.table_connexion
+{
+    display: inline-block;
+    font-size:12px;
+}
+
+.div_connexion
+{
+    display: inline-bloc;
+}
+
 
 .center input
 {

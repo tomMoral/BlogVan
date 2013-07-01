@@ -10,6 +10,7 @@ class user {
     public $last_connexion;
     public $num_connexion;
     public $type;
+    public $language;
 
     function __construct() {
         $this->id = -1;
@@ -21,13 +22,14 @@ class user {
         $this->type = -1;
     }
 
-    static function create($name, $password, $email = NULL) {
+    static function create($name, $password, $email, $language) {
 
         $dbh = Database::connect();
         $sth = $dbh->prepare('CREATE TABLE IF NOT EXISTS `user` (
                             `id` int(11) NOT NULL,
                             `name` varchar(255) NOT NULL,
                             `email` varchar(255) DEFAULT NULL,
+                            `language` varchar(2) DEFAULT "EN",
                             `first_connexion` date NOT NULL,
                             `last_connexion` date NOT NULL,
                             `password` varchar(255) NOT NULL,
@@ -41,10 +43,11 @@ class user {
         $user2 = user::getByEmail($email);
         if ($user1 == null && $user2 == null) {
             $id = user::nextId();
-            $sth = $dbh->prepare("INSERT INTO `user` (`id`, `name`, `email`, `first_connexion`,  `last_connexion`,  `password`, `type`) VALUES(?,?,?,NOW(),NOW(),?,?)");
-            $sth->execute(array($id, $name, $email, $password, 0));
+            $sth = $dbh->prepare("INSERT INTO `user` (`id`, `name`, `email`,`language`, `first_connexion`,  `last_connexion`,  `password`, `type`) VALUES(?,?,?,?,NOW(),NOW(),?,?)");
+            $sth->execute(array($id, $name, $email, $language, $password, 0));
             $dbh = null;
             $_SESSION['user']=$id;
+            $_SESSION['language']=$language;
         }
     }
 
@@ -117,6 +120,7 @@ class user {
             $_SESSION['user'] = $user->id;
             $user->increase_num_connexion();
             $this->set_last_connexion();
+            $_SESSION['language']=$user->language;
             return true;
         } else {
             return false;
@@ -129,6 +133,7 @@ class user {
             $_SESSION['user'] = $user->id;
             $user->increase_num_connexion();
             $this->set_last_connexion();
+            $_SESSION['language']=$user->language;
             return true;
         } else {
             return false;
@@ -137,12 +142,14 @@ class user {
 
     public function logOut() {
         $user = user::getSessionUser();
+        print_r($_SESSION);
+        $language = isset($_SESSION['language']) ? $_SESSION['language'] : "EN";
         $_SESSION=null;
         if ($user) {
             $user->set_last_connexion();
             $_SESSION['last_user'] = $user->name;
         }
-        print_r($_SESSION);
+        $_SESSION['language']=$language;
         header('Location: index.php?deconnexion=true');
     }
 

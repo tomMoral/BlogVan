@@ -180,6 +180,7 @@ $trad = array(
     "Get in to be able to comment" => "Connecte toi pour pouvoir commenter",
     "The adventure begins in" => "L'aventure commence dans",
     "Password" => "Mot de passe",
-    "Username" => "Nom d'utilisateur"
+    "Username" => "Nom d'utilisateur",
+    "less than one minute ago" =>"il y a moins d'une minute"
 );
 ?>

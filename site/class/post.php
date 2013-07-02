@@ -31,14 +31,14 @@ class Posts {
                         $row['results'][$vote[1]] = 1;
                 }
             }
-            $row['body'] = $this->parse_post($row['body'], $row['id'], $row['results'], $row['voters']);
-            $row['body_french'] = $this->parse_post($row['body_french'], $row['id'], $row['results'], $row['voters']);
+            $row['body'] = Posts::parse_post($row['body'], $row['id'], $row['results'], $row['voters']);
+            $row['body_french'] = Posts::parse_post($row['body_french'], $row['id'], $row['results'], $row['voters']);
             $articles[] = $row;
         }
         return $articles;
     }
 
-    static function add_post($gps, $titre, $titre_french, $body,$body_french, $pictures, $comments = '', $permission = 0) {
+    static function add_post($gps, $titre, $titre_french, $body, $body_french, $pictures, $comments = '', $permission = 0) {
         $dbh = Database::connect();
         $query = $dbh->prepare('CREATE TABLE IF NOT EXISTS `posts` (
                           `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -61,7 +61,7 @@ class Posts {
             `permission`,`time`,`gps`,`title`,`title_french`,`pictures`,`comments`,`body`,`body_french`) 
                    VALUES (?,NOW(),?,?,?,?,?,?,?)");
 
-        if (!$query->execute(array($permission, $gps, $titre,$titre_french,
+        if (!$query->execute(array($permission, $gps, $titre, $titre_french,
                     $pictures, $comments, $body, $body_french))) {
             return $query->errorInfo();
         }
@@ -77,6 +77,16 @@ class Posts {
         $query->bindParam(':post', $id, PDO::PARAM_INT);
         $query->execute();
         return $id_com;
+    }
+    
+    static function next_id() {
+        $query = "SELECT `id` FROM `posts` ORDER BY id DESC;";
+        $dbh = Database::connect();
+        $sth = $dbh->prepare($query);
+        $sth->execute();
+        $courant = $sth->fetch(PDO::FETCH_ASSOC);
+        $id = $courant['id'] + 1;
+        return $id;
     }
 
     static function vote($id, $user, $vote) {
@@ -97,7 +107,7 @@ class Posts {
         $dbh = null;
     }
 
-    function parse_post($text, $id, $results = array(), $voters = NULL) {
+    static function parse_post($text, $id, $results = array(), $voters = NULL, $with_script = true) {
         $balise_text = array();
         $count = preg_match_all('/\[((?:[^::]+:)+[^\]]+)\]/', $text, $match);
         $balise_text = array();
@@ -118,7 +128,9 @@ class Posts {
                     $tmp.=$start;
             }
             $tmp .= "<input type='hidden' name='id' value='" . $id . "'>\n";
-            $tmp .= "<input type='hidden' id='vote_$id' name='vote' value=" . $n . "></form><script>
+            $tmp .= "<input type='hidden' id='vote_$id' name='vote' value=" . $n . "></form>";
+            if ($with_script) {
+                $tmp.="<script>
                 $(document).ready(function(){
                 for(var i=0; i<" . count($opts) . "; i++){
                     $(\"#button_" . $id . "_\"+i).click(function(){
@@ -126,7 +138,8 @@ class Posts {
                         $(\"#vote_" . $id . "\").attr(\"value\",num);
                         $(\"#form_" . $id . "\").submit();
                         });}
-                });</script>";
+            });</script>";
+            }
             $usr = user::getSessionUser();
             if (($usr == null || ($voters != null && in_array($usr->id, $voters)))) {
                 $tmp = '';

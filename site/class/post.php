@@ -1,5 +1,7 @@
 <?php
 
+include_once('comments.php');
+
 class Posts {
 
     public $offset = 0;
@@ -78,7 +80,7 @@ class Posts {
         $query->execute();
         return $id_com;
     }
-    
+
     static function next_id() {
         $query = "SELECT `id` FROM `posts` ORDER BY id DESC;";
         $dbh = Database::connect();
@@ -156,6 +158,33 @@ class Posts {
         $res = str_replace($balise_text, $balise_vote, $text);
 
         return $res;
+    }
+
+    static function delete($id) {
+        $post = Posts::get_by_id($id);
+        if ($post != null) {
+            $coms = explode(',',$post->comments);
+            foreach($coms as $com_id){
+                Comments::delete($com_id);
+            }
+            $dbh = Database::connect();
+            $query = "DELETE FROM posts WHERE id='$id'";
+            $sth = $dbh->prepare($query);
+            $request_succeeded = $sth->execute();
+            $dbh = null;
+        }
+    }
+
+    static function get_by_id($id) {
+        $dbh = Database::connect();
+        $query = "SELECT * FROM `posts` WHERE `id` = \"$id\"";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'posts');
+        $sth->execute();
+        $com = $sth->fetch();
+        $sth->closeCursor();
+        $dbh = null;
+        return $com;
     }
 
 }

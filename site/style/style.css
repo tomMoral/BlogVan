@@ -23,6 +23,30 @@ body
     text-transform: uppercase;
 }
 
+.delete_post{
+    position:absolute;
+    right:35px;
+    bottom:20px;
+    font-size:12px;
+}
+
+.delete_post_a:visited, .delete_post_a:hover, .delete_post_a:link
+{
+    color:black;
+}
+
+.delete_comment{
+    position:absolute;
+    right:15px;
+    bottom:10px;
+    font-size:10px;
+}
+
+.delete_comment_a:visited, .delete_comment_a:hover, .delete_comment_a:link
+{
+    color:white;
+}
+
 .comment h1
 {
     text-transform: none;
@@ -34,6 +58,7 @@ body
 
 .post article
 {
+    position:relative;
     background-color:white;
 }
 /* Header */

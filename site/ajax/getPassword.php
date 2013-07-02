@@ -1,7 +1,5 @@
 <?php
-
-require '../class/database.php';
-require '../class/user.php';
+include("../headerPHP.php");
 $nom = (isset($_POST["name"])) ? htmlspecialchars($_POST["name"]) : NULL;
 
 if ($nom) {

@@ -22,6 +22,7 @@ if (isset($_GET['firstconnexion']) && $_GET['firstconnexion'] == 'true') {
     echo "Welcome in our blog " . $user->name . "!";
     echo "</div><div id='div2'><img src='../images/6.png'/></div></div>";
 }
+
 ?>
 <script>
     $(document).ready(function() {

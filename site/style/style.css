@@ -242,24 +242,7 @@ article .title
     width: 530px;
 }
 
-article .vote
-{
-    position: relative;
-    min-width:510px;
-    max-width:510px;
-    margin:10px 0px;
-    padding: 10px;
-    border: solid 1px grey;
-}
-
 article .button
-{
-    position: absolute;
-    right:15px;
-    bottom:50%;
-}
-
-article .button_vote
 {
     position: absolute;
     right:15px;
@@ -741,27 +724,26 @@ aside a
 }
 
 fieldset { border: 0; margin-bottom: 20px; }
-legend { font-size: 17px; font-weight: bold; }
 
-.radiolist {
+.vote {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
-.radiolist p {
+.vote p {
 	float: left;
 	margin-right: 10px;
 	background: url(checkboxbg.gif) no-repeat 0 0;
 	width: 105px;
 	height: 150px;
 	position: relative;
-	font: normal 11px/1.3 "Lucida Grande","Lucida","Arial",Sans-serif;
+	font: normal 15px/1.3 "Lucida Grande","Lucida","Arial",Sans-serif;
 }
-.radiolist p.selected { background-position: -105px 0; }
+.vote p.selected { background-position: -105px 0; }
 
-.radiolist p.selected .radio-select { display: none; }
+.vote p.selected .vote-select { display: none; }
 
-.radio-select {
+.vote-select {
 	display: block;
 	float: left;
 	position: absolute;
@@ -773,21 +755,42 @@ legend { font-size: 17px; font-weight: bold; }
 	text-indent: -9999px;
 }
 
-.radiolist p input { display: none; }
+.vote p input { display: none; }
 
-a.radio-deselect {
-	display: none;
-	color: white;
+.vote p a {
+	
+	color: green;
 	font-weight: bold;
 	text-decoration: none;
 	position: absolute;
 	top: 120px;
 	right: 10px;
 }
-.radiolist p.selected a.radio-deselect { display: block; }
+a.vote-deselect {
+    display: none;
+    color: white;
+}
 
-.radiolist p span {
+
+.vote p.selected a { display: none; }
+.vote p.selected a.vote-deselect { display: block; }
+
+.vote p span {
 	display: block;
 	text-align: center;
 	padding: 8px;
+}
+
+.voteit {
+	display: block;
+	float: left;
+	top: 118px;
+	left: 10px;
+	width: 115px;
+	height: 34px;
+	border: 0;
+	cursor: pointer;
+	background: url(sendit.gif) no-repeat 0 0;
+	text-indent: -9999px;
+	margin: 20px 0;
 }

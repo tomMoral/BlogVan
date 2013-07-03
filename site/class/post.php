@@ -110,49 +110,61 @@ class Posts {
     static function parse_post($text, $id, $results = array(), $voters = NULL, $with_script = true) {
         $balise_text = array();
         $count = preg_match_all('/\[((?:[^::]+:)+[^\]]+)\]/', $text, $match);
-        $balise_text = array();
         $balise_vote = array();
+        $n_votes = array_sum($results);
+        $usr = user::getSessionUser();
         if (count($match[0]) != 0) {
             $opts = preg_split('/::/', substr($match[0][0], 1, -1));
             $balise_text[] = $match[0][0];
-            $start = "<div class='vote'>";
+            $tmp = '<form action="new_comment.php" method="post" id="form_' . $id . '">';
+            $tmp .= '<fieldset>';
+            $tmp .= "<div class='vote'>";
             $i = 0;
-            $end1 = "<div class='button_vote' id='button_";
-            $end2 = "'><div class='inside'>Vote!</div></div></div>";
-            $tmp = '<form action="new_comment.php" method="post" id="form_' . $id . '">' . $start;
+            $end1 = "</div><br/>";
+            $end2 = "\n</fieldset>\n</from>";
             foreach ($opts as $n => $prop) {
-                $tmp .= $prop . "$end1$id" . "_$i$end2\n";
+                $tmp .= "<p>\n<input name='vote' value=".$n." type='radio'/>";
+                $tmp .= "<span>".$prop."</span>";
+                $tmp .= "<a href='#'>";
+                if(!isset($results[$n]))
+                    $results[$n] = 0;
+                $tmp .= strval(number_format(100 * $results[$n] / max($n_votes, 1), 1));
+                $tmp .= "% </a></p>";
 
                 $i++;
-                if ($i < count($opts))
-                    $tmp.=$start;
             }
-            $tmp .= "<input type='hidden' name='id' value='" . $id . "'>\n";
-            $tmp .= "<input type='hidden' id='vote_$id' name='vote' value=" . $n . "></form>";
-            if ($with_script) {
-                $tmp.="<script>
-                $(document).ready(function(){
-                for(var i=0; i<" . count($opts) . "; i++){
-                    $(\"#button_" . $id . "_\"+i).click(function(){
-                        var num = $(this).attr('id').split(\"_\")[2];
-                        $(\"#vote_" . $id . "\").attr(\"value\",num);
-                        $(\"#form_" . $id . "\").submit();
-                        });}
-            });</script>";
-            }
-            $usr = user::getSessionUser();
-            if (($usr == null || ($voters != null && in_array($usr->id, $voters)))) {
-                $tmp = '';
-                $n_votes = array_sum($results);
-                foreach ($opts as $n => $prop) {
-                    if (!isset($results[$n]))
-                        $results[$n] = 0;
-                    $tmp.= '<div class="vote">' . $prop . ' <div class="button_vote">' . number_format(100 * $results[$n] / max($n_votes, 1), 1) . '%</div></div>';
-                }
-            }
-            $balise_vote[] = $tmp;
-        }
+            $tmp .= $end1;
+            $script = '';
+            if ($with_script && $usr != null && !($voters!= null && in_array($usr->id, $voters))) {
+                $tmp .= "<input type='submit' class='voteit' name='submibutton' title='Vote!' />";
+                $tmp .= $end2;
+                $tmp .="<script>
+                    $(\"div.vote p\").append('<a class=\"vote-select\" href=\"#\">Select</a><a class=\"vote-deselect\" href=\"#\">Cancel</a>');
+                    $(\".vote .vote-select\").click(
+                        function(event) {
+                            event.preventDefault();
+                            var boxes = $(this).parent().parent().children();
+                            boxes.removeClass(\"selected\");
+                            $(this).parent().addClass(\"selected\");
+                            $(this).parent().find(\":radio\").attr(\"checked\",\"checked\");
+                        }
+                    );
 
+                    $(\".vote .vote-deselect\").click(
+                        function(event) {
+                            event.preventDefault();
+                            $(this).parent().removeClass(\"selected\");
+                            $(this).parent().find(\":radio\").removeAttr(\"checked\");
+                        }
+                      );
+                </script>";
+            }
+            else
+                $tmp .= $end2;
+            $balise_vote[] = $tmp;
+                
+        }
+        
         $res = str_replace($balise_text, $balise_vote, $text);
 
         return $res;

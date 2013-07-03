@@ -113,7 +113,7 @@ class Posts {
         $balise_text = array();
         $count = preg_match_all('/\[((?:[^::]+:)+[^\]]+)\]/', $text, $match);
         $balise_vote = array();
-        $n_votes = array_sum($results);
+        $n_votes = count($results)==0 ? 0 :array_sum($results);
         $usr = user::getSessionUser();
         if (count($match[0]) != 0) {
             $opts = preg_split('/::/', substr($match[0][0], 1, -1));

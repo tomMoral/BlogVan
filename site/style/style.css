@@ -47,6 +47,31 @@ body
     color:white;
 }
 
+
+
+.photo
+{
+    position:relative;
+      width:446px;
+      margin:0px;
+}
+.all_photos
+{
+    z-index:-1;
+}
+.delete_photo{
+    z-index:1;
+    position:absolute;
+    right:15px;
+    bottom:10px;
+    font-size:10px;
+}
+
+.delete_photo_a:visited, .delete_photo_a:hover, .delete_photo_a:link
+{
+    color:white;
+}
+
 .comment h1
 {
     text-transform: none;
@@ -617,6 +642,7 @@ footer h1
 
 .all_photos
 {
+    display:inline-block;
     width:446px;
     margin:1px;
 }

@@ -60,6 +60,32 @@ class Comments {
         return $com;
     }
 
+    static function delete($id) {
+        $post_db = new Posts();
+        $dbh = Database::connect();
+        $query = "SELECT * FROM posts WHERE (comments='$id' OR comments LIKE '$id,%' OR comments LIKE '%,$id' OR comments LIKE '%,$id,%')";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'posts');
+        $sth->execute();
+        $post = $sth->fetch();
+        $comments = explode(",", $post->comments);
+        $next_comment = "";
+        $i = 0;
+        foreach ($comments as $com) {
+            if ($com != $id) {
+                $next_comment .=$i == 0 ? $com : "," . $com;
+                $i++;
+            }
+        }
+        $query = "UPDATE posts SET comments = '$next_comment' WHERE id = '$post->id'";
+        $sth = $dbh->prepare($query);
+        $sth->execute();
+        $query = "DELETE FROM comments WHERE id='$id'";
+        $sth = $dbh->prepare($query);
+        $request_succeeded = $sth->execute();
+        $dbh = null;
+    }
+
 }
 
 ?>

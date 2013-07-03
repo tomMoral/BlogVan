@@ -181,6 +181,7 @@ $trad = array(
     "The adventure begins in" => "L'aventure commence dans",
     "Password" => "Mot de passe",
     "Username" => "Nom d'utilisateur",
-    "less than one minute ago" =>"il y a moins d'une minute"
+    "less than one minute ago" =>"il y a moins d'une minute",
+    "delete"=>"supprimer"
 );
 ?>

@@ -28,7 +28,10 @@ if (isset($_POST['last_id']) || true) {
                         <div class="body_post">
                             <p>
                                 <?php echo $language == "FR" ? $row['body_french'] : $row['body']; ?>
-                            </p></div>
+                            </p>
+                        </div>
+                        
+                        <?php if ($user != null && $user->type == 2) { ?><div class="delete_post" id="delete_post_<?php echo $row['id']; ?>"><a class="delete_post_a"href="#"><?php echo_trad("delete"); ?></a></div><?php } ?>
                     </article>
                     <aside>
                         <?php
@@ -37,10 +40,11 @@ if (isset($_POST['last_id']) || true) {
                             <div class="comment">
                                 <h1><?php echo $com['user'] . '  </h1><legend>' . dateToDuree($com['time']) . ' </legend>'; ?>
                                     <p> <?php echo $com['body']; ?> </p>
+                                    <?php if($user!=null && ($user->type==2 || $user->name==$com['user'])){?><div class="delete_comment" id="delete_comment_<?php echo $com['id']; ?>"><a class="delete_comment_a"href="#">(<?php echo_trad("delete"); ?>)</a></div><?php }?>
                             </div>
                             <?php
                         }
-                        if (user::getSessionUser() != null) {
+                        if ($user != null) {
                             ?>
 
                             <div class="write" >
@@ -73,6 +77,25 @@ if (isset($_POST['last_id']) || true) {
                         $('.submit_comment').hide();
                         set_text_area_background_color();
                         new_comment(<?php echo $row['id']; ?>);
+                    });
+                </script>
+                <script>$(document).ready(function() {
+                        $("#delete_post_<?php echo $row['id']; ?>").click(function() {
+                            var answer = confirm("Are you sure?");
+                            if (answer) {
+                                window.location = "index.php?delete_post=<?php echo $row['id']; ?>";
+                            }
+                            else {
+                            }
+                        });
+                        $(".delete_comment").click(function() {
+                            var answer = confirm("Are you sure?");
+                            if (answer) {
+                                window.location = "index.php?delete_comment="+$(this).attr("id").split("_")[2];
+                            }
+                            else {
+                            }
+                        });
                     });
                 </script>
                 <?php

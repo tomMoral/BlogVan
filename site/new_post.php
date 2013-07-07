@@ -72,6 +72,10 @@ if ($user != null && $user->type == 2) {
                 $("#postarea").keyup(function() {
                     lastFieldUsed = 1;
                     var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
+                    
+                    var re_vote = /\\\[([^:]+::)+([^\\\]]+)\]/g;
+                    var prop = re_vote;
+                    text = text.match(/\[([^\]]+)\]/g, 'hello $1');
                     $("#bodyvisualization").html(text);
                 });
                 $("#title").keyup(function() {

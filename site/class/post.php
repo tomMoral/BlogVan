@@ -22,8 +22,13 @@ class Posts {
             $row['comments'] = new Comments($row['comments']);
             $row['voters'] = array();
             $row['results'] = array();
+            $withscript=true;
             if ($row['vote'] != "") {
                 //then $row['voters'] will contain the voters and $row['results'] the number of vote for each vote
+                if($row['vote'][0] == 'c'){
+                    $withscript=false;
+                    $row['vote'] = substr($row['vote'], 1,-1);
+                }
                 foreach (preg_split('/,/', $row['vote']) as $vote) {
                     $vote = preg_split('/:/', $vote);
                     $row['voters'][] = $vote[0];
@@ -33,8 +38,8 @@ class Posts {
                         $row['results'][$vote[1]] = 1;
                 }
             }
-            $row['body'] = Posts::parse_post($row['body'], $row['id'], $row['results'], $row['voters']);
-            $row['body_french'] = Posts::parse_post($row['body_french'], $row['id'], $row['results'], $row['voters']);
+            $row['body'] = Posts::parse_post($row['body'], $row['id'], $row['results'], $row['voters'], $withscript);
+            $row['body_french'] = Posts::parse_post($row['body_french'], $row['id'], $row['results'], $row['voters'], $withscript);
             $articles[] = $row;
         }
         return $articles;
@@ -120,18 +125,20 @@ class Posts {
             $balise_text[] = $match[0][0];
             $tmp = '<form action="new_comment.php" method="post" id="form_' . $id . '">';
             $tmp .= '<fieldset>';
-            $tmp .= "<div class='vote'>";
+            $tmp .= "<input type='hidden' name='id' value='$id'/>";
+            $tmp .= "<div class='vote' id='$id'>";
             $i = 0;
             $end1 = "</div><br/>";
-            $end2 = "\n</fieldset>\n</from>";
+            $end2 = "\n</fieldset>\n</form>";
             foreach ($opts as $n => $prop) {
-                $tmp .= "<p>\n<input name='vote' value=".$n." type='radio'/>";
-                $tmp .= "<span>".$prop."</span>";
-                $tmp .= "<a href='#'>";
+              $tmp .= "<div class='prop'>\n<input name='vote' value=".$n." type='radio'/>";
+              $tmp .= "<div class='vote_left'>".$prop;
+                $tmp .= "</div><div class='vote_right'>";
+                $tmp .= "<span class='result'>";
                 if(!isset($results[$n]))
                     $results[$n] = 0;
                 $tmp .= strval(number_format(100 * $results[$n] / max($n_votes, 1), 1));
-                $tmp .= "% </a></p>";
+                $tmp .= "% </span></div></div>";
 
                 $i++;
             }
@@ -140,26 +147,27 @@ class Posts {
             if ($with_script && $usr != null && !($voters!= null && in_array($usr->id, $voters))) {
                 $tmp .= "<input type='submit' class='voteit' name='submibutton' title='Vote!' />";
                 $tmp .= $end2;
-                $tmp .="<script>
-                    $(\"div.vote p\").append('<a class=\"vote-select\" href=\"#\">Select</a><a class=\"vote-deselect\" href=\"#\">Cancel</a>');
+                $tmp .= "<script>
+    $(\"#$id .vote_right\").append('<a class=\"vote-select\" href=\"#\">Select</a><a class=\"vote-deselect\" href=\"#\">Cancel</a>');
                     $(\".vote .vote-select\").click(
                         function(event) {
                             event.preventDefault();
-                            var boxes = $(this).parent().parent().children();
+                            var boxes = $(this).parent().parent().parent().children();
                             boxes.removeClass(\"selected\");
-                            $(this).parent().addClass(\"selected\");
-                            $(this).parent().find(\":radio\").attr(\"checked\",\"checked\");
+                            $(this).parent().parent().addClass(\"selected\");
+                            $(this).parent().parent().find(\":radio\").attr(\"checked\",\"checked\");
                         }
                     );
 
                     $(\".vote .vote-deselect\").click(
                         function(event) {
                             event.preventDefault();
-                            $(this).parent().removeClass(\"selected\");
-                            $(this).parent().find(\":radio\").removeAttr(\"checked\");
+                            $(this).parent().parent().removeClass(\"selected\");
+                            $(this).parent().parent().find(\":radio\").removeAttr(\"checked\");
                         }
                       );
-                </script>";
+                </script>"
+;
             }
             else
                 $tmp .= $end2;
@@ -185,6 +193,15 @@ class Posts {
             $request_succeeded = $sth->execute();
             $dbh = null;
         }
+    }
+    
+    
+    static function close($id) {
+        $dbh = Database::connect();
+        $query = "UPDATE `posts` SET `vote`=CONCAT('c',`vote`) WHERE id=$id";
+        $sth = $dbh->prepare($query);
+        $request_succeeded = $sth->execute();
+        $dbh = null;
     }
 
     static function get_by_id($id) {

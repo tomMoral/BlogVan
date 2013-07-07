@@ -182,6 +182,7 @@ $trad = array(
     "Password" => "Mot de passe",
     "Username" => "Nom d'utilisateur",
     "less than one minute ago" =>"il y a moins d'une minute",
-    "delete"=>"supprimer"
+    "delete"=>"supprimer",
+    "close"=>"clore"
 );
 ?>

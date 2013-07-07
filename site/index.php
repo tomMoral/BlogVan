@@ -7,6 +7,9 @@ $user = user::getSessionUser();
 if ($user != null && $user->type == 2 && isset($_GET['delete_post'])) {
     Posts::delete(htmlspecialchars($_GET['delete_post']));
 }
+if ($user != null && $user->type == 2 && isset($_GET['close_post'])) {
+    Posts::close(htmlspecialchars($_GET['close_post']));
+}
 if ($user != null && isset($_GET['delete_comment'])) {
     $id = htmlspecialchars($_GET['delete_comment']);
     $com = Comments::get_com_by_id($id);
@@ -42,6 +45,9 @@ if (isset($_GET['firstconnexion']) && $_GET['firstconnexion'] == 'true') {
         });
     });
 </script>
+
+
+
 <?php
 
 include_once("footer.php");

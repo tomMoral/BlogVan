@@ -25,11 +25,12 @@ class Posts {
             $withscript=true;
             if ($row['vote'] != "") {
                 //then $row['voters'] will contain the voters and $row['results'] the number of vote for each vote
+                $rvote = $row['vote'];
                 if($row['vote'][0] == 'c'){
                     $withscript=false;
-                    $row['vote'] = substr($row['vote'], 1,-1);
+                    $rvote = substr($row['vote'], 1);
                 }
-                foreach (preg_split('/,/', $row['vote']) as $vote) {
+                foreach (preg_split('/,/', $rvote) as $vote) {
                     $vote = preg_split('/:/', $vote);
                     $row['voters'][] = $vote[0];
                     if (isset($row['results'][$vote[1]]))
@@ -198,9 +199,15 @@ class Posts {
     
     static function close($id) {
         $dbh = Database::connect();
-        $query = "UPDATE `posts` SET `vote`=CONCAT('c',`vote`) WHERE id=$id";
+        $query = "SELECT `vote` FROM posts WHERE id=$id";
         $sth = $dbh->prepare($query);
         $request_succeeded = $sth->execute();
+        $vote = $sth->fetch();
+        if( $vote['vote'][0] != 'c'){
+            $query = "UPDATE `posts` SET `vote`=CONCAT('c',`vote`) WHERE id=$id";
+            $sth = $dbh->prepare($query);
+            $request_succeeded = $sth->execute();
+        }
         $dbh = null;
     }
 

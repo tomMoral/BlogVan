@@ -8,6 +8,7 @@ if ($user != null && $user->type == 2) {
         <table class="tablepost">
             <tr>
                 <td >
+
                     <div id="post" style="position:absolute; top:0px; width:270px;">
                         <form action="new_post.php" method="post" enctype="multipart/form-data" id="np">
                             <input type="hidden" name="visualization" id="visualization" value=0/>
@@ -19,6 +20,7 @@ if ($user != null && $user->type == 2) {
 
                             Permission: <input type="checkbox" name="permission" value=1 checked="checked">All<img src="../images/refresh.png" id="refresh" style="width:25px; position: absolute; left:230px;"/></br>
                             </br>Attention, set the permission before choosing the photos</br></br>
+
                             <input type="submit"></br></br>
                             pics :</br><div id="image"><input type="file" name="pic1" id="pic1"></div></br>
                         </form>
@@ -72,7 +74,7 @@ if ($user != null && $user->type == 2) {
                 $("#postarea").keyup(function() {
                     lastFieldUsed = 1;
                     var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
-                    
+
                     var re_vote = /\\\[([^:]+::)+([^\\\]]+)\]/g;
                     var prop = re_vote;
                     text = text.match(/\[([^\]]+)\]/g, 'hello $1');
@@ -125,7 +127,7 @@ if ($user != null && $user->type == 2) {
             $perm = (isset($_POST['permission'])) ? 1 : 0;
             echo $pics;
             $next_id = Posts::next_id();
-            $return = Posts::add_post('GPS1', $_POST['title'], $_POST['titleFrench'], str_replace("#####",$next_id,nl2br($_POST['post'])), str_replace("#####",$next_id,nl2br($_POST['postFrench'])), $pics, '', $perm);
+            $return = Posts::add_post('GPS1', $_POST['title'], $_POST['titleFrench'], str_replace("#####", $next_id, nl2br($_POST['post'])), str_replace("#####", $next_id, nl2br($_POST['postFrench'])), $pics, '', $perm);
             if ($return == '') {
                 header("Location: index.php");
             } else {
@@ -148,6 +150,7 @@ if ($user != null && $user->type == 2) {
             }
             htmlHeader("blog");
             ?>
+
             <table class="tablepost">
                 <tr>
                     <td >
@@ -162,6 +165,7 @@ if ($user != null && $user->type == 2) {
                                 Permission: <input type="checkbox" name="permission" value=<?php echo $perm = (isset($_POST['permission'])) ? 1 : 0; ?> <?php echo $perm = (isset($_POST['permission'])) ? "checked=\"checked\"" : ""; ?>>All  <img src="../images/refresh.png" id="refresh" style="width:25px; position: absolute; left:230px;"/><br>
                                 </br>Attention, set the permission before choosing the photos
                                 </br></br>
+
                                 <input type="submit"></br></br>
                                 pics :</br><input type="file" name="pic1" id="pic1"></br></br>
                             </form><input type="submit" name="refresh" id="refresh" value="refresh"></br>
@@ -224,6 +228,8 @@ if ($user != null && $user->type == 2) {
                                 echo "{code: \"@$i\", name:\"" . $dossier . $fichier . "\"}";
                             }
                             ?>];
+
+
                     for (var i = 0; i < pic.length; i++) {
                         $("form").append("</br>" + pic[i].code + " : " + pic[i].name + " <br/> upload succeeded!");
                     }
@@ -237,6 +243,7 @@ if ($user != null && $user->type == 2) {
                     var text = document.getElementById("title").value;
                     $("#titlevisualization").html(text);
 
+
                     var text = document.getElementById("postareaFrench").value;
                     for (var i = 0; i < pic.length; i++) {
                         var re = new RegExp(pic[i].code, 'g');
@@ -247,6 +254,7 @@ if ($user != null && $user->type == 2) {
                     $("#bodyvisualizationFrench").html(text.replace(/\r?\n/g, '<br/>'));
                     var text = document.getElementById("titleFrench").value;
                     $("#titlevisualizationFrench").html(text);
+
 
                     $('textarea').autosize();
                     $("#postarea").keyup(function() {
@@ -271,6 +279,7 @@ if ($user != null && $user->type == 2) {
                     $("#title").keyup(function() {
                         var text = document.getElementById("title").value;
                         $("#titlevisualization").html(text);
+                        document.getElementById('postarea').value = text;
                     });
 
                     $("#postareaFrench").keyup(function() {
@@ -314,7 +323,18 @@ if ($user != null && $user->type == 2) {
                         $("#lastUsed").attr("value", lastFieldUsed);
                         $("#np").submit();
                     });
+
             <?php echo $_POST['lastUsed'] == 1 ? '$("#postarea").focus();' : '$("#postareaFrench").focus();'; ?>
+
+
+                    $("#refresh").click(function() {
+                        $("#visualization").attr("value", 1);
+                        for (var i = 0; i < pic.length; i++) {
+                            $("form").append("<input type=\"hidden\" name=\"" + pic[i].code + "\" value =\"" + pic[i].name + "\"/>");
+                        }
+                        $("#pic1").remove();
+                        $("#np").submit();
+                    });
 
                 });
 

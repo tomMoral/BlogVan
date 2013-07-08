@@ -22,12 +22,12 @@ class Posts {
             $row['comments'] = new Comments($row['comments']);
             $row['voters'] = array();
             $row['results'] = array();
-            $withscript=true;
+            $withscript = true;
             if ($row['vote'] != "") {
                 //then $row['voters'] will contain the voters and $row['results'] the number of vote for each vote
                 $rvote = $row['vote'];
-                if($row['vote'][0] == 'c'){
-                    $withscript=false;
+                if ($row['vote'][0] == 'c') {
+                    $withscript = false;
                     $rvote = substr($row['vote'], 1);
                 }
                 foreach (preg_split('/,/', $rvote) as $vote) {
@@ -119,7 +119,7 @@ class Posts {
         $balise_text = array();
         $count = preg_match_all('/\[((?:[^::]+:)+[^\]]+)\]/', $text, $match);
         $balise_vote = array();
-        $n_votes = count($results)==0 ? 0 :array_sum($results);
+        $n_votes = count($results) == 0 ? 0 : array_sum($results);
         $usr = user::getSessionUser();
         if (count($match[0]) != 0) {
             $opts = preg_split('/::/', substr($match[0][0], 1, -1));
@@ -127,16 +127,16 @@ class Posts {
             $tmp = '<form action="new_comment.php" method="post" id="form_' . $id . '">';
             $tmp .= '<fieldset>';
             $tmp .= "<input type='hidden' name='id' value='$id'/>";
-            $tmp .= "<div class='vote' id='$id'>";
+            $tmp .= "<div class='vote' id='vote_$id'>aaaaa<br><br><br><br>";
             $i = 0;
             $end1 = "</div><br/>";
             $end2 = "\n</fieldset>\n</form>";
             foreach ($opts as $n => $prop) {
-              $tmp .= "<div class='prop'>\n<input name='vote' value=".$n." type='radio'/>";
-              $tmp .= "<div class='vote_left'>".$prop;
+                $tmp .= "<div class='prop'>\n<input name='vote' value=" . $n . " type='radio'/>";
+                $tmp .= "<div class='vote_left'>" . $prop;
                 $tmp .= "</div><div class='vote_right'>";
                 $tmp .= "<span class='result'>";
-                if(!isset($results[$n]))
+                if (!isset($results[$n]))
                     $results[$n] = 0;
                 $tmp .= strval(number_format(100 * $results[$n] / max($n_votes, 1), 1));
                 $tmp .= "% </span></div></div>";
@@ -145,11 +145,15 @@ class Posts {
             }
             $tmp .= $end1;
             $script = '';
-            if ($with_script && $usr != null && !($voters!= null && in_array($usr->id, $voters))) {
-                $tmp .= "<input type='submit' class='voteit' name='submibutton' title='Vote!' />";
+            if ($with_script && $usr != null && !($voters != null && in_array($usr->id, $voters))) {
+                $tmp .= "<div class='voteit'><input type='submit' name='submibutton' title='Vote!' /></div>";
                 $tmp .= $end2;
                 $tmp .= "<script>
-    $(\"#$id .vote_right\").append('<a class=\"vote-select\" href=\"#\">Select</a><a class=\"vote-deselect\" href=\"#\">Cancel</a>');
+                    $(document).ready(function(){
+                     var maxHeight = Math.max($('#vote_$id .vote_left').height(), $('#vote_$id .vote_right').height());
+   $('#vote_$id .prop').height(maxHeight+30);
+                    });
+    $(\"#vote_$id .vote_right\").append('<a class=\"vote-select\" href=\"#\">Select</a><a class=\"vote-deselect\" href=\"#\">Cancel</a>');
                     $(\".vote .vote-select\").click(
                         function(event) {
                             event.preventDefault();
@@ -168,14 +172,13 @@ class Posts {
                         }
                       );
                 </script>"
-;
+                ;
             }
             else
                 $tmp .= $end2;
             $balise_vote[] = $tmp;
-                
         }
-        
+
         $res = str_replace($balise_text, $balise_vote, $text);
 
         return $res;
@@ -184,8 +187,8 @@ class Posts {
     static function delete($id) {
         $post = Posts::get_by_id($id);
         if ($post != null) {
-            $coms = explode(',',$post->comments);
-            foreach($coms as $com_id){
+            $coms = explode(',', $post->comments);
+            foreach ($coms as $com_id) {
                 Comments::delete($com_id);
             }
             $dbh = Database::connect();
@@ -195,15 +198,14 @@ class Posts {
             $dbh = null;
         }
     }
-    
-    
+
     static function close($id) {
         $dbh = Database::connect();
         $query = "SELECT `vote` FROM posts WHERE id=$id";
         $sth = $dbh->prepare($query);
         $request_succeeded = $sth->execute();
         $vote = $sth->fetch();
-        if( $vote['vote'][0] != 'c'){
+        if ($vote['vote'][0] != 'c') {
             $query = "UPDATE `posts` SET `vote`=CONCAT('c',`vote`) WHERE id=$id";
             $sth = $dbh->prepare($query);
             $request_succeeded = $sth->execute();

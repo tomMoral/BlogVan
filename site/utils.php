@@ -25,13 +25,13 @@ function welcome_message($last_connexion, $show_smoke = false) {
     } else if ($last_posts) {
         echo "<br/> $last_posts" . string_trad(" posts have been written since your last visit:)");
     }
-    echo "</div><div id='div2'><img src='../images/6.png'/></div></div>";
+    echo "</div><div id='div2'><img src='images/6.png'/></div></div>";
 }
 
 function good_bye_message($last_user) {
     echo "<div class='welcome'><div id='div1'>";
     echo string_trad("See you soon ") . $last_user . "!";
-    echo "</div><div id='div2'><img src='../images/6.png'/></div></div>";
+    echo "</div><div id='div2'><img src='images/6.png'/></div></div>";
     $_SESSION['last_user'] = null;
 }
 
@@ -77,7 +77,7 @@ function htmlHeader($tohide) {
         <title>Maxi blog du Van VW :)</title>
         <link rel="icon" 
               type="image/png" 
-              href="../images/logo.png">
+              href="images/logo.png">
         <script type="text/javascript" src="script/jQuery.js"></script>
         <script type="text/javascript" src="script/downloadScripts.js"></script>
         <script type="text/javascript" src="script/script.js"></script>
@@ -93,28 +93,28 @@ function htmlHeader($tohide) {
     <div id="banniere_description">
         <nav>';
     if ($tohide != "blog") {
-        echo '<a href="index.php" class="blog"><div><img src="../images/face_purple.png" alt="Logo VW" class="logo" />Blog</div></a>';
+        echo '<a href="index.php" class="blog"><div><img src="images/face_purple.png" alt="Logo VW" class="logo" />Blog</div></a>';
     }
     if ($tohide != "photo") {
-        echo '               <a href="photos.php" class="photo"><div><img src="../images/face.png" alt="Logo VW" class="logo" />Photos</div></a>';
+        echo '               <a href="photos.php" class="photo"><div><img src="images/face.png" alt="Logo VW" class="logo" />Photos</div></a>';
     }
     if ($tohide != "travel") {
         echo '       
-                    <a href="travel.php" class="travel"><div><img src="../images/face_blue2.png" alt="Logo VW" class="logo" />' . string_trad('Travel') . '</div></a>';
+                    <a href="travel.php" class="travel"><div><img src="images/face_blue2.png" alt="Logo VW" class="logo" />' . string_trad('Travel') . '</div></a>';
     }
     if ($tohide != "team") {
         echo '       
-                    <a href="#" class="team"><div><img src="../images/face_red.png" alt="Logo VW" class="logo" />Team</div></a>';
+                    <a href="#" class="team"><div><img src="images/face_red.png" alt="Logo VW" class="logo" />Team</div></a>';
     }
     if ($tohide != "van") {
         echo '       
-                    <a href="#" class="van"><div><img src="../images/face_green.png" alt="Logo VW" class="logo" />Van</div></a>';
+                    <a href="#" class="van"><div><img src="images/face_green.png" alt="Logo VW" class="logo" />Van</div></a>';
     }
     if ($tohide != "connexion") {
         if (!isset($_SESSION['user'])) {
-            echo '<a href="connexion.php" class="connexion"><div><div class="image_logo" ><img src="../images/face_yellow.png" alt="Logo VW" class="logo" /></div><div class="text_logo">' . string_trad('Get in') . '</div></div></a>';
+            echo '<a href="connexion.php" class="connexion"><div><div class="image_logo" ><img src="images/face_yellow.png" alt="Logo VW" class="logo" /></div><div class="text_logo">' . string_trad('Get in') . '</div></div></a>';
         } else {
-            echo '<a href="deconnexion.php" class="connexion"><div><img src="../images/face_yellow.png" alt="Logo VW" class="logo" />' . string_trad('Get out') . '</div></a>';
+            echo '<a href="deconnexion.php" class="connexion"><div><img src="images/face_yellow.png" alt="Logo VW" class="logo" />' . string_trad('Get out') . '</div></a>';
         }
     }
     echo '

@@ -26,8 +26,7 @@ if (isset($_POST['last_id']) || true) {
                             </legend>
                         </div>
                         <div class="body_post">
-                            gerg g regerg erg er g</br></br></br></br>
-                                <?php echo $language == "FR" ? $row['body_french'] : $row['body']; ?>
+                            <?php echo $language == "FR" ? $row['body_french'] : $row['body']; ?>
                             
                         </div>
                         

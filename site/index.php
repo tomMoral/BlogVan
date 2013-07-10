@@ -33,7 +33,7 @@ if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['decon
 if (isset($_GET['firstconnexion']) && $_GET['firstconnexion'] == 'true') {
     echo "<div class='welcome'><div id='div1'>";
     echo "Welcome in our blog " . $user->name . "!";
-    echo "</div><div id='div2'><img src='../images/6.png'/></div></div>";
+    echo "</div><div id='div2'><img src='images/6.png'/></div></div>";
 }
 
 ?>

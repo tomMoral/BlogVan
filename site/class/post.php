@@ -144,15 +144,16 @@ class Posts {
                 $i++;
             }
             $tmp .= $end1;
-            $script = '';
+            $tmp.="<script>
+                    $(document).ready(function(){
+                     var maxHeight = Math.max($('#vote_$id .vote_left').height(), $('#vote_$id .vote_right').height());
+   $('#vote_$id .prop').height(maxHeight+30);
+                    });</script>";
+           
             if ($with_script && $usr != null && !($voters != null && in_array($usr->id, $voters))) {
                 $tmp .= "<div class='voteit'><input type='submit' name='submibutton' title='Vote!' /></div>";
                 $tmp .= $end2;
                 $tmp .= "<script>
-                    $(document).ready(function(){
-                     var maxHeight = Math.max($('#vote_$id .vote_left').height(), $('#vote_$id .vote_right').height());
-   $('#vote_$id .prop').height(maxHeight+30);
-                    });
     $(\"#vote_$id .vote_right\").append('<a class=\"vote-select\" href=\"#\">Select</a><a class=\"vote-deselect\" href=\"#\">Cancel</a>');
                     $(\".vote .vote-select\").click(
                         function(event) {

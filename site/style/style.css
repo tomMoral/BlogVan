@@ -30,6 +30,12 @@ body
     font-size:12px;
 }
 
+#manage_music{
+    position: absolute;
+    top:50px;
+    left:50px;
+}
+
 .delete_post_a:visited, .delete_post_a:hover, .delete_post_a:link
 {
     color:black;

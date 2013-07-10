@@ -127,7 +127,7 @@ class Posts {
             $tmp = '<form action="new_comment.php" method="post" id="form_' . $id . '">';
             $tmp .= '<fieldset>';
             $tmp .= "<input type='hidden' name='id' value='$id'/>";
-            $tmp .= "<div class='vote' id='vote_$id'>aaaaa<br><br><br><br>";
+            $tmp .= "<div class='vote' id='vote_$id'>";
             $i = 0;
             $end1 = "</div><br/>";
             $end2 = "\n</fieldset>\n</form>";

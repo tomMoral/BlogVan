@@ -27,8 +27,7 @@ if (isset($_POST['last_id']) || true) {
                         </div>
                         <div class="body_post">
                                 <?php echo $language == "FR" ? $row['body_french'] : $row['body']; ?>
-                            
-                        </div>
+                                </div>
                         
                         <?php if ($user != null && $user->type == 2) { ?>
                             <div class="delete_post" id="delete_post_<?php echo $row['id']; ?>">

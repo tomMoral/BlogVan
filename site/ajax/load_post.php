@@ -39,7 +39,6 @@ if (isset($_POST['last_id']) || true) {
                         </div>
                         <?php if ($user != null) { ?><div class="like_post<?php echo $I_found_this_cool ? "_already_liked" : "\" id=\"like_post_" . $row['id']; ?>">
                                 <img src='images/peace.png' width='40px'/><div class="text_center"><?php echo_trad($I_found_this_cool ? "you find it really cool!" : "this is really cool!"); ?> <?php if ($nb_who_liked) echo"($nb_who_liked)"; ?></div>
-                            </div>
                         <?php }if ($user != null && $user->type == 2) { ?>
                             <div class="delete_post">
                                 <a class="delete_post_a"href="modify_post.php?id_modify=<?php echo $row['id']; ?>"><?php echo_trad("modify"); ?></a>

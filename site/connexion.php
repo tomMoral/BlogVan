@@ -318,6 +318,8 @@ htmlHeader("connexion");
         <div id="for_password"></div>
     </form>
 </div>
+<div style="position: absolute; left: -1000px; top: -1000px;" id="load_images"><img src="../images/burger1.png" width="150px"/>
+<img src="../images/camembert.png" width="110px"/></div>
 <footer>
 
 </footer>
@@ -334,6 +336,7 @@ htmlHeader("connexion");
     var t0;
     var request_index_send = false;
     $(document).ready(function() {
+        $("#load_images").hide();
         $("#for_password").hide();
         $("#engine_start").hide();
         $("#go").click(function() {

@@ -5,7 +5,6 @@
 include_once("headerPHP.php"); //les post sont enregistré avec notre horloge, donc heure USA
 htmlHeader("blog");
 ?>
-<!--
 <div id="manage_music"><img src="../images/play.png" width="100px"/></div>
 <div id="for_music"></div>
 <script>
@@ -15,7 +14,7 @@ htmlHeader("blog");
             $("#for_music").append(data);
         });
     });
-</script>-->
+</script>
 
 <?php
 $user = user::getSessionUser();

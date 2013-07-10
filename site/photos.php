@@ -26,7 +26,6 @@ if ($user != null && $user->type == 2 && isset($_GET['delete_photo'])) {
             array_multisort($A, SORT_DESC);
             foreach ($A as $v) {
                 if (substr($v, 0, 1) != "." && $j < 6 && ($last_id == -1 || strcmp($last_id, $v) > 0)) {
-                    echo $j;
                     $j++;
                     echo $j % 2 == 1 ? '<tr><td>' : '<td>';
                     if ($j % 2 == 1) {

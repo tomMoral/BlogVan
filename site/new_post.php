@@ -1,5 +1,6 @@
 <?php
 include("headerPHP.php");
+include_once("class/resize.php");
 $user = user::getSessionUser();
 if ($user != null && $user->type == 2) {
     if (!isset($_POST['post'])) {
@@ -59,9 +60,9 @@ if ($user != null && $user->type == 2) {
                                 </legend>
                             </div>
                             <div class="body_post">
-                                <p id="bodyvisualizationFrench">
+                                <div id="bodyvisualizationFrench">
                                 <div></div></div>
-                            </p>
+                            </div>
                         </article>
 
                     </section>
@@ -119,11 +120,11 @@ if ($user != null && $user->type == 2) {
             $dossier = $perm == 1 ? 'pics_up/A/' : 'pics_up/B/';
             while (isset($_FILES["pic$i"])) {
                 $fichier = date("m-d-H-i-s") . basename($_FILES["pic$i"]['name']);
-                if (move_uploaded_file($_FILES["pic$i"]['tmp_name'], $dossier . $fichier)) { //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
-                    $pics .=',' . Photos::add_photo('', $dossier . $fichier);
-                } else { //Sinon (la fonction renvoie FALSE).
-                    echo 'echec de l\'upload';
-                }
+               
+                $image = new SimpleImage();
+                $image->load($_FILES["pic$i"]['tmp_name']);
+                $image->resizeToWidth(530);
+                $image->save($dossier . $fichier);
                 $i += 1;
             }
             $perm = (isset($_POST['permission'])) ? 1 : 0;
@@ -143,11 +144,11 @@ if ($user != null && $user->type == 2) {
             $dossier = $perm == 1 ? 'pics_up/A/' : 'pics_up/B/';
             while (isset($_FILES["pic$i"])) {
                 $fichier = date("m-d-H-i-s") . basename($_FILES["pic$i"]['name']);
-                $upload_succeed = move_uploaded_file($_FILES["pic$i"]['tmp_name'], $dossier . $fichier);
-                if ($upload_succeed) { //Si la fonction renvoie TRUE, c'est que ça a fonctionné...
-                } else { //Sinon (la fonction renvoie FALSE).
-                    echo $_POST['visualization'] != 3 ? 'echec de l\'upload' : "";
-                }
+          
+                $image = new SimpleImage();
+                $image->load($_FILES["pic$i"]['tmp_name']);
+                $image->resizeToWidth(530);
+                $image->save($dossier . $fichier);
                 $i += 1;
             }
             htmlHeader("blog");
@@ -199,13 +200,13 @@ if ($user != null && $user->type == 2) {
 
                                     </h1>
                                     <legend>
-                                        <?php echo_trad("less than one minute ago"); ?>
+            <?php echo_trad("less than one minute ago"); ?>
                                     </legend>
                                 </div>
                                 <div class="body_post">
-                                    <p id="bodyvisualizationFrench">
+                                    <div id="bodyvisualizationFrench">
                                 </div><div></div>
-                                </p>
+                                </div>
                             </article>
 
                         </section>
@@ -218,17 +219,17 @@ if ($user != null && $user->type == 2) {
                 $(document).ready(function() {
 
                     var pic = [<?php
-                            $i = 1;
-                            while (isset($_POST["@$i"])) {
-                                echo $i == 1 ? "" : ",";
-                                echo "{code: \"@$i\", name:\"" . $_POST["@$i"] . "\"}";
-                                $i++;
-                            }
-                            if (isset($upload_succeed) && $upload_succeed) {
-                                echo $i == 1 ? "" : ",";
-                                echo "{code: \"@$i\", name:\"" . $dossier . $fichier . "\"}";
-                            }
-                            ?>];
+            $i = 1;
+            while (isset($_POST["@$i"])) {
+                echo $i == 1 ? "" : ",";
+                echo "{code: \"@$i\", name:\"" . $_POST["@$i"] . "\"}";
+                $i++;
+            }
+            if (isset($fichier) ) {
+                echo $i == 1 ? "" : ",";
+                echo "{code: \"@$i\", name:\"" . $dossier . $fichier . "\"}";
+            }
+            ?>];
                     for (var i = 0; i < pic.length; i++) {
                         $("form").append("</br>" + pic[i].code + " : " + pic[i].name + " <br/> upload succeeded!");
                     }
@@ -280,7 +281,7 @@ if ($user != null && $user->type == 2) {
 
                         document.getElementById('postarea').value = text;
 
-                        document.getElementById('postarea').value=text;
+                        document.getElementById('postarea').value = text;
 
                     });
 

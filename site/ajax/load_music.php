@@ -64,7 +64,7 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
     echo ' $("#manage_music img").attr("src", "../images/pause.png");';
     $_SESSION['currentTime'] = null;
     echo "audio.play();";
-   // echo "audio.currentTime = ".$_SESSION['currentTime'].";";
+    // echo "audio.currentTime = ".$_SESSION['currentTime'].";";
     $_SESSION['playing'] = null;
     $_SESSION['song_num'] = null;
 } else {
@@ -93,10 +93,12 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
             }
         });
 
-        $(document).click(function() {
-            $.post("ajax/continue_music.php", {currentTime: audio.currentTime, playing: audio.src, songs: songs, song_num: song_num})
-                    .done(function(data) {
-            });
+        $("a").click(function() {
+            if (playing === 1) {
+                $.post("ajax/continue_music.php", {currentTime: audio.currentTime, playing: audio.src, songs: songs, song_num: song_num})
+                        .done(function(data) {
+                });
+            }
         });
     });
 </script>

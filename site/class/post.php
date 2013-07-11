@@ -187,13 +187,18 @@ class Posts {
                       );
                 </script>"
                 ;
-            } else {
+            }
+            else{
                 $tmp .= $end2;
                 $tmp .= "<script>
                     $(document).ready(function(){
                      var maxHeight = Math.max($('#vote_$id .vote_left').height(), $('#vote_$id .vote_right').height());
    $('#vote_$id .prop').height(maxHeight+30);
+<<<<<<< HEAD
                     }); </script>";
+=======
+                    }); </script>"; 
+>>>>>>> Resize vote now works for results
             }
             $balise_vote[] = $tmp;
         }

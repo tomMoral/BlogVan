@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 
-
 new_comment = function(id) {
     $(".button").click(function() {
         var body = $(this).parent().parent().parent();

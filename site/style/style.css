@@ -605,11 +605,6 @@ textarea{
     text-align: center;
 }
 
-#photo_encart img
-{
-    border: 1px solid #181818;
-}
-
 aside img
 {
     margin-right: 5px;
@@ -643,20 +638,9 @@ footer h1
     width: 28%;
 }
 
-#mes_photos
-{
-    width: 35%;
-}
-
 #mes_amis
 {
     width: 31%;
-}
-
-#mes_photos img
-{
-    border: 1px solid #181818;
-    margin-right: 2px;
 }
 
 .all_photos

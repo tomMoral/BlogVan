@@ -47,7 +47,7 @@ if (!isset($_SESSION['songs'])) {
 if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SESSION['song_num'])) {
     $temp = explode("/", $_SESSION['playing']);
     $l = count($temp);
-    echo "\"../sounds/music/" . $temp[$l - 1] . "\";\n";
+    echo "\"sounds/music/" . $temp[$l - 1] . "\";\n";
     echo "song_num=" . $_SESSION['song_num'] . ";\n";
 } else {
     ?>
@@ -61,7 +61,7 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
 <?php
 if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SESSION['song_num'])) {
     echo "playing = 1;";
-    echo ' $("#manage_music img").attr("src", "../images/pause.png");';
+    echo ' $("#manage_music img").attr("src", "images/pause.png");';
     $_SESSION['currentTime'] = null;
     echo "audio.play();";
     // echo "audio.currentTime = ".$_SESSION['currentTime'].";";

@@ -5,16 +5,6 @@
 include_once("headerPHP.php"); //les post sont enregistré avec notre horloge, donc heure USA
 htmlHeader("blog");
 ?>
-<div id="manage_music"><img src="images/play.png" width="100px"/></div>
-<div id="for_music"></div>
-<script>
-    $(document).ready(function() {
-        $.post("ajax/load_music.php", {last_id: -1})
-                .done(function(data) {
-            $("#for_music").append(data);
-        });
-    });
-</script>
 
 <?php
 $user = user::getSessionUser();

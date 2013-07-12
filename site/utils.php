@@ -124,7 +124,7 @@ function htmlHeader($tohide) {
 </div>
                 
             </header>
-<div id="manage_music"><img src="../images/play.png" width="100px"/></div>
+<div id="manage_music"><img src="images/play.png" width="100px"/></div>
 <div id="for_music"></div>
 <script>
     $(document).ready(function() {

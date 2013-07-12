@@ -5,8 +5,7 @@ require_once("class/database.php");
 require_once("class/user.php");
 $user = user::getSessionUser();
 if ($user == null) {
-    header('HTTP/1.0 302 Found');
-    header('Location: http://california-here-we.com/index.php?deconnexion=true');
+    header('Location: /index.php?deconnexion=true');
 } else {
     $user->logOut();
 }

@@ -538,6 +538,7 @@ textarea{
     margin: 10px;
     background: #0c0 0 0 no-repeat; 
     text-align:center;
+    cursor:pointer
 }
 
 .center

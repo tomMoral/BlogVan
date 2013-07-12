@@ -123,7 +123,17 @@ function htmlHeader($tohide) {
     </div>
 </div>
                 
-            </header>';
+            </header>
+<div id="manage_music"><img src="../images/play.png" width="100px"/></div>
+<div id="for_music"></div>
+<script>
+    $(document).ready(function() {
+        $.post("ajax/load_music.php", {last_id: -1})
+                .done(function(data) {
+            $("#for_music").append(data);
+        });
+    });
+</script>';
 }
 
 function echo_trad($string) {

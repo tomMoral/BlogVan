@@ -5,7 +5,7 @@
 include_once("headerPHP.php"); //les post sont enregistré avec notre horloge, donc heure USA
 htmlHeader("blog");
 ?>
-<div id="manage_music"><img src="../images/play.png" width="100px"/></div>
+<div id="manage_music"><img src="images/play.png" width="100px"/></div>
 <div id="for_music"></div>
 <script>
     $(document).ready(function() {
@@ -47,7 +47,7 @@ if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['decon
 if (isset($_GET['firstconnexion']) && $_GET['firstconnexion'] == 'true') {
     echo "<div class='welcome'><div id='div1'>";
     echo "Welcome in our blog " . $user->name . "!";
-    echo "</div><div id='div2'><img src='../images/6.png'/></div></div>";
+    echo "</div><div id='div2'><img src='images/6.png'/></div></div>";
 }
 
 ?>

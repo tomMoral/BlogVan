@@ -142,7 +142,6 @@ class user {
 
     public function logOut() {
         $user = user::getSessionUser();
-        print_r($_SESSION);
         $language = isset($_SESSION['language']) ? $_SESSION['language'] : "EN";
         $_SESSION=null;
         if ($user) {
@@ -150,7 +149,9 @@ class user {
             $_SESSION['last_user'] = $user->name;
         }
         $_SESSION['language']=$language;
-        header('Location: index.php?deconnexion=true');
+        header('Location:
+        http://california-here-we.com/index.php?deconnexion=true', true,
+        302);
     }
 
     public function set_last_connexion() {

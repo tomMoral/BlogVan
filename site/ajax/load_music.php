@@ -1,8 +1,8 @@
 <?php
-$A = scandir("../../sounds/music");
+$A = scandir("../sounds/music");
 for ($i = 0; $i < count($A); $i++) {
     if (substr($A[$i], 0, 1) != ".") {
-        $A[$i] = "../sounds/music/" . $A[$i];
+        $A[$i] = "sounds/music/" . $A[$i];
     } else {
         $A[$i] = "";
     }
@@ -53,11 +53,11 @@ for ($i = 0; $i < count($A); $i++) {
             playing = playing === 0 ? 1 : 0;
             if (playing === 1) {
                 audio.play();
-                $("#manage_music img").attr("src", "../images/pause.png");
+                $("#manage_music img").attr("src", "images/pause.png");
             }
             else {
                 audio.pause();
-                $("#manage_music img").attr("src", "../images/play.png");
+                $("#manage_music img").attr("src", "images/play.png");
             }
         });
 

@@ -228,7 +228,7 @@ nav img
     height: 200px;
     width: 900px;
     border-radius: 5px;
-    background: url('../../images/baniere2.JPG') no-repeat;
+    background: url('../images/baniere2.JPG') no-repeat;
     position: relative;
     box-shadow: 0px 4px 4px #1c1a19;
     margin-bottom: 25px;
@@ -257,7 +257,7 @@ nav img
     position: absolute;
     right: 5px;
     bottom: 5px;
-    background: url('../../images/fond_degraderouge.png')
+    background: url('../images/fond_degraderouge.png')
         repeat-x;
     border: 1px solid #760001;
     border-radius: 5px;
@@ -672,7 +672,7 @@ footer h1
     margin-top: 0;
     width: 48%;
     list-style-image:
-        url('../../images/ico_liensexterne.png');
+        url('../images/ico_liensexterne.png');
     padding-left: 2px;
 }
 

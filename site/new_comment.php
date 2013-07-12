@@ -5,7 +5,7 @@
     $usr = user::getSessionUser();
     if (isset($_POST['vote'])) {
             Posts::vote(htmlspecialchars($_POST['id']), $usr, htmlspecialchars($_POST['vote']));
-    header("Location: index.php?vote=true");
+    header("Location: /index.php?vote=true");
     }
     elseif (isset($_POST['body'])){
             $perm = (isset($_POST['permission']))?1:0;

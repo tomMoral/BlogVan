@@ -105,12 +105,12 @@ htmlHeader("connexion");
 <tr class="new">\n\
 <td>\n\
 <div class="left">This is America!<br/>\n\
-<img src="../images/burger1.png" width="150px"/><br/>\n\
+<img src="images/burger1.png" width="150px"/><br/>\n\
 (and I speak English)<br/>\n\
 <input type="radio" name="language" checked="checked" value="EN"/>\n\
 </div>\n\
 <div class="right">Mon royaume pour un fromage!<br/>\n\
-<img src="../images/camembert.png" width="110px"/><br/>\n\
+<img src="images/camembert.png" width="110px"/><br/>\n\
 (et je parle français)<br/>\n\
 <input type="radio" name="language"';
         if (language === "FR") {
@@ -150,12 +150,12 @@ htmlHeader("connexion");
             language = "EN";
 
             $(".left").parent().html('<div class="left">This is America!<br/>\n\
-<img src="../images/burger1.png" width="150px"/><br/>\n\
+<img src="images/burger1.png" width="150px"/><br/>\n\
 (and I speak English)<br/>\n\
 <input type="radio" name="language" checked="checked" value="EN"/>\n\
 </div>\n\
 <div class="right">Mon royaume pour un fromage!<br/>\n\
-<img src="../images/camembert.png" width="110px"/><br/>\n\
+<img src="images/camembert.png" width="110px"/><br/>\n\
 (et je parle français)<br/>\n\
 <input type="radio" name="language" value="FR"/>\n\
 </div>');
@@ -166,12 +166,12 @@ htmlHeader("connexion");
             language = "FR";
 
             $(".left").parent().html('<div class="left">This is America!<br/>\n\
-<img src="../images/burger1.png" width="150px"/><br/>\n\
+<img src="images/burger1.png" width="150px"/><br/>\n\
 (and I speak English)<br/>\n\
 <input type="radio" name="language" value="EN"/>\n\
 </div>\n\
 <div class="right">Mon royaume pour un fromage!<br/>\n\
-<img src="../images/camembert.png" width="110px"/><br/>\n\
+<img src="images/camembert.png" width="110px"/><br/>\n\
 (et je parle français)<br/>\n\
 <input type="radio" name="language" value="FR" checked="checked"/>\n\
 </div>');
@@ -318,17 +318,17 @@ htmlHeader("connexion");
         <div id="for_password"></div>
     </form>
 </div>
-<div style="position: absolute; left: -1000px; top: -1000px;" id="load_images"><img src="../images/burger1.png" width="150px"/>
-<img src="../images/camembert.png" width="110px"/></div>
+<div style="position: absolute; left: -1000px; top: -1000px;" id="load_images"><img src="images/burger1.png" width="150px"/>
+<img src="images/camembert.png" width="110px"/></div>
 <footer>
 
 </footer>
 </div>
 <div id="for_cloud"></div>
 <audio controls id="engine_start">
-    <source src="../sounds/engine_starting.mp3" type="audio/mpeg">
-    <source src="../sounds/engine_starting.ogg" type="audio/webm">
-    <source src="../sounds/engine_starting.webm" type="audio/webm">
+    <source src="sounds/engine_starting.mp3" type="audio/mpeg">
+    <source src="sounds/engine_starting.ogg" type="audio/webm">
+    <source src="sounds/engine_starting.webm" type="audio/webm">
     Your browser does not support the audio element.
 </audio> 
 <script>
@@ -394,7 +394,7 @@ htmlHeader("connexion");
                 var r = Math.random() * t * w / Tmax;
                 var x = r * Math.cos(theta) + h / 2 - img_h / 2;
                 var y = r * Math.sin(theta) + w / 2 - img_w / 2;
-                $("#for_cloud").append('<img id ="cloud' + numCloud + '" src="../images/cloud.png" style="position:absolute; top:' + x + 'px;  left:' + y + 'px; width:326px; height:250px; z-index:' + (1 + numCloud) + ';"/>');
+                $("#for_cloud").append('<img id ="cloud' + numCloud + '" src="images/cloud.png" style="position:absolute; top:' + x + 'px;  left:' + y + 'px; width:326px; height:250px; z-index:' + (1 + numCloud) + ';"/>');
 
                 var w0 = x;
                 var h0 = y;

@@ -3,6 +3,14 @@
  * and open the template in the editor.
  */
 
+
+function send_music(currentTime, src, songs, song_num, is_playing) {
+        $.post("ajax/continue_music.php", {currentTime: currentTime, playing: src, songs: songs, song_num: song_num, is_playing:is_playing})
+                .done(function(data) {
+        });
+    }
+    
+    
 new_comment = function(id) {
     $(".button").click(function() {
         var body = $(this).parent().parent().parent();

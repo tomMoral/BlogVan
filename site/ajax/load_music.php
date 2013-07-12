@@ -56,14 +56,18 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
 }
 ?>
         audio.load();
-        var playing = 0;
+        var is_playing = 0;
 
 <?php
-if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SESSION['song_num'])) {
-    echo "playing = 1;";
+if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SESSION['song_num']) && isset($_SESSION['is_playing'])) {
+    echo "is_playing = " . $_SESSION['is_playing'] . ";";
     echo ' $("#manage_music img").attr("src", "images/pause.png");';
     $_SESSION['currentTime'] = null;
     echo "audio.play();";
+    if ($_SESSION['is_playing'] == 0) {
+        echo "audio.pause();";
+        echo ' $("#manage_music img").attr("src", "images/play.png");';
+    }
     // echo "audio.currentTime = ".$_SESSION['currentTime'].";";
     $_SESSION['playing'] = null;
     $_SESSION['song_num'] = null;
@@ -82,8 +86,8 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
 
         $("#music").hide();
         $("#manage_music").click(function() {
-            playing = playing === 0 ? 1 : 0;
-            if (playing === 1) {
+            is_playing = is_playing === 0 ? 1 : 0;
+            if (is_playing === 1) {
                 audio.play();
                 $("#manage_music img").attr("src", "images/pause.png");
             }
@@ -91,14 +95,17 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
                 audio.pause();
                 $("#manage_music img").attr("src", "images/play.png");
             }
+            send_music(audio.currentTime, audio.src, songs, song_num, is_playing);
         });
 
-        $("a").click(function() {
-            if (playing === 1) {
-                $.post("ajax/continue_music.php", {currentTime: audio.currentTime, playing: audio.src, songs: songs, song_num: song_num})
-                        .done(function(data) {
-                });
-            }
+
+        $(document).mousemove(function(event) {
+            send_music(audio.currentTime, audio.src, songs, song_num, is_playing);
         });
+        $(document).click(function(event) {
+            send_music(audio.currentTime, audio.src, songs, song_num, is_playing);
+        });
+
     });
+
 </script>

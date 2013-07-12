@@ -12,4 +12,7 @@ if(isset($_POST['currentTime'])){
 if(isset($_POST['song_num'])){
     $_SESSION['song_num']=$_POST['song_num'];
 }
+if(isset($_POST['is_playing'])){
+    $_SESSION['is_playing']=$_POST['is_playing'];
+}
 ?>

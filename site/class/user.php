@@ -149,9 +149,7 @@ class user {
             $_SESSION['last_user'] = $user->name;
         }
         $_SESSION['language']=$language;
-        header('Location:
-        http://california-here-we.com/index.php?deconnexion=true', true,
-        302);
+        header('Location:/index.php?deconnexion=true');
     }
 
     public function set_last_connexion() {

@@ -359,6 +359,8 @@ if ($user != null && $user->type == 2) {
         }
     }
 } else {
+
     header('Location: /index.php');
+    die;
 }
 ?>

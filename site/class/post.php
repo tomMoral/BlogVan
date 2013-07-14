@@ -193,8 +193,8 @@ class Posts {
                 $tmp .= "<script>
                     $(document).ready(function(){
                      var maxHeight = Math.max($('#vote_$id .vote_left').height(), $('#vote_$id .vote_right').height());
-   $('#vote_$id .prop').height(maxHeight+30);
-                    }); </script>"; 
+                    $('#vote_$id .prop').height(maxHeight+30);
+                    }); </script>";
             }
             $balise_vote[] = $tmp;
         }

@@ -77,6 +77,18 @@ class Posts {
             return '';
     }
 
+    static function modify_post($id, $gps, $titre, $titre_french, $body, $body_french, $permission) {
+        $dbh = Database::connect();
+
+        $query = $dbh->prepare("UPDATE `posts` SET  `title` = '$titre' ,  `title_french` = '$titre_french' ,  `body` = '$body',   `body_french` = '$body_french' ,   `permission` = '$permission' WHERE `id`=$id");
+
+        if (!$query->execute()) {
+            return $query->errorInfo();
+        }
+        else
+            return '';
+    }
+
     static function add_comment($id, $user, $body) {
         $dbh = Database::connect();
         $query = $dbh->prepare("UPDATE `posts` SET `comments` = CASE WHEN `comments` = '' THEN :com ELSE CONCAT(CONCAT(`comments`,','),:com) END WHERE `id`=:post;");
@@ -149,7 +161,7 @@ class Posts {
                      var maxHeight = Math.max($('#vote_$id .vote_left').height(), $('#vote_$id .vote_right').height());
    $('#vote_$id .prop').height(maxHeight+30);
                     });</script>";
-           
+
             if ($with_script && $usr != null && !($voters != null && in_array($usr->id, $voters))) {
                 $tmp .= "<div class='voteit'><input type='submit' name='submibutton' title='Vote!' /></div>";
                 $tmp .= $end2;
@@ -174,14 +186,13 @@ class Posts {
                       );
                 </script>"
                 ;
-            }
-            else{
+            } else {
                 $tmp .= $end2;
                 $tmp .= "<script>
                     $(document).ready(function(){
                      var maxHeight = Math.max($('#vote_$id .vote_left').height(), $('#vote_$id .vote_right').height());
    $('#vote_$id .prop').height(maxHeight+30);
-                    }); </script>"; 
+                    }); </script>";
             }
             $balise_vote[] = $tmp;
         }
@@ -230,6 +241,26 @@ class Posts {
         $sth->closeCursor();
         $dbh = null;
         return $com;
+    }
+
+    function add_like($user_id) {
+        $dbh = Database::connect();
+        $like = $this->like;
+        $user_who_liked = explode(",", $like);
+        $has_already_liked = false;
+        foreach ($user_who_liked as $user) {
+            if ($user == $user_id . "") {
+                $has_already_liked = true;
+            }
+        }
+        if (!$has_already_liked) {
+            $like = $like == "" ? $user_id : $like . "," . $user_id;
+            $id = $this->id;
+            $dbh = Database::connect();
+            $query = $dbh->prepare("UPDATE `posts` SET `like` = '$like' WHERE `id`=$id;");
+            $query->execute();
+            $dbh = null;
+        }
     }
 
 }

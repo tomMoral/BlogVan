@@ -78,8 +78,9 @@ htmlHeader("connexion");
         //if the name/email is already used, we say so
         if (sData === "good") {
             $("#side").html('<font color="red"><?php echo_trad("Someone is already using this "); ?>' + type + ', <?php echo_trad("try an other one"); ?>!</font>');
-            $("#go").hide(); $("#space").show();
-            
+            $("#go").hide();
+            $("#space").show();
+
             changedEmail = true;
         }
         else if (sData !== "user name" && sData !== "email") {
@@ -136,10 +137,12 @@ htmlHeader("connexion");
             var pass = $("#password").val();
             var a = $("#email").val();
             if (name !== "" && pass !== "" && (label !== "Email" || validateEmail(a))) {
-                $("#go").show(); $("#space").hide();
+                $("#go").show();
+                $("#space").hide();
             }
             else {
-                $("#go").hide(); $("#space").show();
+                $("#go").hide();
+                $("#space").show();
             }
         });
         interactLanguage();
@@ -199,7 +202,8 @@ htmlHeader("connexion");
                     callBack(data);
                 });
             } else {
-                $("#go").hide(); $("#space").show();
+                $("#go").hide();
+                $("#space").show();
             }
             if (name === "" && thirdRow) {
                 deleteRow();
@@ -214,16 +218,19 @@ htmlHeader("connexion");
                     callBack(data);
                 });
                 if (validateEmail(a)) {
-                    $("#go").show(); $("#space").hide();
+                    $("#go").show();
+                    $("#space").hide();
                 }
                 else {
-                    $("#go").hide(); $("#space").show();
+                    $("#go").hide();
+                    $("#space").show();
                 }
             } else {
                 if (name === "" && thirdRow) {
                     deleteRow();
                 }
-                $("#go").hide(); $("#space").show();
+                $("#go").hide();
+                $("#space").show();
             }
         }
     }
@@ -245,7 +252,8 @@ htmlHeader("connexion");
                     .done(function(data) {
                 callBackPassword(data);
             });
-            $("#go").show(); $("#space").hide();
+            $("#go").show();
+            $("#space").hide();
         }
         else if (sData === "user name") {
             if (thirdRow) {
@@ -264,7 +272,8 @@ htmlHeader("connexion");
         }
     }
     $(document).ready(function() {
-        $("#go").hide(); $("#space").show();
+        $("#go").hide();
+        $("#space").show();
         $("#name").keyup(function() {
             update();
         });
@@ -318,8 +327,11 @@ htmlHeader("connexion");
         <div id="for_password"></div>
     </form>
 </div>
-<div style="position: absolute; left: -1000px; top: -1000px;" id="load_images"><img src="images/burger1.png" width="150px"/>
-<img src="images/camembert.png" width="110px"/></div>
+<div style="position: absolute; left: -1000px; top: -1000px;" id="load_images">
+    <img src="images/burger1.png" width="150px"/>
+    <img src="images/camembert.png" width="110px"/>
+    <img src="images/cloud.png"/>
+</div>
 <footer>
 
 </footer>

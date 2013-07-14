@@ -69,8 +69,7 @@ function dateToDuree($date) {
 function htmlHeader($tohide) {
     //deso c'est un peu sale...
     echo '
-<!DOCTYPE html>
-<html>
+
     <head>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="style/style.css" />
@@ -124,7 +123,13 @@ function htmlHeader($tohide) {
 </div>
                 
             </header>
-<div id="manage_music"><img src="images/play.png" width="100px"/></div>
+<div id="manage_music"><img src="';
+    echo (isset($_SESSION['currentTime']) 
+            && isset($_SESSION['playing']) 
+            && isset($_SESSION['song_num']) 
+            && isset($_SESSION['is_playing'])
+            && $_SESSION['is_playing']==1) ? 'images/pause.png"' : 'images/play.png"';
+    echo 'width="100px"/></div>
 <div id="for_music"></div>
 <script>
     $(document).ready(function() {
@@ -193,6 +198,12 @@ $trad = array(
     "Username" => "Nom d'utilisateur",
     "less than one minute ago" =>"il y a moins d'une minute",
     "delete"=>"supprimer",
-    "close"=>"clore"
+    "close"=>"clore",
+    "show all comments"=>"afficher tout les coms",
+    "hide comments"=>"masquer les coms",
+    "modify" =>"modifier",
+    "Are you sure you want to delete this comment?"=>"Etes vous bien sur de vouloir effacer ce chouette commentaire ?",
+    "this is really cool!"=> "ça c'est cool!",
+    "you find it really cool!"=> "tu trouves ça très cool!"
 );
 ?>

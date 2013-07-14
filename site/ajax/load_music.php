@@ -61,7 +61,9 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
 <?php
 if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SESSION['song_num']) && isset($_SESSION['is_playing'])) {
     echo "is_playing = " . $_SESSION['is_playing'] . ";";
-    echo ' $("#manage_music img").attr("src", "images/pause.png");';
+    if ($_SESSION['is_playing'] == 1) {
+        echo ' $("#manage_music img").attr("src", "images/pause.png");';
+    }
     $_SESSION['currentTime'] = null;
     echo "audio.play();";
     if ($_SESSION['is_playing'] == 0) {

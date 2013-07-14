@@ -1,8 +1,10 @@
 <?php
 include("headerPHP.php");
-include_once("class/resize.php");
 $user = user::getSessionUser();
+
 if ($user != null && $user->type == 2) {
+    include_once("class/resize.php");
+
     if (!isset($_POST['post'])) {
         htmlHeader("blog");
         ?>
@@ -356,6 +358,8 @@ if ($user != null && $user->type == 2) {
         }
     }
 } else {
+
     header('Location: /index.php');
+    die;
 }
 ?>

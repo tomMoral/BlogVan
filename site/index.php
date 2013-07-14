@@ -1,5 +1,3 @@
-
-
 <?php
 
 include_once("headerPHP.php"); //les post sont enregistré avec notre horloge, donc heure USA

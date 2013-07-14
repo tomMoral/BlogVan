@@ -60,6 +60,7 @@ class Posts {
                           `vote` text NOT NULL,
                           `body` text NOT NULL,
                           `body_french` text NOT NULL,
+                          `like` text NOT NULL,
                           PRIMARY KEY (`id`)
                         ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;'
         );

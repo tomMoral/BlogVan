@@ -14,11 +14,12 @@ if (isset($_POST['last_id']) || true) {
             $found_next = true;
             if ($row['permission'] != 0 || ($user != null && $user->type != 0)) {
                 $I_found_this_cool = false;
-                foreach (explode(",", $row['like']) as $user_id) {
-                    if ($user_id == $user->id . "") {
-                        $I_found_this_cool = true;
-                    }
-                }
+                if($user != null)
+                  foreach (explode(",", $row['like']) as $user_id) {
+                      if ($user_id == $user->id . "") {
+                          $I_found_this_cool = true;
+                      }   
+                  }
                 $nb_who_liked = $row['like'] == "" ? 0 : count(explode(",", $row['like']));
                 ?>
                 <section class="post" >

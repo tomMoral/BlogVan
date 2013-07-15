@@ -4,20 +4,23 @@
 
 <script>
   var ctx = document.getElementById("guitariste").getContext("2d");
-  var body = document.createElement('img'),
-      body_rest = document.createElement('img');;
-  body.src = "guitar_guy/guitar guy.png";
-  body_rest.src = "guitar_guy/body.png"
-  var arm = document.createElement('img'),
-      arm2 = document.createElement('img');
-  arm.src = "guitar_guy/arm_move.png",
-  arm2.src = "guitar_guy/arm2.png";
-
-  var guit = document.createElement('img');
-  guit.src = "guitar_guy/guitar.png";
-
-  var mouth = document.createElement('img');
-  mouth.src = "guitar_guy/mouth.png";
+  
+  function im(fname){
+    var element = document.createElement('img');
+    element.src = "guitar_guy/"+fname+".png";
+    return element
+  }
+  
+  var body = im("guitar guy"),
+    body_rest = im("body");
+  var arm = im("arm_move"),
+    arm2 = im("arm2");
+  var guit = im("guitar"),
+    mouth = im("mouth"),
+    sad_mouth = im("sad_mouth");
+  var cuisse = im("cuisse"),
+    foot = im("foot"),
+    leg = im("leg");
 
   var pi = Math.PI;
   var playing = true;
@@ -80,7 +83,7 @@
     ctx.clearRect(0,0,1000,1000);
     ctx.drawImage(body_rest,0,0);
     ctx.translate(x_mouth, y_mouth);
-    ctx.drawImage(mouth, -25, -25);
+    ctx.drawImage(sad_mouth, -62 ,-57, 80,80);
     ctx.translate(pos_x-x_mouth, pos_y-y_mouth);
     ctx.rotate(rad(90));
     ctx.drawImage(arm, -20, -17);

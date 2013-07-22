@@ -18,6 +18,20 @@ body
 {
     text-align:center;
 }
+.center ul
+{
+margin-left: 0;
+padding-left: 0;
+    list-style: none;
+}
+.center li
+{height: 40px;
+background: url(../images/face_1_small.png) no-repeat top left;
+background-position: 0 .5em;
+    padding:5px 5px 5px 50px;
+    text-align:left;
+    font-size:20px;
+}
 #bloc_page
 {
     width: 900px;
@@ -563,9 +577,9 @@ min-height:55px !important;
     border-radius:5px;
     color: #fff;
     font-size:20px;
-    width: 100px;
-    max-width:100px;
-    min-width:100px;
+    width: 110px;
+    max-width:110px;
+    min-width:110px;
     max-height:40px;
     min-height:40px;
     height: 40px;

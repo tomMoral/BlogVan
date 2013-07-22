@@ -88,8 +88,8 @@ function htmlHeader($tohide) {
             });
         </script>
         <div id="bloc_page"><header> 
-<div id="banniere_image">
-    <div id="banniere_description">
+<div id="banniere_image">';
+    if($tohide !="connexion"){echo '<div id="banniere_description">
         <nav>';
     if ($tohide != "blog") {
         echo '<a href="index.php" class="blog"><div><img src="images/face_purple.png" alt="Logo VW" class="logo" />Blog</div></a>';
@@ -101,13 +101,13 @@ function htmlHeader($tohide) {
         echo '       
                     <a href="travel.php" class="travel"><div><img src="images/face_blue2.png" alt="Logo VW" class="logo" />' . string_trad('Travel') . '</div></a>';
     }
-    if ($tohide != "team") {
+    if (false) {
         echo '       
                     <a href="#" class="team"><div><img src="images/face_red.png" alt="Logo VW" class="logo" />Team</div></a>';
     }
     if ($tohide != "van") {
         echo '       
-                    <a href="#" class="van"><div><img src="images/face_green.png" alt="Logo VW" class="logo" />Van</div></a>';
+                    <a href="van.php" class="van"><div><img src="images/face_green.png" alt="Logo VW" class="logo" />Van</div></a>';
     }
     if ($tohide != "connexion") {
         if (!isset($_SESSION['user'])) {
@@ -119,8 +119,7 @@ function htmlHeader($tohide) {
     echo '
                     </nav>
         
-    </div>
-</div>
+    </div>'; } echo '</div>
                 
             </header>
 <div id="manage_music"><img src="';

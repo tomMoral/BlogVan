@@ -37,10 +37,10 @@ if (isset($_POST['last_id']) || true) {
                             <?php echo $language == "FR" ? $row['body_french'] : $row['body']; ?>
 
                         </div>
-                        <div class="like_post<?php echo $I_found_this_cool ? "_already_liked" : "\" id=\"like_post_" . $row['id']; ?>">
-                            <img src='images/peace.png' width='40px'/><div class="text_center"><?php echo_trad($I_found_this_cool ? "you find it really cool!" : "this is really cool!"); ?> <?php if ($nb_who_liked) echo"($nb_who_liked)"; ?></div>
-                        </div>
-                        <?php if ($user != null && $user->type == 2) { ?>
+                        <?php if ($user != null) { ?><div class="like_post<?php echo $I_found_this_cool ? "_already_liked" : "\" id=\"like_post_" . $row['id']; ?>">
+                                <img src='images/peace.png' width='40px'/><div class="text_center"><?php echo_trad($I_found_this_cool ? "you find it really cool!" : "this is really cool!"); ?> <?php if ($nb_who_liked) echo"($nb_who_liked)"; ?></div>
+                            </div>
+                        <?php }if ($user != null && $user->type == 2) { ?>
                             <div class="delete_post">
                                 <a class="delete_post_a"href="modify_post.php?id_modify=<?php echo $row['id']; ?>"><?php echo_trad("modify"); ?></a>
                                 <a class="delete_post_a"href="#" id="delete_post_<?php echo $row['id']; ?>"><?php echo_trad("delete"); ?></a>
@@ -89,23 +89,23 @@ if (isset($_POST['last_id']) || true) {
                         <?php } ?>
                     </aside>
                 </section>
-                <script>
-                //manage the like
-                    $(document).ready(function() {
-                        var nbUserWhoLiked = <?php echo $nb_who_liked; ?>;
-                        $("#like_post_<?php echo $row['id']; ?>").click(function() {
-                            $("#like_post_<?php echo $row['id']; ?> .text_center").html("<?php echo_trad("you find it really cool!"); ?> (" + (nbUserWhoLiked + 1) + ")");
-                            $("#like_post_<?php echo $row['id']; ?>").hover(function() {
-                                $(this).css("cursor", "default");
-                            });
-                            $("#like_post_<?php echo $row['id']; ?> .text_center").attr("id", "like_post_<?php echo $row['id']; ?>_already_liked");
-                            $.post("ajax/like_post.php", {post_id: <?php echo $row['id']; ?>})
-                                    .done(function(data) {
-                            });
+                <?php if ($user != null) { ?><script>
+                    //manage the like
+                                        $(document).ready(function() {
+                                            var nbUserWhoLiked = <?php echo $nb_who_liked; ?>;
+                                            $("#like_post_<?php echo $row['id']; ?>").click(function() {
+                                                $("#like_post_<?php echo $row['id']; ?> .text_center").html("<?php echo_trad("you find it really cool!"); ?> (" + (nbUserWhoLiked + 1) + ")");
+                                                $("#like_post_<?php echo $row['id']; ?>").hover(function() {
+                                                    $(this).css("cursor", "default");
+                                                });
+                                                $("#like_post_<?php echo $row['id']; ?> .text_center").attr("id", "like_post_<?php echo $row['id']; ?>_already_liked");
+                                                $.post("ajax/like_post.php", {post_id: <?php echo $row['id']; ?>})
+                                                        .done(function(data) {
+                                                });
 
-                        });
-                    });
-                </script>
+                                            });
+                                        });
+                    </script><?php } ?>
                 <script>
                     //manage the comment size
                     function toogle(id, i, iMax, order) {

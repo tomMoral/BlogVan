@@ -2,7 +2,6 @@
 //load the first 6 pictures and the other assyncronously
 include_once("headerPHP.php");
 htmlHeader("photo");
-$user = user::getSessionUser();
 if ($user != null && $user->type == 2 && isset($_GET['delete_photo'])) {
     $delete = htmlspecialchars($_GET['delete_photo']);
     if (file_exists($delete)) {

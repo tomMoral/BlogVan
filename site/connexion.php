@@ -1,5 +1,5 @@
 <?php
-include("headerPHP.php");
+include("headerPHPforConnexion.php");
 $user = user::getSessionUser();
 if ($user) {
     header('Location: index.php');
@@ -272,7 +272,7 @@ htmlHeader("connexion");
         }
     }
     $(document).ready(function() {
-        $("#go").hide();
+         $("#go").hide();
         $("#space").show();
         $("#name").keyup(function() {
             update();
@@ -282,8 +282,14 @@ htmlHeader("connexion");
         });
     });
 </script>
-<div class="center">
-    <h1><?php echo_trad("Welcome on board"); ?>!</h1>
+<div class="center"><?php
+if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['deconnexion'] == 'true') {?>
+    <h1><?php echo string_trad("See you soon ") . "guigui" . "!";?></h1><div id='div2'><img src='images/6.png'/></div>
+<?php }else{?>
+    <h1><?php echo_trad("Welcome on board"); ?>!</h1><div id='div2'><img src='images/6.png'/></div>
+ <?php  
+}
+?>
     <form action="connexion.php" method="post" id="form" enctype="multipart/form-data" autocomplete="off">
         <table style="font-size:12px">
             <tr>
@@ -331,6 +337,7 @@ htmlHeader("connexion");
     <img src="images/burger1.png" width="150px"/>
     <img src="images/camembert.png" width="110px"/>
     <img src="images/cloud.png"/>
+    <img src="images/face_<?php $random_van=rand(0,6); echo $random_van;?>_big.png"/>
 </div>
 <footer>
 
@@ -345,7 +352,9 @@ htmlHeader("connexion");
 </audio> 
 <script>
     //this script is used for the smoke
+    var pageLoaded=false;
     var t0;
+        var TchangeSet=false;
     var request_index_send = false;
     $(document).ready(function() {
         $("#load_images").hide();
@@ -353,18 +362,32 @@ htmlHeader("connexion");
         $("#engine_start").hide();
         $("#go").click(function() {
             var pass = sha1($("#password").val());
-            if (pass === $("#for_password").html() && Math.random() > 0.8) {
-                t0 = new Date().getTime();
-                myInterval = setInterval(function() {
-                    $("#bloc_page").css({"z-index": "1"});
-                    create();
-                }, 100);
-                document.getElementById("engine_start").play();
-            }
-            else {
+            if (pass === $("#for_password").html()) {
+                if (Math.random() > 1) {
+                    t0 = new Date().getTime();
+                    myInterval = setInterval(function() {
+                        $("#bloc_page").css({"z-index": "1"});
+                        create();
+                    }, 100);
+                    document.getElementById("engine_start").play();
+                }
+                else {
+                    var h = window.innerHeight;
+                    var w = window.innerWidth;
+                    var wi = 0;
+                    $("body").prepend("<img src='images/face_<?php  echo $random_van;?>_big.png'/ id='van' style='position:absolute; top:" + (h - wi) / 2 + "px; left:" + (w - wi) / 2 + "px; width:0px; z-index:3'>");
+                    $("body").prepend("<img src='images/blank.jpg'/ id='blank' style='position:absolute; top:" + -h + "px; left:" + -w + "px; width:" + 3 * w + "px; height:" + 3 * h + "px; z-index:2; opacity:0.02'>");
+                    t0 = new Date().getTime();
+                    wait = true;
+                    myInterval = setInterval(function() {
+                        $("#bloc_page").css({"z-index": "1"});
+
+                        showVan();
+                    }, 75);
+                }
+            } else {
                 $("form").submit();
             }
-
         });
     });
     var Tmax = 5000;
@@ -372,6 +395,57 @@ htmlHeader("connexion");
     var img_h = 250;
     var numCloud = 0;
     var myInterval;
+
+    function showVan() {
+        var t = new Date().getTime() - t0;
+        var ratio = 1.1;
+        var h = window.innerHeight;
+        var w = window.innerWidth;
+        var wi = parseInt($("#van").css("width").split("px")[0]);
+        var o = parseFloat($("#blank").css("opacity") * ratio);
+        var TmaxVan = 5000;
+        var Tchange = 3500;
+        wi *= ratio;
+        wi = 2 * w * Math.atan(t / TmaxVan);
+        $("#blank").css("opacity", t / Tmax * 2);
+        if (!pageLoaded) {
+            $("#van").css("width", wi + "px");
+            $("#van").css("top", (h - wi) / 2 + 100 * t / TmaxVan + "px");
+            $("#van").css("left", (w - wi) / 2 + "px");
+            if(t>2500 && !request_index_send){
+                request_index_send = true;
+                var name = $("#name").val();
+                var password = $("#password").val();
+                var email = $("#email").val();
+                $.post("ajax/index.php", {name: name, password: password, email: email, type:"usual"})
+                        .done(function(data) {
+                    pageLoaded=true;
+                    $("#bloc_page").html(data);
+                });
+            }Tchange=t;
+        } else if (t <Tchange +2000) {
+            if(!TchangeSet){Tchange=t; TchangeSet=true;}
+            var h = window.innerHeight;
+            var w = window.innerWidth;
+
+            var wi = parseInt($("#van").css("width").split("px")[0]);
+            wi *= 1.1;
+            $("#van").css("width", wi + "px");
+            $("#van").css("top", (h - wi) / 2 + 100 * t / TmaxVan + "px");
+            $("#van").css("left", (w - wi) / 2 + "px");
+            $("#blank").css("opacity", 1 - (t - Tchange) / 2000);
+            $("#van").css("opacity", 1 - (t - Tchange) / 2000);
+        }
+        else {
+            var image_x = document.getElementById('van');
+            image_x.parentNode.removeChild(image_x);
+            var image_x = document.getElementById('blank');
+            image_x.parentNode.removeChild(image_x);
+
+            clearInterval(myInterval);
+        }
+    }
+
     function create() {
         var t = new Date().getTime() - t0;
         var myid = numCloud;
@@ -380,9 +454,10 @@ htmlHeader("connexion");
             var name = $("#name").val();
             var password = $("#password").val();
             var email = $("#email").val();
-            $.post("ajax/index.php", {name: name, password: password, email: email})
+            $.post("ajax/index.php", {name: name, password: password, email: email, type:"smoke"})
                     .done(function(data) {
                 $("#bloc_page").html(data);
+                    pageLoaded=true;
             });
         }
         $("#bloc_page").css({"opacity": "" + ((Tmax - t) * (Tmax - t) * (Tmax - t) * (Tmax - t) / Tmax / Tmax / Tmax / Tmax)});

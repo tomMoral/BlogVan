@@ -4,6 +4,7 @@
 include("../headerPHP.php");
 $bad_password = false;
 if (isset($_POST['name'])) {
+    $_SESSION['type']=isset($_POST['type']) &&  $_POST['type'] =="smoke" ? "smoke" : "usual";
     $name = htmlspecialchars($_POST['name']);
     if (isset($_SESSION['try_connexion'][$name])) {
         $_SESSION['try_connexion'][$name]++;

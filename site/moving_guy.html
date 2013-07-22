@@ -43,7 +43,7 @@
     m_height = 50*scale;
     m_pos = -25*scale;
     ctx.drawImage(mouth, -25, m_pos, 50, m_height);
-    ctx.scale(1/scale);
+    ctx.scale(1,1);
     ctx.translate(pos_x-x_mouth, pos_y-y_mouth);
     angle += da;
     angle %= 2*pi;

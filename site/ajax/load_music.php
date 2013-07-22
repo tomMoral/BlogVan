@@ -2,8 +2,8 @@
 include_once("../headerPHP.php");
 $A = scandir("../sounds/music");
 for ($i = 0; $i < count($A); $i++) {
-    if (substr($A[$i], 0, 1) != ".") {
-        $A[$i] = "sounds/music/" . $A[$i];
+    if (substr($A[$i], 0, 1) != "." && explode('.',$A[$i])[1]=="mp3") {
+        $A[$i] = "sounds/music/" . explode('.',$A[$i])[0];
     } else {
         $A[$i] = "";
     }
@@ -31,8 +31,13 @@ if (!isset($_SESSION['songs'])) {
         var nb_songs =<?php echo $count; ?>;
         var song_num = 0;
         var audio = new Audio();
+        
         function load() {
-            audio.src = songs[song_num % nb_songs];
+            if (audio.canPlayType('audio/mpeg;')) {
+    audio.src = songs[song_num % nb_songs]+".mp3";
+} else {
+    audio.src = songs[song_num % nb_songs]+'.ogg';
+}
             song_num++;
             audio.load();
         }
@@ -43,6 +48,8 @@ if (!isset($_SESSION['songs'])) {
                 myPlay();
             });
         }
+
+
         audio.src = <?php
 if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SESSION['song_num'])) {
     $temp = explode("/", $_SESSION['playing']);
@@ -55,6 +62,12 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
             song_num++;<?php
 }
 ?>
+        
+        if (audio.canPlayType('audio/mpeg;')) {
+    audio.src += ".mp3";
+} else {
+    audio.src += '.ogg';
+}
         audio.load();
         var is_playing = 0;
 
@@ -100,10 +113,6 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
             send_music(audio.currentTime, audio.src, songs, song_num, is_playing);
         });
 
-
-        $(document).mousemove(function(event) {
-            send_music(audio.currentTime, audio.src, songs, song_num, is_playing);
-        });
         $(document).click(function(event) {
             send_music(audio.currentTime, audio.src, songs, song_num, is_playing);
         });

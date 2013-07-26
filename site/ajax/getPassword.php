@@ -1,5 +1,5 @@
 <?php
-include("../headerPHP.php");
+include_once("../headerPHPforConnexion.php");
 $nom = (isset($_POST["name"])) ? htmlspecialchars($_POST["name"]) : NULL;
 
 if ($nom) {

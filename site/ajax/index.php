@@ -1,7 +1,7 @@
 <?php
 
 //do as index, used for the smoke transition
-include("../headerPHP.php");
+include("../headerPHPforConnexion.php");
 $bad_password = false;
 if (isset($_POST['name'])) {
     $_SESSION['type']=isset($_POST['type']) &&  $_POST['type'] =="smoke" ? "smoke" : "usual";

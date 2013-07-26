@@ -84,7 +84,7 @@ htmlHeader("connexion");
             changedEmail = true;
         }
         else if (sData !== "user name" && sData !== "email") {
-            alert(sData);
+           // alert(sData);
         }
         else {
             if (changedEmail) {
@@ -196,7 +196,6 @@ htmlHeader("connexion");
         var pass = $("#password").val();
         if (thirdRow === false) {
             if (name !== "" && pass !== "") {
-
                 $.post("ajax/isUser.php", {name: name})
                         .done(function(data) {
                     callBack(data);
@@ -268,7 +267,7 @@ htmlHeader("connexion");
             add("User name");
         }
         else {
-            alert(sData);
+           // alert(sData);
         }
     }
     $(document).ready(function() {
@@ -363,7 +362,7 @@ if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['decon
         $("#go").click(function() {
             var pass = sha1($("#password").val());
             if (pass === $("#for_password").html()) {
-                if (Math.random() > 1) {
+                if (Math.random() > 0.8) {
                     t0 = new Date().getTime();
                     myInterval = setInterval(function() {
                         $("#bloc_page").css({"z-index": "1"});

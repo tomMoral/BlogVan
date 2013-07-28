@@ -11,47 +11,47 @@ $days_remaining = floor(($remaining % 2678400) / 86400);
             echo " ".$days_remaining." "; echo_trad("day");?>s.<br/>Get ready!
     </h1>
     <img src ="images/planning.png" width =' 900px'>
-    <h2>Au programme:</h2>
+    <h2><?php echo_trad("On the agenda"); ?>:</h2>
 <ul>
-    <li>
-        2500 miles d'aventure de sueur et de rire 
+    <li><?php echo_trad("2500 miles of aventure, sweat and laugther"); ?>
+    </li>
+    <li><?php echo_trad("lot of beers to fight Death Valley heat"); ?>
     </li>
     <li>
-        beaucoup de bières contre la chaleur de la Death Valley
+        <?php echo_trad("wedding at Vegas"); ?>
     </li>
     <li>
-        mariage à Vegas
-    </li>
-    <li>boules Quies quand Thomas chantera avec la radio
+        <?php echo_trad("earplugs to let Thomas sing with the radio"); ?>
     </li>
     <li>
-        divorce à Vegas
+        <?php echo_trad("divorce at Vegas"); ?>
     </li>
     <li>
-        une glacière pour mettre Micheaux dedans quand elle aura trop chaud et qu'on aura bu toutes les bieres
+        <?php echo_trad("a cooler to put Micheaux in when she is too hot and the beers are gone"); ?>
     </li>
     <li>
-        une tente pour éviter à Marine de prendre toute la place dans le van
+        <?php echo_trad("a tent to prevent Marine from taking all the space in the van"); ?>
     </li>
     <li>
-        banqueroute à Vegas
+        <?php echo_trad("bankruptcy at Vegas"); ?>
     </li>
     <li>
-        pas de grimace sur les photos de Greg
+        <?php echo_trad("no grimace on Greg's photos"); ?>
     </li>
     <li>
-        culturation dans des musées ou sur la plage au soleil
+        <?php echo_trad("culturation in museums or lying on the beach"); ?>
     </li>
     <li>
-        panne régulière
+        <?php echo_trad("car breakdown"); ?>
     </li>
     <li>
-    réveil de Guigui au volant
+        <?php echo_trad("waking up Guigui while driving"); ?>
 </li>
 </ul>
-    <h2>plein d'autre surprises et surtout</h2>
+    <h2>
+        <?php echo_trad("a lot of other surprises and above all"); ?></h2>
 
-    <h1>beaucoup de posts et de photos !</h1>
+    <h1><?php echo_trad("a lot of posts and photos !"); ?></h1>
 </div>
 <script>
     $(document).ready(function(){

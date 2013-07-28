@@ -208,6 +208,22 @@ $trad = array(
     "Are you sure you want to delete this comment?" => "Etes vous bien sur de vouloir effacer ce chouette commentaire ?",
     "this is really cool!" => "ça c'est cool!",
     "you find it really cool!" => "tu trouves ça très cool!",
-    "New post" => "Nouveau post"
-);
+    "New post" => "Nouveau post",
+    "On the agenda"=>"Au programme",
+    "2500 miles of aventure, sweat and laugther"=>"2500 miles d'aventure de sueur et de rire ",
+    "lot of beers to fight Death Valley heat"=>"beaucoup de bières contre la chaleur de la Death Valley",
+    "wedding at Vegas"=>" mariage à Vegas",
+    "earplugs to let Thomas sing with the radio"=>"boules Quies pour laisser Thomas chanter avec la radio",
+    "divorce at Vegas"=>"divorce à Vegas",
+    "a cooler to put Micheaux in when she is too hot and the beers are gone"=>"une glacière pour mettre Micheaux dedans quand elle aura trop chaud et qu'on aura bu toutes les bieres",
+    "a tent to prevent Marine from taking all the space in the van"=>" une tente pour éviter à Marine de prendre toute la place dans le van",
+    "bankruptcy at Vegas"=>"banqueroute à Vegas",
+    "no grimace on Greg's photos"=>" pas de grimace sur les photos de Greg",
+    "culturation in museums or lying on the beach"=>"culturation dans des musées ou allongé sur la plage au soleil",
+    "car breakdown"=>"panne régulière",
+    "waking up Guigui while driving"=>"réveil de Guigui au volant",
+    "a lot of other surprises and above all"=>"plein d'autre surprises et surtout",
+    "a lot of posts and photos !"=>"beaucoup de posts et de photos !"
+        
+    );
 ?>

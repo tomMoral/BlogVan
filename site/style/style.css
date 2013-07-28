@@ -212,7 +212,15 @@ nav div
     width: 170px;
     text-align: center;
 }
+.logo_container
+{
+    width:50px;
+}
 
+.text_container
+{
+    width:80px;
+}
 nav a
 {
     font-size: 1.3em;
@@ -236,7 +244,7 @@ nav .travel:hover
     border-bottom: 3px solid #004A7F;
 }
 
-nav .team:hover
+nav .newpost:hover
 {
     border-bottom: 3px solid #F11515;
 }

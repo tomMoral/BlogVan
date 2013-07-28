@@ -281,9 +281,11 @@ htmlHeader("connexion");
         });
     });
 </script>
-<div class="center"><?php
+<div class="center">
+    
+    <?php
 if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['deconnexion'] == 'true') {?>
-    <h1><?php echo string_trad("See you soon ") . "guigui" . "!";?></h1><div id='div2'><img src='images/6.png'/></div>
+    <h1><?php echo string_trad("See you soon ") . htmlspecialchars($_SESSION['last_user'] ). "!";?></h1><div id='div2'><img src='images/6.png'/></div>
 <?php }else{?>
     <h1><?php echo_trad("Welcome on board"); ?>!</h1><div id='div2'><img src='images/6.png'/></div>
  <?php  
@@ -374,8 +376,8 @@ if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['decon
                     var h = window.innerHeight;
                     var w = window.innerWidth;
                     var wi = 0;
-                    $("body").prepend("<img src='images/face_<?php  echo $random_van;?>_big.png'/ id='van' style='position:absolute; top:" + (h - wi) / 2 + "px; left:" + (w - wi) / 2 + "px; width:0px; z-index:3'>");
-                    $("body").prepend("<img src='images/blank.jpg'/ id='blank' style='position:absolute; top:" + -h + "px; left:" + -w + "px; width:" + 3 * w + "px; height:" + 3 * h + "px; z-index:2; opacity:0.02'>");
+                    $("body").prepend("<img src='images/face_<?php  echo $random_van;?>_big.png'/ id='van' style='position:fixed; top:" + (h - wi) / 2 + "px; left:" + (w - wi) / 2 + "px; width:0px; z-index:3'>");
+                    $("body").prepend("<img src='images/blank.jpg'/ id='blank' style='position:fixed; top:" + -h + "px; left:" + -w + "px; width:" + 3 * w + "px; height:" + 3 * h + "px; z-index:2; opacity:0.02'>");
                     t0 = new Date().getTime();
                     wait = true;
                     myInterval = setInterval(function() {
@@ -480,7 +482,7 @@ if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['decon
                 var r = Math.random() * t * w / Tmax;
                 var x = r * Math.cos(theta) + h / 2 - img_h / 2;
                 var y = r * Math.sin(theta) + w / 2 - img_w / 2;
-                $("#for_cloud").append('<img id ="cloud' + numCloud + '" src="images/cloud.png" style="position:absolute; top:' + x + 'px;  left:' + y + 'px; width:326px; height:250px; z-index:' + (1 + numCloud) + ';"/>');
+                $("#for_cloud").append('<img id ="cloud' + numCloud + '" src="images/cloud.png" style="position:fixed; top:' + x + 'px;  left:' + y + 'px; width:326px; height:250px; z-index:' + (1 + numCloud) + ';"/>');
 
                 var w0 = x;
                 var h0 = y;

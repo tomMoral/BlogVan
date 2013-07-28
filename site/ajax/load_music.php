@@ -1,9 +1,10 @@
 <?php
-include_once("../headerPHP.php");
+include_once("../headerPHPforConnexion.php");
+
 $A = scandir("../sounds/music");
 for ($i = 0; $i < count($A); $i++) {
-    if (substr($A[$i], 0, 1) != "." && explode('.',$A[$i])[1]=="mp3") {
-        $A[$i] = "sounds/music/" . explode('.',$A[$i])[0];
+    if (substr($A[$i], 0, 1) != "." && explode('.', $A[$i])[1] == "mp3") {
+        $A[$i] = "sounds/music/" . explode('.', $A[$i])[0];
     } else {
         $A[$i] = "";
     }
@@ -11,6 +12,7 @@ for ($i = 0; $i < count($A); $i++) {
 shuffle($A);
 ?>
 <script>
+
 
     $(document).ready(function() {
         var songs = [<?php
@@ -31,13 +33,13 @@ if (!isset($_SESSION['songs'])) {
         var nb_songs =<?php echo $count; ?>;
         var song_num = 0;
         var audio = new Audio();
-        
+
         function load() {
             if (audio.canPlayType('audio/mpeg;')) {
-    audio.src = songs[song_num % nb_songs]+".mp3";
-} else {
-    audio.src = songs[song_num % nb_songs]+'.ogg';
-}
+                audio.src = songs[song_num % nb_songs] + ".mp3";
+            } else {
+                audio.src = songs[song_num % nb_songs] + '.ogg';
+            }
             song_num++;
             audio.load();
         }
@@ -59,31 +61,47 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
 } else {
     ?>
             songs[song_num % nb_songs];
-            song_num++;<?php
+            song_num++;
+            if (audio.canPlayType('audio/mpeg;')) {
+                audio.src += ".mp3";
+            } else {
+                audio.src += '.ogg';
+            }<?php
 }
 ?>
-        
-        if (audio.canPlayType('audio/mpeg;')) {
-    audio.src += ".mp3";
-} else {
-    audio.src += '.ogg';
-}
+
+        var startTime = <?php echo isset($_SESSION['currentTime']) ? $_SESSION['currentTime'] : "0"; ?>;
+        var playing = <?php echo isset($_SESSION['is_playing']) && $_SESSION['is_playing'] == 1 ? "true" : "false"; ?>;
         audio.load();
         var is_playing = 0;
+        var startTimeSet = false;
+        function setStartTime() {
+            if (!startTimeSet) {
+                audio.currentTime = startTime;
+                startTimeSet = true;
+                if (playing) {
+                    audio.play();
+                } else {
+                    audio.pause();
+                }
+            }
+        }
+        ;
 
 <?php
 if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SESSION['song_num']) && isset($_SESSION['is_playing'])) {
     echo "is_playing = " . $_SESSION['is_playing'] . ";";
     if ($_SESSION['is_playing'] == 1) {
         echo ' $("#manage_music img").attr("src", "images/pause.png");';
+        echo "audio.addEventListener('canplaythrough', setStartTime, false);";
     }
-    $_SESSION['currentTime'] = null;
     echo "audio.play();";
     if ($_SESSION['is_playing'] == 0) {
-        echo "audio.pause();";
+        echo "audio.addEventListener('canplaythrough', setStartTime, false);";
         echo ' $("#manage_music img").attr("src", "images/play.png");';
     }
     // echo "audio.currentTime = ".$_SESSION['currentTime'].";";
+    $_SESSION['currentTime'] = null;
     $_SESSION['playing'] = null;
     $_SESSION['song_num'] = null;
 } else {

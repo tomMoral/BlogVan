@@ -59,7 +59,7 @@ function dateToDuree($date) {
     }
     $user = user::getSessionUser();
     if ($user == null) {
-        $language = isset($_SESSION['language']) ? $_SESSION['language'] == "FR" ? "FR" : "EN" : "EN";
+        $language = isset($_SESSION['language']) ? $_SESSION['language'] == "FR" ? "FR" : "EN"  : "EN";
     } else {
         $language = $user->language == "FR" ? "FR" : "EN";
     }
@@ -89,46 +89,49 @@ function htmlHeader($tohide) {
         </script>
         <div id="bloc_page"><header> 
 <div id="banniere_image">';
-    if($tohide !="connexion"){echo '<div id="banniere_description">
-        <nav>';
-    if ($tohide != "blog") {
-        echo '<a href="index.php" class="blog"><div><img src="images/face_purple.png" alt="Logo VW" class="logo" />Blog</div></a>';
-    }
-    if ($tohide != "photo") {
-        echo '               <a href="photos.php" class="photo"><div><img src="images/face.png" alt="Logo VW" class="logo" />Photos</div></a>';
-    }
-    if ($tohide != "travel") {
-        echo '       
-                    <a href="travel.php" class="travel"><div><img src="images/face_blue2.png" alt="Logo VW" class="logo" />' . string_trad('Travel') . '</div></a>';
-    }
-    if (false) {
-        echo '       
-                    <a href="#" class="team"><div><img src="images/face_red.png" alt="Logo VW" class="logo" />Team</div></a>';
-    }
-    if ($tohide != "van") {
-        echo '       
-                    <a href="van.php" class="van"><div><img src="images/face_green.png" alt="Logo VW" class="logo" />Van</div></a>';
-    }
     if ($tohide != "connexion") {
-        if (!isset($_SESSION['user'])) {
-            echo '<a href="connexion.php" class="connexion"><div><div class="image_logo" ><img src="images/face_yellow.png" alt="Logo VW" class="logo" /></div><div class="text_logo">' . string_trad('Get in') . '</div></div></a>';
-        } else {
-            echo '<a href="deconnexion.php" class="connexion"><div><img src="images/face_yellow.png" alt="Logo VW" class="logo" />' . string_trad('Get out') . '</div></a>';
+        echo '<div id="banniere_description">
+        <nav>';
+        if ($tohide != "blog") {
+            echo '<a href="index.php" class="blog"><div><img src="images/face_purple.png" alt="Logo VW" class="logo" />Blog</div></a>';
         }
-    }
-    echo '
+        if ($tohide != "photo") {
+            echo '               <a href="photos.php" class="photo"><div><img src="images/face.png" alt="Logo VW" class="logo" />Photos</div></a>';
+        }
+        if ($tohide != "travel") {
+            echo '       
+                    <a href="travel.php" class="travel"><div><img src="images/face_blue2.png" alt="Logo VW" class="logo" />' . string_trad('Travel') . '</div></a>';
+        }
+        if (false) {
+            echo '       
+                    <a href="#" class="team"><div><img src="images/face_red.png" alt="Logo VW" class="logo" />Team</div></a>';
+        }
+        if ($tohide != "van") {
+            echo '       
+                    <a href="van.php" class="van"><div><img src="images/face_green.png" alt="Logo VW" class="logo" />Van</div></a>';
+        }$user = User::getSessionUser();
+        if ($user != null && $user->type == "2") {
+            echo '<a href="new_post.php" class="newpost"><div><div class="logo_container"><img src="images/face_red.png" class="logo"/></div><div  class="text_container">' . string_trad('New post') . '</div></div></a>';
+        }
+        if ($tohide != "connexion") {
+            if (!isset($_SESSION['user'])) {
+                echo '<a href="connexion.php" class="connexion"><div><div class="image_logo" ><img src="images/face_yellow.png" alt="Logo VW" class="logo" /></div><div class="text_logo">' . string_trad('Get in') . '</div></div></a>';
+            } else {
+                echo '<a href="deconnexion.php" class="connexion"><div><img src="images/face_yellow.png" alt="Logo VW" class="logo" />' . string_trad('Get out') . '</div></a>';
+            }
+        }
+
+        echo '
                     </nav>
         
-    </div>'; } echo '</div>
+    </div>';
+    } echo '</div>
                 
-            </header>
-<div id="manage_music"><img src="';
-    echo (isset($_SESSION['currentTime']) 
-            && isset($_SESSION['playing']) 
-            && isset($_SESSION['song_num']) 
-            && isset($_SESSION['is_playing'])
-            && $_SESSION['is_playing']==1) ? 'images/pause.png"' : 'images/play.png"';
-    echo 'width="100px"/></div>
+            </header>';
+    if ($tohide != "connexion") {
+        echo '<div id="manage_music"><img src="';
+        echo (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SESSION['song_num']) && isset($_SESSION['is_playing']) && $_SESSION['is_playing'] == 1) ? 'images/pause.png"' : 'images/play.png"';
+        echo 'width="100px"/></div>
 <div id="for_music"></div>
 <script>
     $(document).ready(function() {
@@ -137,7 +140,8 @@ function htmlHeader($tohide) {
             $("#for_music").append(data);
         });
     });
-</script>';
+    </script>';
+    }
 }
 
 function echo_trad($string) {
@@ -147,7 +151,7 @@ function echo_trad($string) {
 function string_trad($string) {
     $user = user::getSessionUser();
     if ($user == null) {
-        $language = isset($_SESSION['language']) ? $_SESSION['language'] == "FR" ? "FR" : "EN" : "EN";
+        $language = isset($_SESSION['language']) ? $_SESSION['language'] == "FR" ? "FR" : "EN"  : "EN";
     } else {
         $language = $user->language == "FR" ? "FR" : "EN";
     }
@@ -195,14 +199,15 @@ $trad = array(
     "The adventure begins in" => "L'aventure commence dans",
     "Password" => "Mot de passe",
     "Username" => "Nom d'utilisateur",
-    "less than one minute ago" =>"il y a moins d'une minute",
-    "delete"=>"supprimer",
-    "close"=>"clore",
-    "show all comments"=>"afficher tout les coms",
-    "hide comments"=>"masquer les coms",
-    "modify" =>"modifier",
-    "Are you sure you want to delete this comment?"=>"Etes vous bien sur de vouloir effacer ce chouette commentaire ?",
-    "this is really cool!"=> "ça c'est cool!",
-    "you find it really cool!"=> "tu trouves ça très cool!"
+    "less than one minute ago" => "il y a moins d'une minute",
+    "delete" => "supprimer",
+    "close" => "clore",
+    "show all comments" => "afficher tout les coms",
+    "hide comments" => "masquer les coms",
+    "modify" => "modifier",
+    "Are you sure you want to delete this comment?" => "Etes vous bien sur de vouloir effacer ce chouette commentaire ?",
+    "this is really cool!" => "ça c'est cool!",
+    "you find it really cool!" => "tu trouves ça très cool!",
+    "New post" => "Nouveau post"
 );
 ?>

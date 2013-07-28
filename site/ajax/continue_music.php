@@ -1,5 +1,5 @@
 <?php
-include_once("../headerPHPforConnexion.php"); 
+include_once("../headerPHPforConnexion.php");
 if(isset($_POST['songs'])){
     $_SESSION['songs']=$_POST['songs'];
 }

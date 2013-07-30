@@ -34,6 +34,7 @@ background-position: 0 .5em;
 }
 #bloc_page
 {
+    position:relative;
     width: 900px;
     margin: auto;
 }
@@ -67,7 +68,7 @@ background-position: 0 .5em;
 #manage_music{
     position: absolute;
     top:50px;
-    left:50px;
+    left:-120px;
 }
 
 .delete_post_a:visited, .delete_post_a:hover, .delete_post_a:link

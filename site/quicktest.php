@@ -41,15 +41,13 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
     };
 
 
-
+//map dimentions
     var height = 500;
     var width = 900;
-    var lat1 = 0;
-    var lat2 = 0;
-    var lon1 = 0;
-    var lon2 = 0;
+
     function initialize() {
         var myLatLng = new google.maps.LatLng(38, -100);
+        //define the default map
         var mapOptions = {
             zoom: 3,
             center: myLatLng,
@@ -60,6 +58,7 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
         var canvasProjectionOverlay = new CanvasProjectionOverlay();
         canvasProjectionOverlay.setMap(map);
 
+        //define coordinates of the points of the path
         var flightPlanCoordinates = [
             new google.maps.LatLng(45.772323, -122.214897),
             new google.maps.LatLng(42.291982, -100),
@@ -67,14 +66,17 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
             new google.maps.LatLng(29.46758, -56)
         ];
 
+        //define the points of the path
         var flightPath = new google.maps.Polyline({
             path: flightPlanCoordinates,
             strokeColor: '#FF0000',
             strokeOpacity: 1.0,
             strokeWeight: 2
         });
+        //plot strait lines
         flightPath.setMap(map);
 
+        //add a van at the end
         var imageVan = 'images/van_for_map.png';
         var myLatLngVan = new google.maps.LatLng(29.46758, -56);
         var markerVan = new google.maps.Marker({
@@ -84,7 +86,7 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
         });
         markerVan.setMap(map);
 
-
+        //if the map change or is loaded, we change the photos position
         google.maps.event.addListener(map, 'bounds_changed', function() { // screenCoords is a GPoint object7
             for (var photo in photos) {
                 var point = canvasProjectionOverlay.getProjection().fromLatLngToContainerPixel(new google.maps.LatLng(photos[photo]['lat'], photos[photo]['lon']));
@@ -101,7 +103,7 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
         });
 
 
-        //the following limits the map zoom and position
+        //the following limits the map zoom and position (there is problem when the map shows several time the world to display the photos
         // This is the minimum zoom level that we'll allow
         var minZoomLevel = 2;
         // Bounds for North America
@@ -156,21 +158,23 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
     document.getElementById("map-canvas").style.height = height + "px";
     document.getElementById("map-canvas").style.width = width + "px";
     $(document).ready(function() {
-
+        //enlarge photos on mouse over
         var enlarged = -1;
         $("img").mouseover(function(event) {
             var id = event.target.id;
-            if (id != enlarged) {
+            if (id !== enlarged) {
                 makeSmaller(enlarged);
                 enlarge(id);
             }
         });
-        $("img").mouseout(function(){
-            if (enlarged!==-1) {
+        $("img").mouseout(function() {
+            if (enlarged !== -1) {
                 makeSmaller(enlarged);
-                enlarged=-1;
+                enlarged = -1;
             }
         });
+        
+        //show them in full sreen when click
         $("img").click(function(event) {
             var id = event.target.id;
             $("#bloc_page").append("<img src = 'images/black.jpg' style='position:fixed; top: 0px; left: 0px; width: 4000px; height: 5000px; z-index:999; opacity:0.5' id='black'/>");

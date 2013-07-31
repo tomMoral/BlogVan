@@ -53,7 +53,7 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
         var mapOptions = {
             zoom: 3,
             center: myLatLng,
-            mapTypeId: google.maps.MapTypeId.TERRAIN
+            mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
         var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);

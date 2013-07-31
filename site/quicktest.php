@@ -2,15 +2,17 @@
 //load the first 6 pictures and the other assyncronously
 include_once("headerPHP.php");
 htmlHeader("photo");
+photo::updatePosition();
 $photos = array();
 $db = database::connect();
 $perm = $user->type;
-$query = $db->prepare("SELECT `icon`, `latitude`, `longitude`, `name`, `id` FROM `photos` WHERE `permission`<=$perm AND `latitude`IS NOT NULL");
+$query = $db->prepare("SELECT `icon`, `latitude`, `longitude`, `medium`, `original`, `id` FROM `photos` WHERE `permission`<=$perm AND `latitude`IS NOT NULL");
 $query->execute();
 while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp = array();
     $temp['id'] = $photo['id'];
-    $temp['name'] = $photo['name'];
+    $temp['original'] = $photo['original'];
+    $temp['medium'] = $photo['medium'];
     $temp['icon'] = $photo['icon'];
     $temp['lat'] = $photo['latitude'];
     $temp['lon'] = $photo['longitude'];
@@ -178,7 +180,7 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
         $("img").click(function(event) {
             var id = event.target.id;
             $("#bloc_page").append("<img src = 'images/black.jpg' style='position:fixed; top: 0px; left: 0px; width: 4000px; height: 5000px; z-index:999; opacity:0.5' id='black'/>");
-            $("#bloc_page").append("<img src = '" + photos[id]['name'] + "' style='position: absolute; top: 200px; left: 185px; z-index:1000' id='big_photo'/>");
+            $("#bloc_page").append("<img src = '" + photos[id]['medium'] + "' style='position: absolute; top: 200px; left: 185px; z-index:1000' id='big_photo'/>");
             $("#big_photo").click(function() {
                 $("#big_photo").remove();
                 $("#black").remove();

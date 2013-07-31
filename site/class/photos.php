@@ -3,7 +3,9 @@
 class photo {
 
     public $id;
-    public $name;
+    public $original;
+    public $medium;
+    public $icon;
     public $permission;
     public $time;
     public $latitude;
@@ -16,10 +18,14 @@ class photo {
         $extension = $temp[count($temp) - 1];
         $main_name = substr($name, 0, strlen($name) - 1 - strlen($extension));
 
+        $image0 = new SimpleImage();
+        $image0->load($temp_file);
+        $image0->save($dossier . $dateAdded . $name);
+
         $image1 = new SimpleImage();
         $image1->load($temp_file);
         $image1->resizeToWidth(530);
-        $image1->save($dossier . $dateAdded . $name);
+        $image1->save($dossier . $dateAdded . $main_name . "Medium." . $extension);
 
         $image2 = new SimpleImage();
         $image2->load($temp_file);
@@ -35,18 +41,24 @@ class photo {
         $query = $db->prepare('CREATE TABLE IF NOT EXISTS `photos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `time` datetime NOT NULL,
-  `name` text NOT NULL,
+  `medium` text NOT NULL,
   `icon` text NOT NULL,
   `latitude` double DEFAULT NULL,
   `longitude` double DEFAULT NULL,
   `permission` int(8) NOT NULL,
+  `original` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;'
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+'
         );
         $query->execute();
 
-        $query = $db->prepare("INSERT INTO `photos` (`id`, `name`,`icon`,`permission`, `time`, `latitude`, `longitude`) VALUES(?,?,?,?,?,?,?) ");
-        $query->execute(array($id, $dossier . $dateAdded . $name, $dossier . $dateAdded . $main_name . "Icon." . $extension, $permission == 1 ? 0 : 1, $time, $lat, $lon));
+        $query = $db->prepare("INSERT INTO `photos` (`id`, `original`, `medium`,`icon`,`permission`, `time`, `latitude`, `longitude`) VALUES(?,?,?,?,?,?,?,?) ");
+        $query->execute(array($id, $dossier . $dateAdded . $name, $dossier . $dateAdded . $main_name . "Medium." . $extension, $dossier . $dateAdded . $main_name . "Icon." . $extension, $permission == 1 ? 0 : 1, $time, $lat, $lon));
+
+        if (file_exists($temp_file)) {
+            unlink($temp_file);
+        }
     }
 
     private static function nextId() {
@@ -91,10 +103,30 @@ class photo {
         if ($photo) {
             $query = $db->prepare("DELETE FROM `photos` WHERE `id` = $id;");
             $query->execute();
-            if (file_exists($photo['name'])) {
-                unlink($photo['name']);
-            }if (file_exists($photo['icon'])) {
+            if (file_exists($photo['original'])) {
+                unlink($photo['original']);
+            }
+            if (file_exists($photo['medium'])) {
+                unlink($photo['medium']);
+            }
+            if (file_exists($photo['icon'])) {
                 unlink($photo['icon']);
+            }
+        }
+    }
+
+    public static function updatePosition() {
+        $db = database::connect();
+        $query = $db->prepare("SELECT * FROM `photos` WHERE `time` IS NOT NULL AND (`latitude` IS NULL OR `longitude` IS NULL);");
+        $query->execute();
+        while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
+            $pos1 = position::lastPositionBefore($photo['time']);
+            $pos2 = position::firstPositionAfter($photo['time']);
+            if ($pos1 != null && $pos2 != null) {
+                $lat = ((strtotime($photo['time']) - strtotime($pos1['time'])) * $pos1['latitude'] + (strtotime($pos2['time']) - strtotime($photo['time'])) + $pos2['latitude']) / (strtotime($pos2['time']) - strtotime($pos1['time']));
+                $lon = ((strtotime($photo['time']) - strtotime($pos1['time'])) * $pos1['longitude'] + (strtotime($pos2['time']) - strtotime($photo['time'])) + $pos2['longitude']) / (strtotime($pos2['time']) - strtotime($pos1['time']));
+                $query2 = $db->prepare("UPDATE `photo` SET `latitude` =$lat , `longitude`=$lon;");
+                $query2->execute();
             }
         }
     }

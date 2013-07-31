@@ -17,7 +17,7 @@ if ($user != null && $user->type == 2 && isset($_GET['delete_photo'])) {
         $query = $db->prepare("SELECT * FROM `photos` WHERE `permission` <= $perm ORDER BY `time` DESC;");
         $query->execute();
         while (($photo = $query->fetch(PDO::FETCH_ASSOC)) && $j < 6) {
-            $name = $photo['name'];
+            $name = $photo['medium'];
             $j++;
             echo $j % 2 == 1 ? '<tr><td>' : '<td>';
             if ($j % 2 == 1) {

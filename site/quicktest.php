@@ -91,7 +91,8 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
                 var pic = document.getElementById(photos[photo]['id']);
                 if (point.x > 0 && point.x < width && point.y > 0 && point.y < height) {
                     pic.style.display = 'block';
-                    pic.style.top = point.y + "px";
+                    var str = pic.height;
+                    pic.style.top = point.y - parseFloat(str) + "px";
                     pic.style.left = point.x + "px";
                 } else {
                     pic.style.display = 'none';
@@ -142,7 +143,7 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
 </script> 
 
 
-<div style="position:relative; width: 900px; height: 500px"><div id="map-canvas"></div>
+<div style="position:relative; width: 900px; height: 500px" id="container"><div id="map-canvas"></div>
     <?php
     foreach ($photos as $photo) {
         echo'<img src="' . $photo['icon'] . '" id="' . $photo['id'] . '" style="position:absolute; top:-10000px; left:-10000px"/>';
@@ -150,9 +151,26 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
     ?>
 </div>
 <script>
+
+
     document.getElementById("map-canvas").style.height = height + "px";
     document.getElementById("map-canvas").style.width = width + "px";
     $(document).ready(function() {
+
+        var enlarged = -1;
+        $("img").mouseover(function(event) {
+            var id = event.target.id;
+            if (id != enlarged) {
+                makeSmaller(enlarged);
+                enlarge(id);
+            }
+        });
+        $("img").mouseout(function(){
+            if (enlarged!==-1) {
+                makeSmaller(enlarged);
+                enlarged=-1;
+            }
+        });
         $("img").click(function(event) {
             var id = event.target.id;
             $("#bloc_page").append("<img src = 'images/black.jpg' style='position:fixed; top: 0px; left: 0px; width: 4000px; height: 5000px; z-index:999; opacity:0.5' id='black'/>");
@@ -166,6 +184,54 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
                 $("#black").remove();
             });
         });
+
+        function enlarge(id) {
+            enlarged = id;
+            if (document.getElementById("under_photo") !== null) {
+                $("#under_photo").remove();
+            }
+            $("#container").append('<img src="images/underphoto.png" style="position:absolute; top:50px; left:50px" id="under_photo"/>');
+            var under = document.getElementById("under_photo");
+            var pic = document.getElementById(id);
+
+            under.style.top = 50 + "px";
+            under.style.left = 50 + "px"
+
+            var previousHeight = parseFloat(pic.height);
+            var newHeight = 50;
+            pic.style.height = newHeight + "px";
+
+
+            under.width = parseFloat(pic.width);
+            var underHeight = parseFloat(under.height);
+            var str = pic.style.top;
+            var previousTop = parseFloat(str.substr(0, str.length - 2));
+
+            var str = pic.style.left;
+            var Left = parseFloat(str.substr(0, str.length - 2));
+            pic.style.top = (previousTop - underHeight + previousHeight - newHeight) + "px";
+
+
+            under.style.top = (previousTop - underHeight + previousHeight) + "px";
+            under.style.left = Left + "px";/**/
+        }
+
+        function makeSmaller(id) {
+            var pic = document.getElementById(id);
+            if (document.getElementById("under_photo") !== null) {
+                $("#under_photo").remove();
+            }
+            if (pic != null) {
+                var str = pic.style.top;
+                var previousTop = parseFloat(str.substr(0, str.length - 2));
+                str = pic.height;
+                var previousHeight = parseFloat(str);
+                pic.style.height = 40 + "px";
+                str = pic.height;
+                var newHeight = parseFloat(str);
+                pic.style.top = (previousTop + 20 + previousHeight - newHeight) + "px";
+            }
+        }
     });
 </script>
 <?php

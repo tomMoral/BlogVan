@@ -149,7 +149,7 @@ class user {
             $_SESSION['last_user'] = $user->name;
         }
         $_SESSION['language']=$language;
-        header('Location: connexion.php?deconnexion=true', true);
+        header('Location: /connexion.php?deconnexion=true', true);
     }
 
     public function set_last_connexion() {

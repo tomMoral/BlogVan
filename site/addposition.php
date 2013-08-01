@@ -19,7 +19,7 @@ if ($user != null && $user->type == 2) {
     <?php
     include_once("footer.php");
 } else {
-    header('Location: index.php');
+    header('Location: /index.php');
     die;
 }
 ?>

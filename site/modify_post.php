@@ -153,7 +153,7 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
             echo $pics;
             $return = Posts::modify_post($_POST['id'], 'GPS1', $_POST['title'], $_POST['titleFrench'], str_replace("#####", $_POST['id'], nl2br($_POST['post'])), str_replace("#####", $_POST['id'], nl2br($_POST['postFrench'])), $perm);
             if ($return == '') {
-                header("Location: index.php");
+                header("Location: /index.php");
             } else {
                 echo $return;
             }
@@ -370,6 +370,6 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
         }
     }
 } else {
-    header('Location: index.php');
+    header('Location: /index.php');
 }
 ?>

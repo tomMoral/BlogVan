@@ -10,7 +10,12 @@ for ($i = 0; $i < count($A); $i++) {
     }
 }
 shuffle($A);
+include("../moving_guy.php");
 ?>
+
+
+
+
 <script>
 
 
@@ -44,7 +49,7 @@ if (!isset($_SESSION['songs'])) {
             audio.load();
         }
         function myPlay() {
-            audio.play();
+            audio.play();draw_play();
             audio.addEventListener('ended', function() {
                 load();
                 myPlay();
@@ -81,8 +86,10 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
                 startTimeSet = true;
                 if (playing) {
                     audio.play();
+                    draw_play();
                 } else {
                     audio.pause();
+                    draw_stop();
                 }
             }
         }
@@ -92,13 +99,13 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
 if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SESSION['song_num']) && isset($_SESSION['is_playing'])) {
     echo "is_playing = " . $_SESSION['is_playing'] . ";";
     if ($_SESSION['is_playing'] == 1) {
-        echo ' $("#manage_music img").attr("src", "images/pause.png");';
+        echo ' $("#play_pause").attr("src", "images/pause.png");';
         echo "audio.addEventListener('canplaythrough', setStartTime, false);";
     }
-    echo "audio.play();";
+    echo "audio.play();  draw_play();";
     if ($_SESSION['is_playing'] == 0) {
         echo "audio.addEventListener('canplaythrough', setStartTime, false);";
-        echo ' $("#manage_music img").attr("src", "images/play.png");';
+        echo ' $("#play_pause").attr("src", "images/play.png");';
     }
     // echo "audio.currentTime = ".$_SESSION['currentTime'].";";
     $_SESSION['currentTime'] = null;
@@ -106,7 +113,7 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
     $_SESSION['song_num'] = null;
 } else {
     echo "audio.play();";
-    echo "audio.pause();";
+    echo "audio.pause(); draw_stop();";
 }
 ?>
         audio.addEventListener('ended', function() {
@@ -116,17 +123,18 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
 
 
 
-
         $("#music").hide();
-        $("#manage_music").click(function() {
+        $("#play_pause").click(function() {
             is_playing = is_playing === 0 ? 1 : 0;
             if (is_playing === 1) {
                 audio.play();
-                $("#manage_music img").attr("src", "images/pause.png");
+                $("#play_pause").attr("src", "images/pause.png");
+                draw_play();
             }
             else {
                 audio.pause();
-                $("#manage_music img").attr("src", "images/play.png");
+                $("#play_pause").attr("src", "images/play.png");
+                draw_stop();
             }
             send_music(audio.currentTime, audio.src, songs, song_num, is_playing);
         });
@@ -138,3 +146,4 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
     });
 
 </script>
+

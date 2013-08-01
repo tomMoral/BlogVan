@@ -130,10 +130,10 @@ function htmlHeader($tohide) {
             </header>';
     if ($tohide != "connexion") {
         echo '<div id="manage_music">';
-        include('moving_guy.php');
-        echo '<img src="';
+        echo '<div><canvas id="guitariste" ></canvas></div>
+            <img src="';
         echo (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SESSION['song_num']) && isset($_SESSION['is_playing']) && $_SESSION['is_playing'] == 1) ? 'images/pause.png"' : 'images/play.png"';
-        echo 'width="100px"/></div>
+        echo 'width="100px" id="play_pause"/></div>
 <div id="for_music"></div>
 <script>
     $(document).ready(function() {

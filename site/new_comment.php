@@ -12,6 +12,6 @@
             Posts::add_comment(htmlspecialchars($_POST['id']), $usr->name, htmlspecialchars($_POST['body']));
     }
     
-    header("Location: index.php");
+    header("Location: /index.php");
     exit;
 ?>

@@ -71,6 +71,10 @@ background-position: 0 .5em;
     left:-120px;
 }
 
+#manage_music canvas{
+    display: block;
+}
+
 .delete_post_a:visited, .delete_post_a:hover, .delete_post_a:link
 {
     color:black;

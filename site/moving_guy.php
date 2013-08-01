@@ -1,10 +1,14 @@
-<canvas id="guitariste" width="685" height="917" style="border:1px solid #c3c3c3;"></canvas>
-
-<div id="stop">Stop</div>
+<canvas id="guitariste" ></canvas>
 
 <script>
-  var ctx = document.getElementById("guitariste").getContext("2d");
+  var canvas = document.getElementById("guitariste");
+  var size_h = 917,
+      size_w = 685;
+  var ctx = canvas.getContext("2d");
   
+  var scale = canvas.height / size_h;
+  scale = Math.min(scale, canvas.width / size_w);
+  ctx.scale(scale, scale);  
   function im(fname){
     var element = document.createElement('img');
     element.src = "guitar_guy/"+fname+".png";
@@ -23,7 +27,7 @@
     leg = im("leg");
 
   var pi = Math.PI;
-  var playing = true;
+  var playing = <?php echo $_SESSION['is_playing'];?>;
 
   function rad(d){
     return d*pi/180;
@@ -100,7 +104,7 @@
     ctx.translate(-x_a2, -y_a2);
   }
 
-  document.getElementById("stop").onclick = function(){
+  document.getElementById("manage_music").onclick = function(){
     if(playing){
       playing=false;
     }
@@ -111,6 +115,11 @@
     
   }
 
-  draw_play();
+  if(playing)
+    draw_play();
+  else{
+    draw_stop();
+    draw_stop();
+  }
 </script>
 

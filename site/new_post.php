@@ -137,7 +137,7 @@ if ($user != null && $user->type == 2) {
             $next_id = Posts::next_id();
             $return = Posts::add_post('GPS1', $_POST['title'], $_POST['titleFrench'], str_replace("#####", $next_id, nl2br($_POST['post'])), str_replace("#####", $next_id, nl2br($_POST['postFrench'])), $pics, '', $perm);
             if ($return == '') {
-            //    header("Location: index.php");
+            //    header("Location: /index.php");
             } else {
                 echo $return;
             }
@@ -359,7 +359,7 @@ if ($user != null && $user->type == 2) {
         }
     }
 } else {
-    header('Location: index.php');
+    header('Location: /index.php');
     die;
 }
 ?>

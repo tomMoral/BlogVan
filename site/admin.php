@@ -45,7 +45,7 @@ if ($user != null && $user->type == 2) {
     </script>
     <?php
 }else{
-      header('Location: index.php');
+      header('Location: /index.php');
 }
 ?>
     

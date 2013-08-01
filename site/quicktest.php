@@ -18,6 +18,24 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp['lon'] = $photo['longitude'];
     $photos[$photo['id']] = $temp;
 }
+$query->closeCursor();
+
+$positions = array();
+$query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position`;");
+$query->execute();
+while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
+    $temp = array();
+    $temp['id'] = $position['id'];
+    $temp['lat'] = $position['latitude'];
+    $temp['lon'] = $position['longitude'];
+    $temp['time'] = $position['time'];
+    $positions[$position['id']] = $temp;
+}
+
+$query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position` WHERE `time` in
+    (SELECT MAX(`time`) FROM `position`);");
+$query->execute();
+$last_position = $query->fetch(PDO::FETCH_ASSOC);
 ?>
 <style>
     html, body, #map-canvas {
@@ -31,6 +49,8 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
 <script>
 
     var photos = <?php echo json_encode($photos); ?>;
+    var positions = <?php echo json_encode($positions); ?>;
+    var lastPosition = <?php echo json_encode($last_position); ?>;
     function CanvasProjectionOverlay() {
     }
     CanvasProjectionOverlay.prototype = new google.maps.OverlayView();
@@ -62,11 +82,11 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
 
         //define coordinates of the points of the path
         var flightPlanCoordinates = [
-            new google.maps.LatLng(45.772323, -122.214897),
-            new google.maps.LatLng(42.291982, -100),
-            new google.maps.LatLng(34.142599, -80),
-            new google.maps.LatLng(29.46758, -56)
         ];
+
+        for (var position in positions) {
+            flightPlanCoordinates.push(new google.maps.LatLng(positions[position]['lat'], positions[position]['lon']));
+        }
 
         //define the points of the path
         var flightPath = new google.maps.Polyline({
@@ -80,7 +100,7 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
 
         //add a van at the end
         var imageVan = 'images/van_for_map.png';
-        var myLatLngVan = new google.maps.LatLng(29.46758, -56);
+        var myLatLngVan = new google.maps.LatLng(lastPosition['latitude'], lastPosition['longitude']);
         var markerVan = new google.maps.Marker({
             position: myLatLngVan,
             map: map,
@@ -150,7 +170,7 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
 <div style="position:relative; width: 900px; height: 500px" id="container"><div id="map-canvas"></div>
     <?php
     foreach ($photos as $photo) {
-        echo'<img src="' . $photo['icon'] . '" id="' . $photo['id'] . '" style="position:absolute; top:-10000px; left:-10000px"/>';
+        echo'<img src="' . $photo['icon'] . '" id="' . $photo['id'] . '" style="position:absolute; top:-10000px; left:-10000px; width:20px"/>';
     }
     ?>
 </div>
@@ -175,7 +195,7 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
                 enlarged = -1;
             }
         });
-        
+
         //show them in full sreen when click
         $("img").click(function(event) {
             var id = event.target.id;
@@ -193,49 +213,31 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
 
         function enlarge(id) {
             enlarged = id;
-            if (document.getElementById("under_photo") !== null) {
-                $("#under_photo").remove();
-            }
-            $("#container").append('<img src="images/underphoto.png" style="position:absolute; top:50px; left:50px" id="under_photo"/>');
-            var under = document.getElementById("under_photo");
             var pic = document.getElementById(id);
-
-            under.style.top = 50 + "px";
-            under.style.left = 50 + "px"
 
             var previousHeight = parseFloat(pic.height);
             var newHeight = 50;
             pic.style.height = newHeight + "px";
+            pic.style.width = parseFloat(pic.width)*newHeight/previousHeight;
 
-
-            under.width = parseFloat(pic.width);
-            var underHeight = parseFloat(under.height);
-            var str = pic.style.top;
+         /*   var str = pic.style.top;
             var previousTop = parseFloat(str.substr(0, str.length - 2));
-
-            var str = pic.style.left;
-            var Left = parseFloat(str.substr(0, str.length - 2));
-            pic.style.top = (previousTop - underHeight + previousHeight - newHeight) + "px";
-
-
-            under.style.top = (previousTop - underHeight + previousHeight) + "px";
-            under.style.left = Left + "px";/**/
+            
+            pic.style.top = (previousTop - 10 + previousHeight - newHeight) + "px";*/
         }
 
         function makeSmaller(id) {
             var pic = document.getElementById(id);
-            if (document.getElementById("under_photo") !== null) {
-                $("#under_photo").remove();
-            }
-            if (pic != null) {
+            if (pic !== null) {
                 var str = pic.style.top;
                 var previousTop = parseFloat(str.substr(0, str.length - 2));
                 str = pic.height;
                 var previousHeight = parseFloat(str);
-                pic.style.height = 40 + "px";
+                pic.style.height = 20 + "px";
                 str = pic.height;
                 var newHeight = parseFloat(str);
-                pic.style.top = (previousTop + 20 + previousHeight - newHeight) + "px";
+                 pic.style.width = parseFloat(pic.width)*newHeight/previousHeight;
+             //   pic.style.top = (previousTop + 20 + previousHeight - newHeight) + "px";
             }
         }
     });

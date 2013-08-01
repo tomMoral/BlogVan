@@ -2,7 +2,7 @@
 include("headerPHPforConnexion.php");
 $user = user::getSessionUser();
 if ($user) {
-    header('Location: index.php');
+    header('Location: /index.php');
 }
 $bad_password = false;
 if (isset($_POST['name'])) {
@@ -28,7 +28,7 @@ if (isset($_POST['name'])) {
         } else {
             //then identify user
             if ($user->loginByName($name, $password)) {
-                header('Location: index.php?connexion=true');
+                header('Location: /index.php?connexion=true');
             } else {
                 $bad_password = true;
             }
@@ -40,11 +40,11 @@ if (isset($_POST['name'])) {
             //then create user
             $email = htmlspecialchars($_POST['email']);
             user::create($email, $password, $name, $language);
-            header('Location: index.php?firstconnexion=true');
+            header('Location: /index.php?firstconnexion=true');
         } else {
             //then identify user
             if ($user->loginByEmail($name, $password)) {
-                header('Location: index.php?connexion=true');
+                header('Location: /index.php?connexion=true');
             } else {
                 $bad_password = true;
             }

@@ -12,7 +12,7 @@
   function im(fname){
     var element = document.createElement('img');
     element.src = "guitar_guy/"+fname+".png";
-    return element
+    return element;
   }
   
   var body = im("guitar guy"),
@@ -27,7 +27,7 @@
     leg = im("leg");
 
   var pi = Math.PI;
-  var playing = <?php echo $_SESSION['is_playing'];?>;
+  var playing = <?php echo isset($_SESSION['is_playing']) ? $_SESSION['is_playing'] : 0;?>;
 
   function rad(d){
     return d*pi/180;
@@ -56,7 +56,7 @@
     ctx.rotate(-angle);
     ctx.translate(-pos_x, -pos_y);
     if(angle < pi/6 ){
-      da = rad(5)
+      da = rad(5);
       p = Math.random();
       if (p > 0.9*(pi-6*angle)/pi)
         da = -da;
@@ -66,13 +66,13 @@
     if(scale <= 0.5)
       ds = -ds;
     else if(scale >= 1.3)
-      ds = -ds
+      ds = -ds;
     else{
       p = Math.random()
       if(p > 0.7*scale)
-        ds = -ds
+        ds = -ds;
     }
-    scale -= ds
+    scale -= ds;
     if(playing)
       setTimeout(draw_play,50);
     else

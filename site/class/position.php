@@ -39,6 +39,16 @@ class position {
 
     public static function lastPositionBefore($time) {
         $db = database::connect();
+        $query = $db->prepare('CREATE TABLE IF NOT EXISTS `position` (
+  `latitude` double NOT NULL,
+  `longitude` double NOT NULL,
+  `time` datetime NOT NULL,
+  `precision` float NOT NULL,
+  `id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;'
+        );
+        $query->execute();
         $query = $db->prepare("SELECT * FROM `position` WHERE `time` <=\"$time\" ORDER BY `time` DESC;");
         $query->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'position');
         $query->execute();

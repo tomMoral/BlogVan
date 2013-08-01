@@ -27,7 +27,16 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
 $query->closeCursor();
 
 //get the GPS positions
-$positions = array();
+$positions = array(); $query = $db->prepare('CREATE TABLE IF NOT EXISTS `position` (
+  `latitude` double NOT NULL,
+  `longitude` double NOT NULL,
+  `time` datetime NOT NULL,
+  `precision` float NOT NULL,
+  `id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;'
+        );
+        $query->execute();
 $query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position`;");
 $query->execute();
 while ($position = $query->fetch(PDO::FETCH_ASSOC)) {

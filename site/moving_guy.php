@@ -104,7 +104,7 @@
     ctx.translate(-x_a2, -y_a2);
   }
 
-  document.getElementById("manage_music").onclick = function(){
+  document.getElementById("manage_music").onclick = function
     if(playing){
       playing=false;
     }

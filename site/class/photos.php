@@ -117,6 +117,20 @@ class photo {
 
     public static function updatePosition() {
         $db = database::connect();
+        $query = $db->prepare('CREATE TABLE IF NOT EXISTS `photos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `time` datetime NOT NULL,
+  `medium` text NOT NULL,
+  `icon` text NOT NULL,
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
+  `permission` int(8) NOT NULL,
+  `original` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+'
+        );
+        $query->execute();
         $query = $db->prepare("SELECT * FROM `photos` WHERE `time` IS NOT NULL AND (`latitude` IS NULL OR `longitude` IS NULL);");
         $query->execute();
         while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {

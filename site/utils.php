@@ -230,7 +230,7 @@ $trad = array(
     "waking up Guigui while driving"=>"réveil de Guigui au volant",
     "a lot of other surprises and above all"=>"plein d'autre surprises et surtout",
     "a lot of posts and photos !"=>"beaucoup de posts et de photos !",
-    "It's awesome!"=>"C'est fabuleux !",
+    "It's awesome!"=>"C'est génial !",
     "The adventure has begun since"=>"L'aventure a commencé il y a"
         
     );

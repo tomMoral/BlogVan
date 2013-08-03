@@ -44,7 +44,7 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp['id'] = $position['id'];
     $temp['lat'] = $position['latitude'];
     $temp['lon'] = $position['longitude'];
-    $temp['time'] = $position['time'];
+    $temp['time'] = date("Y-m-d H:i:s",$position['time']/1000);
     $positions[$position['id']] = $temp;
 }
 

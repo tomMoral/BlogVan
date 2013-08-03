@@ -30,7 +30,7 @@ $query->closeCursor();
 $positions = array(); $query = $db->prepare('CREATE TABLE IF NOT EXISTS `position` (
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
-  `time` datetime NOT NULL,
+  `time` bigint NOT NULL,
   `precision` float NOT NULL,
   `id` int(11) NOT NULL,
   PRIMARY KEY (`id`)

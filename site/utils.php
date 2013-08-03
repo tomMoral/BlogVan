@@ -130,7 +130,7 @@ function htmlHeader($tohide) {
             </header>';
     if ($tohide != "connexion") {
         echo '<div id="manage_music">';
-        echo '<div><canvas id="guitariste" ></canvas></div>
+        echo '<div><canvas id="guitariste" ></canvas></div><br/>
             <img src="';
         echo (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SESSION['song_num']) && isset($_SESSION['is_playing']) && $_SESSION['is_playing'] == 1) ? 'images/pause.png"' : 'images/play.png"';
         echo 'width="100px" id="play_pause"/></div>
@@ -231,7 +231,8 @@ $trad = array(
     "a lot of other surprises and above all"=>"plein d'autre surprises et surtout",
     "a lot of posts and photos !"=>"beaucoup de posts et de photos !",
     "It's awesome!"=>"C'est génial !",
-    "The adventure has begun since"=>"L'aventure a commencé il y a"
+    "The adventure has begun since"=>"L'aventure a commencé il y a",
+    "If this is your first time, pick a funny name!"=>"Si c'est ta première fois, choisis un nom marrant !"
         
     );
 ?>

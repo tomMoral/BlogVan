@@ -309,6 +309,8 @@ if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['decon
                             echo "<font color=\"green\">Hey $name! " . string_trad("If this is your first time, try another username. This on is already taken :(<br/>Else keep trying!") . "</font>";
                         } else if ($bad_password) {
                             echo "<font color=\"red\">Oups, " . string_trad("try again") . "!</font>";
+                        }else{
+                            echo "<font color='green'>".string_trad("If this is your first time, pick a funny name!")."</font/><br/><br/><br/><br/>";
                         }
                         ?>
                     </div>

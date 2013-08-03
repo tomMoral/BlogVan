@@ -22,6 +22,7 @@ if ($user != null && $user->type == 2) {
             $i = $i + 1;
             $name = $user->name;
             $type = $user->type;
+            $email=$user->email;
             $id = $user->id;
             ?>
             <div class="user">
@@ -75,6 +76,7 @@ if ($user != null && $user->type == 2) {
         while ($user = $sth->fetch()) {
             $name = $user->name;
             $type = $user->type;
+            $email=$user->email;
             $id = $user->id;
             ?>
             <div class="user">

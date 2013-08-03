@@ -105,14 +105,13 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
     echo "audio.play();  draw_play();";
     if ($_SESSION['is_playing'] == 0) {
         echo "audio.addEventListener('canplaythrough', setStartTime, false);";
-        echo ' $("#play_pause").attr("src", "images/play.png");';
+        echo ' $("#play_pause").attr("src", "images/play.png"); draw_stop();';
     }
     // echo "audio.currentTime = ".$_SESSION['currentTime'].";";
     $_SESSION['currentTime'] = null;
     $_SESSION['playing'] = null;
     $_SESSION['song_num'] = null;
 } else {
-    echo "audio.play();";
     echo "audio.pause(); draw_stop();";
 }
 ?>
@@ -128,13 +127,13 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
             is_playing = is_playing === 0 ? 1 : 0;
             if (is_playing === 1) {
                 audio.play();
-                $("#play_pause").attr("src", "images/pause.png");
                 draw_play();
+                $("#play_pause").attr("src", "images/pause.png");
             }
             else {
                 audio.pause();
-                $("#play_pause").attr("src", "images/play.png");
                 draw_stop();
+                $("#play_pause").attr("src", "images/play.png");
             }
             send_music(audio.currentTime, audio.src, songs, song_num, is_playing);
         });

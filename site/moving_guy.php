@@ -5,10 +5,11 @@
     var size_h = 917,
             size_w = 685;
     var ctx = canvas.getContext("2d");
-
+    canvas.height = 260;
     var scale = canvas.height / size_h;
-    canvas.width = 100;
+    canvas.width = 200;
     scale = Math.min(scale, canvas.width / size_w);
+
     ctx.scale(scale, scale);
     function im(fname) {
         var element = document.createElement('img');
@@ -36,15 +37,22 @@
     var da = rad(5);
 
     var scale = 1;
-    var ds = 0.1;
+    var ds = 1;
 
     var pos_x = 64, pos_y = 388;
 
     var guitarist_moving = false;
+    ctx.translate(0, 1200);
+    ctx.translate(80, 0);
+    var trY = 0;
 
     function repetition() {
         if (guitarist_moving) {
-            ctx.clearRect(0, 0, 1000, 1000);
+            ctx.clearRect(-100, -100, 1100, 1100);
+            if (trY > -1200) {
+                ctx.translate(0, -10);
+                trY -= 10;
+            }
             ctx.drawImage(body, 0, 0);
             ctx.translate(x_mouth, y_mouth);
             m_height = 50 * scale;
@@ -59,7 +67,7 @@
             ctx.rotate(-angle);
             ctx.translate(-pos_x, -pos_y);
             if (angle < pi / 6) {
-                da = rad(5);
+                da = rad(10);
                 p = Math.random();
                 if (p > 0.9 * (pi - 6 * angle) / pi)
                     da = -da;
@@ -90,23 +98,34 @@
 
     function  draw_stop() {
         guitarist_moving = false;
-        ctx.clearRect(0, 0, 1000, 1000);
-        ctx.drawImage(body_rest, 0, 0);
-        ctx.translate(x_mouth, y_mouth);
-        ctx.drawImage(sad_mouth, -62, -57, 80, 80);
-        ctx.translate(pos_x - x_mouth, pos_y - y_mouth);
-        ctx.rotate(rad(90));
-        ctx.drawImage(arm, -20, -17);
-        ctx.rotate(rad(-90));
-        ctx.translate(-pos_x + x_a2, -pos_y + y_a2);
-        ctx.rotate(rad(70));
-        ctx.drawImage(arm2, -10, -18);
-        ctx.translate(x_guit, y_guit);
-        ctx.rotate(rad(-70));
-        ctx.drawImage(guit, -88, -195);
-        ctx.rotate(rad(70));
-        ctx.translate(-x_guit, -y_guit);
-        ctx.rotate(rad(-70));
-        ctx.translate(-x_a2, -y_a2);
+        repetition_stop();
+    }
+
+    function repetition_stop() {
+        if (!guitarist_moving) {
+            if (trY < 0) {
+                ctx.translate(0, 10);
+                trY += 10;
+            }
+            ctx.clearRect(-100, -100, 1100, 1100);
+            ctx.drawImage(body_rest, 0, 0);
+            ctx.translate(x_mouth, y_mouth);
+            ctx.drawImage(sad_mouth, -62, -57, 80, 80);
+            ctx.translate(pos_x - x_mouth, pos_y - y_mouth);
+            ctx.rotate(rad(90));
+            ctx.drawImage(arm, -20, -17);
+            ctx.rotate(rad(-90));
+            ctx.translate(-pos_x + x_a2, -pos_y + y_a2);
+            ctx.rotate(rad(70));
+            ctx.drawImage(arm2, -10, -18);
+            ctx.translate(x_guit, y_guit);
+            ctx.rotate(rad(-70));
+            ctx.drawImage(guit, -88, -195);
+            ctx.rotate(rad(70));
+            ctx.translate(-x_guit, -y_guit);
+            ctx.rotate(rad(-70));
+            ctx.translate(-x_a2, -y_a2);
+        setTimeout(repetition_stop, 50);
+        }
     }
 </script>

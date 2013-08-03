@@ -67,8 +67,8 @@ background-position: 0 .5em;
 
 #manage_music{
     position: absolute;
-    top:50px;
-    left:-120px;
+    top:0px;
+    left:-175px;
 }
 
 #manage_music canvas{

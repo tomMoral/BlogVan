@@ -82,10 +82,6 @@ if ($user != null && $user->type == 2) {
                 $("#postarea").keyup(function() {
                     lastFieldUsed = 1;
                     var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
-
-                    var re_vote = /\\\[([^:]+::)+([^\\\]]+)\]/g;
-                    var prop = re_vote;
-                    text = text.match(/\[([^\]]+)\]/g, 'hello $1');
                     $("#bodyvisualization").html(text);
                 });
                 $("#title").keyup(function() {
@@ -123,13 +119,13 @@ if ($user != null && $user->type == 2) {
             $pics = '';
             $perm = (isset($_POST['permission'])) ? 1 : 0;
             $dossier = $perm == 1 ? 'pics_up/A/' : 'pics_up/B/';
-            while (isset($_FILES["pic$i"])   && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] !="") {
+            while (isset($_FILES["pic$i"]) && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] != "") {
                 $fichier = date("m-d-H-i-s") . basename($_FILES["pic$i"]['name']);
-                photo::add($_FILES["pic$i"]['tmp_name'],$_FILES["pic$i"]['name'],$perm );
-              //  $image = new SimpleImage();
-              //  $image->load($_FILES["pic$i"]['tmp_name']);
-              //  $image->resizeToWidth(530);
-              //  $image->save($dossier . $fichier);
+                photo::add($_FILES["pic$i"]['tmp_name'], $_FILES["pic$i"]['name'], $perm);
+                //  $image = new SimpleImage();
+                //  $image->load($_FILES["pic$i"]['tmp_name']);
+                //  $image->resizeToWidth(530);
+                //  $image->save($dossier . $fichier);
                 $i += 1;
             }
             $perm = (isset($_POST['permission'])) ? 1 : 0;
@@ -137,7 +133,7 @@ if ($user != null && $user->type == 2) {
             $next_id = Posts::next_id();
             $return = Posts::add_post('GPS1', $_POST['title'], $_POST['titleFrench'], str_replace("#####", $next_id, nl2br($_POST['post'])), str_replace("#####", $next_id, nl2br($_POST['postFrench'])), $pics, '', $perm);
             if ($return == '') {
-            //    header("Location: index.php");
+                    header("Location: index.php");
             } else {
                 echo $return;
             }
@@ -147,16 +143,25 @@ if ($user != null && $user->type == 2) {
             $i = 1;
             $perm = (isset($_POST['permission'])) ? 1 : 0;
             $dossier = $perm == 1 ? 'pics_up/A/' : 'pics_up/B/';
-            while (isset($_FILES["pic$i"]) && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] !="") {
+            while (isset($_FILES["pic$i"]) && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] != "") {
                 $fichier = date("m-d-H-i-s") . basename($_FILES["pic$i"]['name']);
+<<<<<<< Updated upstream
                 photo::add($_FILES["pic$i"]['tmp_name'],$_FILES["pic$i"]['name'],$perm );
               //  $image = new SimpleImage();
               //  $image->load($_FILES["pic$i"]['tmp_name']);
               //  $image->resizeToWidth(530);
               //  $image->save($dossier . $fichier);
+=======
+
+                photo::add($_FILES["pic$i"]['tmp_name'], $_FILES["pic$i"]['name'], $perm);
+                //  $image = new SimpleImage();
+                //  $image->load($_FILES["pic$i"]['tmp_name']);
+                //  $image->resizeToWidth(530);
+                //  $image->save($dossier . $fichier);
+>>>>>>> Stashed changes
                 $i += 1;
             }
-           htmlHeader("blog");
+            htmlHeader("blog");
             ?>
 
 

@@ -7,7 +7,6 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
     <script>
         function vizualizePostEN() {
             var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
-            text = text.match(/\[([^\]]+)\]/g, 'hello $1');
             $("#bodyvisualization").html(text);
         }
         function vizualizePostFR() {

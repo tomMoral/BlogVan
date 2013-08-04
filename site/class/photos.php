@@ -34,7 +34,12 @@ class photo {
 
         $id = photo::nextId();
         $exif = exif_read_data($temp_file);
-        $time = isset($exif['DateTimeOriginal']) ? $exif['DateTimeOriginal'] : NULL;
+        $time=0;
+        if(isset($exif['DateTimeOriginal'])){
+            $time = $exif['DateTimeOriginal'];
+        }else if(strpos($name,"date")){
+            $time = explode("date",$name)[0];
+        }
         $lon = isset($exif["GPSLongitude"]) && isset($exif['GPSLongitudeRef']) ? photo::getGps($exif["GPSLongitude"], $exif['GPSLongitudeRef']) : NULL;
         $lat = isset($exif["GPSLatitude"]) && isset($exif['GPSLatitudeRef']) ? photo::getGps($exif["GPSLatitude"], $exif['GPSLatitudeRef']) : NULL;
         $db = database::connect();

@@ -145,20 +145,12 @@ if ($user != null && $user->type == 2) {
             $dossier = $perm == 1 ? 'pics_up/A/' : 'pics_up/B/';
             while (isset($_FILES["pic$i"]) && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] != "") {
                 $fichier = date("m-d-H-i-s") . basename($_FILES["pic$i"]['name']);
-<<<<<<< Updated upstream
-                photo::add($_FILES["pic$i"]['tmp_name'],$_FILES["pic$i"]['name'],$perm );
-              //  $image = new SimpleImage();
-              //  $image->load($_FILES["pic$i"]['tmp_name']);
-              //  $image->resizeToWidth(530);
-              //  $image->save($dossier . $fichier);
-=======
 
                 photo::add($_FILES["pic$i"]['tmp_name'], $_FILES["pic$i"]['name'], $perm);
                 //  $image = new SimpleImage();
                 //  $image->load($_FILES["pic$i"]['tmp_name']);
                 //  $image->resizeToWidth(530);
                 //  $image->save($dossier . $fichier);
->>>>>>> Stashed changes
                 $i += 1;
             }
             htmlHeader("blog");

@@ -77,11 +77,7 @@ if ($user != null && $user->type == 2) {
         while ($user = $sth->fetch()) {
             $name = $user->name;
             $type = $user->type;
-<<<<<<< Updated upstream
-            $email=$user->email;
-=======
             $email = $user->email;
->>>>>>> Stashed changes
             $id = $user->id;
             ?>
             <div class="user">

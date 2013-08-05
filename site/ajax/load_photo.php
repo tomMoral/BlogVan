@@ -11,7 +11,7 @@ if (isset($_POST['already_load'])) {
     while (($photo = $query->fetch(PDO::FETCH_ASSOC)) && $j < $already_load + 2) {
         $j++;
         if ($j > $already_load) {
-            $name = $photo['name'];
+            $name = $photo['medium'];
             echo $j % 2 == 1 ? '<tr><td>' : '<td>';
             if ($j % 2 == 1) {
                 echo "<div class='photo photo_left' style='top'><img class='all_photos' src='" . $name . "'/> ";

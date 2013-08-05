@@ -81,9 +81,9 @@ class Posts {
     static function modify_post($id, $gps, $titre, $titre_french, $body, $body_french, $permission) {
         $dbh = Database::connect();
 
-        $query = $dbh->prepare("UPDATE `posts` SET  `title` = '$titre' ,  `title_french` = '$titre_french' ,  `body` = '$body',   `body_french` = '$body_french' ,   `permission` = '$permission' WHERE `id`=$id");
+        $query = $dbh->prepare("UPDATE `posts` SET  `title` = ? ,  `title_french` = ? ,  `body` = ?,   `body_french` = ? ,   `permission` = ? WHERE `id`=$id");
 
-        if (!$query->execute()) {
+        if (!$query->execute(array($titre,$titre_french, $body, $body_french, $permission))) {
             return $query->errorInfo();
         }
         else

@@ -3,26 +3,26 @@ include("headerPHP.php");
 include_once("class/resize.php");
 $user = user::getSessionUser();
 if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::get_by_id($_GET['id_modify'])) || isset($_POST['post'])) {
-    ?>
-    <script>
-        function vizualizePostEN() {
-            var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
-            $("#bodyvisualization").html(text);
-        }
-        function vizualizePostFR() {
-            var text = $("#postareaFrench").val().replace(/\r?\n/g, '<br/>');
-            $("#bodyvisualizationFrench").html(text);
-        }
-        function vizualizeTitleEN() {
-            var text = document.getElementById("title").value;
-            $("#titlevisualization").html(text);
-        }
-        function vizualizeTitleFR() {
-            var text = document.getElementById("titleFrench").value;
-            $("#titlevisualizationFrench").html(text);
-        }</script>
-    <?php
     if (!isset($_POST['post'])) {
+        ?>
+        <script>
+            function vizualizePostEN() {
+                var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
+                $("#bodyvisualization").html(text);
+            }
+            function vizualizePostFR() {
+                var text = $("#postareaFrench").val().replace(/\r?\n/g, '<br/>');
+                $("#bodyvisualizationFrench").html(text);
+            }
+            function vizualizeTitleEN() {
+                var text = document.getElementById("title").value;
+                $("#titlevisualization").html(text);
+            }
+            function vizualizeTitleFR() {
+                var text = document.getElementById("titleFrench").value;
+                $("#titlevisualizationFrench").html(text);
+            }</script>
+        <?php
         $modify_post = Posts::get_by_id($_GET['id_modify']);
         htmlHeader("photo");
         ?>
@@ -149,12 +149,11 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
                 $i += 1;
             }
             $perm = (isset($_POST['permission'])) ? 1 : 0;
-            echo $pics;
             $return = Posts::modify_post($_POST['id'], 'GPS1', $_POST['title'], $_POST['titleFrench'], str_replace("#####", $_POST['id'], nl2br($_POST['post'])), str_replace("#####", $_POST['id'], nl2br($_POST['postFrench'])), $perm);
             if ($return == '') {
                 header("Location: index.php");
             } else {
-                echo $return;
+                print_r($return);
             }
             exit;
         } else {

@@ -38,7 +38,7 @@ $positions = array(); $query = $db->prepare('CREATE TABLE IF NOT EXISTS `positio
         );
         $query->execute();
 $query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position`
-                       ORDER BY `time` ASC WHERE `accuracy` < 200;");
+                       ORDER BY `time` ASC;");
 $query->execute();
 while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp = array();

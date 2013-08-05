@@ -139,7 +139,7 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
             $pics = '';
             $perm = (isset($_POST['permission'])) ? 1 : 0;
             $dossier = $perm == 1 ? 'pics_up/A/' : 'pics_up/B/';
-            while (isset($_FILES["pic$i"])  && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] !="") {
+            while (isset($_FILES["pic$i"]) && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] != "") {
                 $fichier = date("m-d-H-i-s") . basename($_FILES["pic$i"]['name']);
 
                 $image = new SimpleImage();
@@ -161,7 +161,7 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
             $i = 1;
             $perm = (isset($_POST['permission'])) ? 1 : 0;
             $dossier = $perm == 1 ? 'pics_up/A/' : 'pics_up/B/';
-            while (isset($_FILES["pic$i"])  && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] !="") {
+            while (isset($_FILES["pic$i"]) && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] != "") {
                 $fichier = date("m-d-H-i-s") . basename($_FILES["pic$i"]['name']);
 
                 $image = new SimpleImage();
@@ -171,7 +171,23 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
                 $i += 1;
             }
             htmlHeader("blog");
-            ?>
+            ?> <script>
+                            function vizualizePostEN() {
+                                var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
+                                $("#bodyvisualization").html(text);
+                            }
+                            function vizualizePostFR() {
+                                var text = $("#postareaFrench").val().replace(/\r?\n/g, '<br/>');
+                                $("#bodyvisualizationFrench").html(text);
+                            }
+                            function vizualizeTitleEN() {
+                                var text = document.getElementById("title").value;
+                                $("#titlevisualization").html(text);
+                            }
+                            function vizualizeTitleFR() {
+                                var text = document.getElementById("titleFrench").value;
+                                $("#titlevisualizationFrench").html(text);
+                            }</script>
             Write a post in French and English. You can create a pool with [proposition1::...::last proposition] and insert images with @1, @2... (don't forget to add the image) What you see is what you get. Enjoy!
 
 
@@ -182,7 +198,7 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
                             <form action="modify_post.php" method="post" enctype="multipart/form-data" id="np">
                                 <input type="hidden" name="visualization" id="visualization" value=0 />
                                 <input type="hidden" name="lastUsed" id="lastUsed" value=1 />
-                                <input type="hidden" name="id" value=<?php echo  $_POST['id']; ?> />
+                                <input type="hidden" name="id" value=<?php echo $_POST['id']; ?> />
                                 English</br>
                                 <input type="text" name="title" id="title" value="<?php echo $_POST['title']; ?>" placeholder="Title" required="required"></br></br>
                                 <textarea type="text" id="postarea" class="new_post" name="post" placeholder='New Post, insert photo at @i, vote at [prop1::prop2::...::propn]' required="required"><?php echo $_POST['post']; ?></textarea></br><br>

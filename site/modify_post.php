@@ -37,19 +37,19 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
                             <input type="hidden" name="visualization" id="visualization" value=0 />
                             <input type="hidden" name="lastUsed" id="lastUsed" value=1 />
                             <input type="hidden" name="id" value=<?php echo $modify_post->id; ?> />
-                            English</br>
-                            <input type="text" name="title" id="title" placeholder="Title" required="required" <?php echo " value='$modify_post->title'"; ?>></br></br>
-                            <textarea type="text" id="postarea" name="post"  class="new_post" placeholder='New Post, insert photo at @i, vote at [prop1::prop2::...::propn]' required="required"><?php echo "$modify_post->body"; ?></textarea></br><br>
-                            French</br>
-                            <input type="text" name="titleFrench" id="titleFrench" placeholder="Titre" required="required" <?php echo " value='$modify_post->title_french'"; ?>></br></br>
-                            <textarea type="text" id="postareaFrench" name="postFrench"  class="new_post" placeholder='Nouveau post, inserer les photos à @i, les votes à [prop1::prop2::...::propn]' required="required"><?php echo "$modify_post->body_french"; ?></textarea></br><br>
+                            English<br/>
+                            <input type="text" name="title" id="title" placeholder="Title" required="required" <?php echo " value='$modify_post->title'"; ?>><br/><br/>
+                            <textarea type="text" id="postarea" name="post"  class="new_post" placeholder='New Post, insert photo at @i, vote at [prop1::prop2::...::propn]' required="required"><?php echo "$modify_post->body"; ?></textarea><br/><br>
+                            French<br/>
+                            <input type="text" name="titleFrench" id="titleFrench" placeholder="Titre" required="required" <?php echo " value='$modify_post->title_french'"; ?>><br/><br/>
+                            <textarea type="text" id="postareaFrench" name="postFrench"  class="new_post" placeholder='Nouveau post, inserer les photos à @i, les votes à [prop1::prop2::...::propn]' required="required"><?php echo "$modify_post->body_french"; ?></textarea><br/><br>
 
-                            Permission: <input type="checkbox" name="permission" value=<?php echo ($modify_post->permission != 1) ? "0" : "1 checked=\"checked\""; ?>>All<img src="images/refresh.png" id="refresh" style="width:25px; position: absolute; left:230px;"/></br>
-                            </br>Attention, set the permission before choosing the photos</br></br>
+                            Permission: <input type="checkbox" name="permission" value=<?php echo ($modify_post->permission != 1) ? "0" : "1 checked=\"checked\""; ?>>All<img src="images/refresh.png" id="refresh" style="width:25px; position: absolute; left:230px;"/><br/>
+                            <br/>Attention, set the permission before choosing the photos<br/><br/>
 
 
-                            <input type="submit"></br></br>
-                            pics :</br><div id="image"><input type="file" name="pic1" id="pic1"></div></br>
+                            <input type="submit"><br/><br/>
+                            pics :<br/><div id="image"><input type="file" name="pic1" id="pic1"></div><br/>
                         </form>
                     </div>
                 </td>
@@ -199,17 +199,17 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
                                 <input type="hidden" name="visualization" id="visualization" value=0 />
                                 <input type="hidden" name="lastUsed" id="lastUsed" value=1 />
                                 <input type="hidden" name="id" value=<?php echo $_POST['id']; ?> />
-                                English</br>
-                                <input type="text" name="title" id="title" value="<?php echo $_POST['title']; ?>" placeholder="Title" required="required"></br></br>
-                                <textarea type="text" id="postarea" class="new_post" name="post" placeholder='New Post, insert photo at @i, vote at [prop1::prop2::...::propn]' required="required"><?php echo $_POST['post']; ?></textarea></br><br>
-                                French</br>
-                                <input type="text" name="titleFrench" id="titleFrench" value="<?php echo $_POST['titleFrench']; ?>" placeholder="Title" required="required"></br></br>
-                                <textarea type="text" id="postareaFrench" class="new_post" name="postFrench" placeholder='New Post, insert photo at @i, vote at [prop1::prop2::...::propn]' required="required"><?php echo $_POST['postFrench']; ?></textarea></br><br>
+                                English<br/>
+                                <input type="text" name="title" id="title" value="<?php echo $_POST['title']; ?>" placeholder="Title" required="required"><br/><br/>
+                                <textarea type="text" id="postarea" class="new_post" name="post" placeholder='New Post, insert photo at @i, vote at [prop1::prop2::...::propn]' required="required"><?php echo $_POST['post']; ?></textarea><br/><br>
+                                French<br/>
+                                <input type="text" name="titleFrench" id="titleFrench" value="<?php echo $_POST['titleFrench']; ?>" placeholder="Title" required="required"><br/><br/>
+                                <textarea type="text" id="postareaFrench" class="new_post" name="postFrench" placeholder='New Post, insert photo at @i, vote at [prop1::prop2::...::propn]' required="required"><?php echo $_POST['postFrench']; ?></textarea><br/><br>
                                 Permission: <input type="checkbox" name="permission" value=<?php echo $perm = (isset($_POST['permission'])) ? 1 : 0; ?> <?php echo $perm = (isset($_POST['permission'])) ? "checked=\"checked\"" : ""; ?>>All  <img src="images/refresh.png" id="refresh" style="width:25px; position: absolute; left:230px;"/><br>
-                                </br>Attention, set the permission before choosing the photos
-                                </br></br>
-                                <input type="submit"></br></br>
-                                pics :</br><div id="image"><input type="file" name="pic1" id="pic1"></div></br>
+                                <br/>Attention, set the permission before choosing the photos
+                                <br/><br/>
+                                <input type="submit"><br/><br/>
+                                pics :<br/><div id="image"><input type="file" name="pic1" id="pic1"></div><br/>
                             </form>
                         </div>
                     </td>
@@ -271,7 +271,7 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
                             }
                             ?>];
                     for (var i = 0; i < pic.length; i++) {
-                        $("form").append("</br>" + pic[i].code + " : " + pic[i].name + " <br/> upload succeeded!");
+                        $("form").append("<br/>" + pic[i].code + " : " + pic[i].name + " <br/> upload succeeded!");
                     }
                     //reaplce the pictures in the code
                     var text = document.getElementById("postarea").value;
@@ -296,7 +296,7 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
                     $('textarea').autosize();
                     $("#postarea").keyup(function() {
                         lastFieldUsed = 1;
-                        var text = $("#postarea").val().replace(/\r?\n/g, '\n<br/>');
+                        var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
                         for (var i = 0; i < pic.length; i++) {
                             if (text.indexOf(pic[i].code) !== -1) {
                                 $("#visualization").attr("value", 1);
@@ -325,7 +325,7 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
 
                     $("#postareaFrench").keyup(function() {
                         lastFieldUsed = 2;
-                        var text = $("#postareaFrench").val().replace(/\r?\n/g, '\n<br/>');
+                        var text = $("#postareaFrench").val().replace(/\r?\n/g, '<br/>');
                         for (var i = 0; i < pic.length; i++) {
                             if (text.indexOf(pic[i].code) !== -1) {
                                 $("#visualization").attr("value", 2);

@@ -1,6 +1,5 @@
 <?php
 include_once("initSession.php");
-
 include_once("class/database.php");
 include_once('class/post.php');
 include_once('class/user.php');

@@ -21,7 +21,8 @@ if (isset($user) && $user->type == 2) {
     ?>
     <form action="uploadCSVFile.php" method="post" enctype="multipart/form-data" id="np">    
         File :<input type="file" name="file"/><br/>
-        Device : <input type="checkbox", name="device" value="3060000"><br/>
+        Device : <input type="checkbox", name="device"
+        value="240000"><br/>
         <input type="submit"/>
     </form>
 

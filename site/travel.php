@@ -27,25 +27,24 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
 $query->closeCursor();
 
 //get the GPS positions
-$positions = array(); $query = $db->prepare('CREATE TABLE IF NOT EXISTS `position` (
+$positions = array();
+$query = $db->prepare('CREATE TABLE IF NOT EXISTS `position` (
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
-  `time` bigint NOT NULL,
+  `time` datetime NOT NULL,
   `precision` float NOT NULL,
   `id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;'
-        );
-        $query->execute();
-$query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position`
-                       ORDER BY `time` ASC;");
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;');
+$query->execute();
+$query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position` WHERE `precision`< 200 ORDER BY `time` ASC;");
 $query->execute();
 while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp = array();
     $temp['id'] = $position['id'];
     $temp['lat'] = $position['latitude'];
     $temp['lon'] = $position['longitude'];
-    $temp['time'] = date("Y-m-d H:i:s",$position['time']/1000);
+    $temp['time'] = $position['time'];
     $positions[$position['id']] = $temp;
 }
 
@@ -85,7 +84,7 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
     var width = 900;
 
     function initialize() {
-        var myLatLng = new google.maps.LatLng(37.081416,-116.599812);
+        var myLatLng = new google.maps.LatLng(37.081416, -116.599812);
         //define the default map
         var mapOptions = {
             zoom: 6,
@@ -144,47 +143,49 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             icon: "images/cible.png"
         }));
         objectives.push(new google.maps.Marker({
-            position: new google.maps.LatLng(36.067001,-112.101088),
+            position: new google.maps.LatLng(36.067001, -112.101088),
             map: map,
             title: 'Gran Canyon',
             icon: "images/cible.png"
         }));
         objectives.push(new google.maps.Marker({
-            position: new google.maps.LatLng(38.729782,-109.605153),
+            position: new google.maps.LatLng(38.729782, -109.605153),
             map: map,
             title: 'Arches national Parc',
             icon: "images/cible.png"
         }));
         objectives.push(new google.maps.Marker({
-            position: new google.maps.LatLng(37.222759,-112.95585),
+            position: new google.maps.LatLng(37.222759, -112.95585),
             map: map,
             title: 'Zion National Parc',
             icon: "images/cible.png"
         }));
         objectives.push(new google.maps.Marker({
-            position: new google.maps.LatLng(34.061257,-118.246397),
+            position: new google.maps.LatLng(34.061257, -118.246397),
             map: map,
             title: 'Los Angeles',
             icon: "images/cible.png"
         }));
         objectives.push(new google.maps.Marker({
-            position: new google.maps.LatLng(34.01441,-118.801465),
+            position: new google.maps.LatLng(34.01441, -118.801465),
             map: map,
             title: 'Malibu',
             icon: "images/cible.png"
         }));
         objectives.push(new google.maps.Marker({
-            position: new google.maps.LatLng(34.421934,-119.695833),
+            position: new google.maps.LatLng(34.421934, -119.695833),
             map: map,
             title: 'Santa Barbara',
             icon: "images/cible.png"
-        }));objectives.push(new google.maps.Marker({
-            position: new google.maps.LatLng(36.272338,-121.807058),
+        }));
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(36.272338, -121.807058),
             map: map,
             title: 'Big Sur',
             icon: "images/cible.png"
-        }));objectives.push(new google.maps.Marker({
-            position: new google.maps.LatLng(37.776378,-122.428621),
+        }));
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(37.776378, -122.428621),
             map: map,
             title: 'San Francisco',
             icon: "images/cible.png"
@@ -256,17 +257,17 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
 
 <div class="center">
     <h1><?php
-echo_trad("The adventure has begun since");
-echo " " . $days_remaining . " ";
-echo_trad("day");
-?>s.<br/><?php echo_trad("It's awesome!"); ?>
+        echo_trad("The adventure has begun since");
+        echo " " . $days_remaining . " ";
+        echo_trad("day");
+        ?>s.<br/><?php echo_trad("It's awesome!"); ?>
     </h1>
     <div style="position:relative; width: 900px; height: 500px" id="container"><div id="map-canvas"></div>
-<?php
-foreach ($photos as $photo) {
-    echo'<img src="' . $photo['icon'] . '" id="' . $photo['id'] . '" style="position:absolute; top:-10000px; left:-10000px; width:20px"/>';
-}
-?>
+        <?php
+        foreach ($photos as $photo) {
+            echo'<img src="' . $photo['icon'] . '" id="' . $photo['id'] . '" style="position:absolute; top:-10000px; left:-10000px; width:20px"/>';
+        }
+        ?>
     </div>
     <h2><?php echo_trad("On the agenda"); ?>:</h2>
     <ul>
@@ -275,28 +276,28 @@ foreach ($photos as $photo) {
         <li><?php echo_trad("lot of beers to fight Death Valley heat"); ?>
         </li>
         <li>
-            <?php echo_trad("wedding at Vegas"); ?>
+<?php echo_trad("wedding at Vegas"); ?>
         </li>
         <li>
-            <?php echo_trad("earplugs to let Thomas sing with the radio"); ?>
+<?php echo_trad("earplugs to let Thomas sing with the radio"); ?>
         </li>
         <li>
-            <?php echo_trad("divorce at Vegas"); ?>
+<?php echo_trad("divorce at Vegas"); ?>
         </li>
         <li>
-            <?php echo_trad("a cooler to put Micheaux in when she is too hot and the beers are gone"); ?>
+<?php echo_trad("a cooler to put Micheaux in when she is too hot and the beers are gone"); ?>
         </li>
         <li>
-            <?php echo_trad("a tent to prevent Marine from taking all the space in the van"); ?>
+<?php echo_trad("a tent to prevent Marine from taking all the space in the van"); ?>
         </li>
         <li>
-            <?php echo_trad("bankruptcy at Vegas"); ?>
+<?php echo_trad("bankruptcy at Vegas"); ?>
         </li>
         <li>
-            <?php echo_trad("no grimace on Greg's photos"); ?>
+<?php echo_trad("no grimace on Greg's photos"); ?>
         </li>
         <li>
-            <?php echo_trad("culturation in museums or lying on the beach"); ?>
+<?php echo_trad("culturation in museums or lying on the beach"); ?>
         </li>
         <li>
 <?php echo_trad("car breakdown"); ?>

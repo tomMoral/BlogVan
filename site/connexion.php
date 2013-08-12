@@ -84,7 +84,7 @@ htmlHeader("connexion");
             changedEmail = true;
         }
         else if (sData !== "user name" && sData !== "email") {
-           // alert(sData);
+            // alert(sData);
         }
         else {
             if (changedEmail) {
@@ -189,17 +189,20 @@ htmlHeader("connexion");
         $(".new").remove();
         $("#side").html("");
     }
-
+    var lastUserChecked = "";
     function update() {
         //after each change, look what to do
         var name = $("#name").val();
         var pass = $("#password").val();
         if (thirdRow === false) {
             if (name !== "" && pass !== "") {
-                $.post("ajax/isUser.php", {name: name})
-                        .done(function(data) {
-                    callBack(data);
-                });
+                if (name !== lastUserChecked) {
+                    lastUserChecked = name;
+                    $.post("ajax/isUser.php", {name: name})
+                            .done(function(data) {
+                        callBack(data);
+                    });
+                }
             } else {
                 $("#go").hide();
                 $("#space").show();
@@ -212,10 +215,13 @@ htmlHeader("connexion");
             var a = $("#email").val();
             value = a;
             if (name !== "" && pass !== "") {
-                $.post("ajax/isUser.php", {name: name})
-                        .done(function(data) {
-                    callBack(data);
-                });
+                if (name !== lastUserChecked) {
+                    lastUserChecked = name;
+                    $.post("ajax/isUser.php", {name: name})
+                            .done(function(data) {
+                        callBack(data);
+                    });
+                }
                 if (validateEmail(a)) {
                     $("#go").show();
                     $("#space").hide();
@@ -267,11 +273,11 @@ htmlHeader("connexion");
             add("User name");
         }
         else {
-           // alert(sData);
+            // alert(sData);
         }
     }
     $(document).ready(function() {
-         $("#go").hide();
+        $("#go").hide();
         $("#space").show();
         $("#name").keyup(function() {
             update();
@@ -282,15 +288,14 @@ htmlHeader("connexion");
     });
 </script>
 <div class="center">
-    
-    <?php
-if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['deconnexion'] == 'true') {?>
-    <h1><?php echo string_trad("See you soon ") . htmlspecialchars($_SESSION['last_user'] ). "!";?></h1><div id='div2'><img src='images/6.png'/></div>
-<?php }else{?>
-    <h1><?php echo_trad("Welcome on board"); ?>!</h1><div id='div2'><img src='images/6.png'/></div>
- <?php  
-}
-?>
+
+    <?php if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['deconnexion'] == 'true') { ?>
+        <h1><?php echo string_trad("See you soon ") . htmlspecialchars($_SESSION['last_user']) . "!"; ?></h1><div id='div2'><img src='images/6.png'/></div>
+    <?php } else { ?>
+        <h1><?php echo_trad("Welcome on board"); ?>!</h1><div id='div2'><img src='images/6.png'/></div>
+        <?php
+    }
+    ?>
     <form action="connexion.php" method="post" id="form" enctype="multipart/form-data" autocomplete="off">
         <table style="font-size:12px">
             <tr>
@@ -309,8 +314,8 @@ if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['decon
                             echo "<font color=\"green\">Hey $name! " . string_trad("If this is your first time, try another username. This on is already taken :(<br/>Else keep trying!") . "</font>";
                         } else if ($bad_password) {
                             echo "<font color=\"red\">Oups, " . string_trad("try again") . "!</font>";
-                        }else{
-                            echo "<font color='green'>".string_trad("If this is your first time, pick a funny name!")."</font/><br/><br/><br/><br/>";
+                        } else {
+                            echo "<font color='green'>" . string_trad("If this is your first time, pick a funny name!") . "</font/><br/><br/><br/><br/>";
                         }
                         ?>
                     </div>
@@ -340,7 +345,10 @@ if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['decon
     <img src="images/burger1.png" width="150px"/>
     <img src="images/camembert.png" width="110px"/>
     <img src="images/cloud.png"/>
-    <img src="images/face_<?php $random_van=rand(0,6); echo $random_van;?>_big.png"/>
+    <img src="images/face_<?php
+         $random_van = rand(0, 6);
+         echo $random_van;
+         ?>_big.png"/>
 </div>
 <footer>
 
@@ -355,9 +363,9 @@ if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['decon
 </audio> 
 <script>
     //this script is used for the smoke
-    var pageLoaded=false;
+    var pageLoaded = false;
     var t0;
-        var TchangeSet=false;
+    var TchangeSet = false;
     var request_index_send = false;
     $(document).ready(function() {
         $("#load_images").hide();
@@ -378,7 +386,7 @@ if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['decon
                     var h = window.innerHeight;
                     var w = window.innerWidth;
                     var wi = 0;
-                    $("body").prepend("<img src='images/face_<?php  echo $random_van;?>_big.png'/ id='van' style='position:fixed; top:" + (h - wi) / 2 + "px; left:" + (w - wi) / 2 + "px; width:0px; z-index:3'>");
+                    $("body").prepend("<img src='images/face_<?php echo $random_van; ?>_big.png'/ id='van' style='position:fixed; top:" + (h - wi) / 2 + "px; left:" + (w - wi) / 2 + "px; width:0px; z-index:3'>");
                     $("body").prepend("<img src='images/blank.jpg'/ id='blank' style='position:fixed; top:" + -h + "px; left:" + -w + "px; width:" + 3 * w + "px; height:" + 3 * h + "px; z-index:2; opacity:0.02'>");
                     t0 = new Date().getTime();
                     wait = true;
@@ -415,19 +423,23 @@ if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['decon
             $("#van").css("width", wi + "px");
             $("#van").css("top", (h - wi) / 2 + 100 * t / TmaxVan + "px");
             $("#van").css("left", (w - wi) / 2 + "px");
-            if(t>2500 && !request_index_send){
+            if (t > 2500 && !request_index_send) {
                 request_index_send = true;
                 var name = $("#name").val();
                 var password = $("#password").val();
                 var email = $("#email").val();
-                $.post("ajax/index.php", {name: name, password: password, email: email, type:"usual"})
+                $.post("ajax/index.php", {name: name, password: password, email: email, type: "usual"})
                         .done(function(data) {
-                    pageLoaded=true;
+                    pageLoaded = true;
                     $("#bloc_page").html(data);
                 });
-            }Tchange=t;
-        } else if (t <Tchange +2000) {
-            if(!TchangeSet){Tchange=t; TchangeSet=true;}
+            }
+            Tchange = t;
+        } else if (t < Tchange + 2000) {
+            if (!TchangeSet) {
+                Tchange = t;
+                TchangeSet = true;
+            }
             var h = window.innerHeight;
             var w = window.innerWidth;
 
@@ -457,10 +469,10 @@ if (isset($_GET['deconnexion']) && isset($_SESSION['last_user']) && $_GET['decon
             var name = $("#name").val();
             var password = $("#password").val();
             var email = $("#email").val();
-            $.post("ajax/index.php", {name: name, password: password, email: email, type:"smoke"})
+            $.post("ajax/index.php", {name: name, password: password, email: email, type: "smoke"})
                     .done(function(data) {
                 $("#bloc_page").html(data);
-                    pageLoaded=true;
+                pageLoaded = true;
             });
         }
         $("#bloc_page").css({"opacity": "" + ((Tmax - t) * (Tmax - t) * (Tmax - t) * (Tmax - t) / Tmax / Tmax / Tmax / Tmax)});

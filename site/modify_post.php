@@ -134,21 +134,15 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
         </script>
         <?php
     } else {
+        $perm = (isset($_POST['permission'])) ? 1 : 0;
+        $dossier = $perm == 1 ? 'pics_up/A/' : 'pics_up/B/';
+        $i = 1;
         if ($_POST['visualization'] == 0) {
-            $i = 1;
-            $pics = '';
-            $perm = (isset($_POST['permission'])) ? 1 : 0;
-            $dossier = $perm == 1 ? 'pics_up/A/' : 'pics_up/B/';
             while (isset($_FILES["pic$i"]) && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] != "") {
-                $fichier = date("m-d-H-i-s") . basename($_FILES["pic$i"]['name']);
-
-                $image = new SimpleImage();
-                $image->load($_FILES["pic$i"]['tmp_name']);
-                $image->resizeToWidth(530);
-                $image->save($dossier . $fichier);
+                $fichier = basename($_FILES["pic$i"]['name']);
+                photo::add($_FILES["pic$i"]['tmp_name'], $_FILES["pic$i"]['name'], $perm);
                 $i += 1;
             }
-            $perm = (isset($_POST['permission'])) ? 1 : 0;
             $return = Posts::modify_post($_POST['id'], 'GPS1', $_POST['title'], $_POST['titleFrench'], str_replace("#####", $_POST['id'], nl2br($_POST['post'])), str_replace("#####", $_POST['id'], nl2br($_POST['postFrench'])), $perm);
             if ($return == '') {
                 header("Location: index.php");
@@ -158,16 +152,9 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
             exit;
         } else {
             //upload the image
-            $i = 1;
-            $perm = (isset($_POST['permission'])) ? 1 : 0;
-            $dossier = $perm == 1 ? 'pics_up/A/' : 'pics_up/B/';
             while (isset($_FILES["pic$i"]) && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] != "") {
-                $fichier = date("m-d-H-i-s") . basename($_FILES["pic$i"]['name']);
-
-                $image = new SimpleImage();
-                $image->load($_FILES["pic$i"]['tmp_name']);
-                $image->resizeToWidth(530);
-                $image->save($dossier . $fichier);
+                $fichier = basename($_FILES["pic$i"]['name']);
+                photo::add($_FILES["pic$i"]['tmp_name'], $_FILES["pic$i"]['name'], $perm);
                 $i += 1;
             }
             htmlHeader("blog");

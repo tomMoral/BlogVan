@@ -14,12 +14,12 @@ if (isset($_POST['last_id']) || true) {
             $found_next = true;
             if ($row['permission'] != 0 || ($user != null && $user->type != 0)) {
                 $I_found_this_cool = false;
-                if($user != null)
-                  foreach (explode(",", $row['like']) as $user_id) {
-                      if ($user_id == $user->id . "") {
-                          $I_found_this_cool = true;
-                      }   
-                  }
+                if ($user != null)
+                    foreach (explode(",", $row['like']) as $user_id) {
+                        if ($user_id == $user->id . "") {
+                            $I_found_this_cool = true;
+                        }
+                    }
                 $nb_who_liked = $row['like'] == "" ? 0 : count(explode(",", $row['like']));
                 ?>
                 <section class="post" >
@@ -90,7 +90,7 @@ if (isset($_POST['last_id']) || true) {
                     </aside>
                 </section>
                 <?php if ($user != null) { ?><script>
-                    //manage the like
+                                        //manage the like
                                         $(document).ready(function() {
                                             var nbUserWhoLiked = <?php echo $nb_who_liked; ?>;
                                             $("#like_post_<?php echo $row['id']; ?>").click(function() {
@@ -202,6 +202,17 @@ if (isset($_POST['last_id']) || true) {
                 <?php
             }
         }
+    }if (!$found_next) {
+        ?>
+        <script>
+            $(document).ready(function() {
+                $.post("ajax/load_music.php", {last_id: -1})
+                        .done(function(data) {
+                    $("#for_music").append(data);
+                });
+            });
+        </script>
+    <?php
     }
 }
 ?>

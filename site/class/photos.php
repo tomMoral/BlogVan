@@ -13,37 +13,45 @@ class photo {
 
     public static function add($temp_file, $name, $permission) {
         $dossier = $permission == 1 ? 'pics_up/A/' : 'pics_up/B/';
-        $dateAdded = date("m-d-H-i-s");
-        $temp = explode(".", $name);
-        $extension = $temp[count($temp) - 1];
-        $main_name = substr($name, 0, strlen($name) - 1 - strlen($extension));
+        $pic = photo::getByOriginalName($dossier . $name);
+        if ($pic == null) {
+            $temp = explode(".", $name);
+            $extension = $temp[count($temp) - 1];
+            $time = 0;
+            $lon = NULL;
+            $lat = NULL;
+            if ($extension != "gif") {
+                $main_name = substr($name, 0, strlen($name) - 1 - strlen($extension));
 
-        $image0 = new SimpleImage();
-        $image0->load($temp_file);
-        $image0->save($dossier . $dateAdded . $name);
+                $image0 = new SimpleImage();
+                $image0->load($temp_file);
+                $image0->save($dossier . $name);
 
-        $image1 = new SimpleImage();
-        $image1->load($temp_file);
-        $image1->resizeToWidth(530);
-        $image1->save($dossier . $dateAdded . $main_name . "Medium." . $extension);
+                $image1 = new SimpleImage();
+                $image1->load($temp_file);
+                $image1->resizeToWidth(530);
+                $image1->save($dossier . $main_name . "Medium." . $extension);
 
-        $image2 = new SimpleImage();
-        $image2->load($temp_file);
-        $image2->resizeToWidth(50);
-        $image2->save($dossier . $dateAdded . $main_name . "Icon." . $extension);
+                $image2 = new SimpleImage();
+                $image2->load($temp_file);
+                $image2->resizeToWidth(50);
+                $image2->save($dossier . $main_name . "Icon." . $extension);
 
-        $id = photo::nextId();
-        $exif = exif_read_data($temp_file);
-        $time=0;
-        if(isset($exif['DateTimeOriginal'])){
-            $time = $exif['DateTimeOriginal'];
-        }else if(strpos($name,"date")){
-            $time = explode("date",$name)[0];
-        }
-        $lon = isset($exif["GPSLongitude"]) && isset($exif['GPSLongitudeRef']) ? photo::getGps($exif["GPSLongitude"], $exif['GPSLongitudeRef']) : NULL;
-        $lat = isset($exif["GPSLatitude"]) && isset($exif['GPSLatitudeRef']) ? photo::getGps($exif["GPSLatitude"], $exif['GPSLatitudeRef']) : NULL;
-        $db = database::connect();
-        $query = $db->prepare('CREATE TABLE IF NOT EXISTS `photos` (
+                $exif = exif_read_data($temp_file);
+                if (isset($exif['DateTimeOriginal'])) {
+                    $time = $exif['DateTimeOriginal'];
+                } else if (strpos($name, "date")) {
+                    $ex = explode("date", $name);
+                    $time = $ex[0];
+                }
+                $lon = isset($exif["GPSLongitude"]) && isset($exif['GPSLongitudeRef']) ? photo::getGps($exif["GPSLongitude"], $exif['GPSLongitudeRef']) : NULL;
+                $lat = isset($exif["GPSLatitude"]) && isset($exif['GPSLatitudeRef']) ? photo::getGps($exif["GPSLatitude"], $exif['GPSLatitudeRef']) : NULL;
+            } else {
+                move_uploaded_file($temp_file, $dossier . $name);
+            }
+            $id = photo::nextId();
+            $db = database::connect();
+            $query = $db->prepare('CREATE TABLE IF NOT EXISTS `photos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `time` datetime NOT NULL,
   `medium` text NOT NULL,
@@ -55,14 +63,18 @@ class photo {
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 '
-        );
-        $query->execute();
+            );
+            $query->execute();
 
-        $query = $db->prepare("INSERT INTO `photos` (`id`, `original`, `medium`,`icon`,`permission`, `time`, `latitude`, `longitude`) VALUES(?,?,?,?,?,?,?,?) ");
-        $query->execute(array($id, $dossier . $dateAdded . $name, $dossier . $dateAdded . $main_name . "Medium." . $extension, $dossier . $dateAdded . $main_name . "Icon." . $extension, $permission == 1 ? 0 : 1, $time, $lat, $lon));
-
-        if (file_exists($temp_file)) {
-            unlink($temp_file);
+            $query = $db->prepare("INSERT INTO `photos` (`id`, `original`, `medium`,`icon`,`permission`, `time`, `latitude`, `longitude`) VALUES(?,?,?,?,?,?,?,?) ");
+            if ($extension != "gif") {
+                $query->execute(array($id, $dossier . $name, $dossier . $main_name . "Medium." . $extension, $dossier . $main_name . "Icon." . $extension, $permission == 1 ? 0 : 1, $time, $lat, $lon));
+            } else {
+                $query->execute(array($id, $dossier . $name, $dossier . $name, $dossier . $name, $permission == 1 ? 0 : 1, $time, $lat, $lon));
+            }
+            if (file_exists($temp_file)) {
+                unlink($temp_file);
+            }
         }
     }
 
@@ -148,6 +160,18 @@ class photo {
                 $query2->execute();
             }
         }
+    }
+
+    public static function getByOriginalName($name) {
+        $dbh = Database::connect();
+        $query = "SELECT * FROM `photos` WHERE `original` = \"$name\"";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'photos');
+        $sth->execute();
+        $photo = $sth->fetch();
+        $sth->closeCursor();
+        $dbh = null;
+        return $photo;
     }
 
 }

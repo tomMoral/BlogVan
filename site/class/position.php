@@ -16,7 +16,7 @@ class position {
         $query = $db->prepare('CREATE TABLE IF NOT EXISTS `position` (
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
-  `time` bigint NOT NULL,
+  `time` datetime NOT NULL,
   `precision` float NOT NULL,
   `id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
@@ -66,6 +66,12 @@ class position {
         $query->closeCursor();
         $dbh = null;
         return $position;
+    }
+
+    public static function remove($id) {
+        $db = database::connect();
+        $query = $db->prepare("DELETE FROM `position` WHERE `id` = $id;");
+        $query->execute();
     }
 
 }

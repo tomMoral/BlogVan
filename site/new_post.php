@@ -120,7 +120,7 @@ if ($user != null && $user->type == 2) {
             $perm = (isset($_POST['permission'])) ? 1 : 0;
             $dossier = $perm == 1 ? 'pics_up/A/' : 'pics_up/B/';
             while (isset($_FILES["pic$i"]) && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] != "") {
-                $fichier = date("m-d-H-i-s") . basename($_FILES["pic$i"]['name']);
+                $fichier =  basename($_FILES["pic$i"]['name']);
                 photo::add($_FILES["pic$i"]['tmp_name'], $_FILES["pic$i"]['name'], $perm);
                 //  $image = new SimpleImage();
                 //  $image->load($_FILES["pic$i"]['tmp_name']);
@@ -144,7 +144,7 @@ if ($user != null && $user->type == 2) {
             $perm = (isset($_POST['permission'])) ? 1 : 0;
             $dossier = $perm == 1 ? 'pics_up/A/' : 'pics_up/B/';
             while (isset($_FILES["pic$i"]) && isset($_FILES["pic$i"]['name']) && $_FILES["pic$i"]['name'] != "") {
-                $fichier = date("m-d-H-i-s") . basename($_FILES["pic$i"]['name']);
+                $fichier = basename($_FILES["pic$i"]['name']);
 
                 photo::add($_FILES["pic$i"]['tmp_name'], $_FILES["pic$i"]['name'], $perm);
                 //  $image = new SimpleImage();
@@ -247,6 +247,45 @@ if ($user != null && $user->type == 2) {
                         var re = new RegExp(pic[i].code, 'g');
                         text = text.replace(re, '<img src="' + pic[i].name + '" style="max-width: 530px"/>');
                     }
+                    
+                    var vote = new RegExp(/\[([^\]+])\]/);
+                    prop = text.match(vote);
+                    if(prop != null && prop[1].indexOf('::') > 0){
+                        props = prop[1].split('::')
+                        
+                        var $balise_text = prop[0];
+                        $tmp = '<form action="new_comment.php" method="post" id="form_' . $id . '">';
+                        $tmp .= '<fieldset>';
+                        $tmp .= "<input type='hidden' name='id' value='$id'/>";
+                        $tmp .= "<div class='vote' id='vote_$id'>";
+                        $i = 0;
+                        $end1 = "</div><br/>";
+                        $end2 = "\n</fieldset>\n</form>";
+                        foreach ($opts as $n => $prop) {
+                            $tmp .= "<div class='prop'>\n<input name='vote' value=" . $n . " type='radio'/>";
+                            $tmp .= "<div class='vote_left'>" . $prop;
+                            $tmp .= "</div><div class='vote_right'>";
+                            $tmp .= "<span class='result'>";
+                            if (!isset($results[$n]))
+                                $results[$n] = 0;
+                            $tmp .= strval(number_format(100 * $results[$n] / max($n_votes, 1), 1));
+                            $tmp .= "% </span></div></div>";
+
+                            $i++;
+                        }
+                        $tmp .= $end1;
+                        $tmp.="<script>
+                                $(document).ready(function(){
+                                 var maxHeight = Math.max($('#vote_$id .vote_left').height(), $('#vote_$id .vote_right').height());
+               $('#vote_$id .prop').height(maxHeight+30);
+                                });</script>";
+
+                        if ($with_script && $usr != null && !($voters != null && in_array($usr->id, $voters))) {
+                            $tmp .= "<div class='voteit'><input type='submit' name='submibutton' title='Vote!' /></div>";
+                            $tmp .= $end2;
+                            $tmp .= "<script>
+                    }
+                    
                     $("#postarea").html(text);
                     $("#bodyvisualization").html(text.replace(/\r?\n/g, '<br/>'));
                     var text = document.getElementById("title").value;
@@ -267,7 +306,7 @@ if ($user != null && $user->type == 2) {
                     $('textarea').autosize();
                     $("#postarea").keyup(function() {
                         lastFieldUsed = 1;
-                        var text = $("#postarea").val().replace(/\r?\n/g, '\n<br/>');
+                        var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
                         for (var i = 0; i < pic.length; i++) {
                             if (text.indexOf(pic[i].code) !== -1) {
                                 $("#visualization").attr("value", 1);
@@ -296,7 +335,7 @@ if ($user != null && $user->type == 2) {
 
                     $("#postareaFrench").keyup(function() {
                         lastFieldUsed = 2;
-                        var text = $("#postareaFrench").val().replace(/\r?\n/g, '\n<br/>');
+                        var text = $("#postareaFrench").val().replace(/\r?\n/g, '<br/>');
                         for (var i = 0; i < pic.length; i++) {
                             if (text.indexOf(pic[i].code) !== -1) {
                                 $("#visualization").attr("value", 2);

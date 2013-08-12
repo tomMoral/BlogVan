@@ -134,7 +134,9 @@ function htmlHeader($tohide) {
             <img src="';
         echo (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SESSION['song_num']) && isset($_SESSION['is_playing']) && $_SESSION['is_playing'] == 1) ? 'images/pause.png"' : 'images/play.png"';
         echo 'width="100px" id="play_pause"/></div>
-<div id="for_music"></div>
+<div id="for_music"></div>';
+        if ($tohide != "blog") {
+            echo '
 <script>
     $(document).ready(function() {
         $.post("ajax/load_music.php", {last_id: -1})
@@ -143,6 +145,7 @@ function htmlHeader($tohide) {
         });
     });
     </script>';
+        }
     }
 }
 
@@ -169,8 +172,8 @@ function string_trad($string) {
     }
 }
 
-function guitar_guy(){
-
+function guitar_guy() {
+    
 }
 
 $trad = array(
@@ -215,24 +218,23 @@ $trad = array(
     "this is really cool!" => "ça c'est cool!",
     "you find it really cool!" => "tu trouves ça très cool!",
     "New post" => "Nouveau post",
-    "On the agenda"=>"Au programme",
-    "2500 miles of aventure, sweat and laugther"=>"2500 miles d'aventure de sueur et de rire ",
-    "lot of beers to fight Death Valley heat"=>"beaucoup de bières contre la chaleur de la Death Valley",
-    "wedding at Vegas"=>" mariage à Vegas",
-    "earplugs to let Thomas sing with the radio"=>"boules Quies pour laisser Thomas chanter avec la radio",
-    "divorce at Vegas"=>"divorce à Vegas",
-    "a cooler to put Micheaux in when she is too hot and the beers are gone"=>"une glacière pour mettre Micheaux dedans quand elle aura trop chaud et qu'on aura bu toutes les bieres",
-    "a tent to prevent Marine from taking all the space in the van"=>" une tente pour éviter à Marine de prendre toute la place dans le van",
-    "bankruptcy at Vegas"=>"banqueroute à Vegas",
-    "no grimace on Greg's photos"=>" pas de grimace sur les photos de Greg",
-    "culturation in museums or lying on the beach"=>"culturation dans des musées ou allongé sur la plage au soleil",
-    "car breakdown"=>"panne régulière",
-    "waking up Guigui while driving"=>"réveil de Guigui au volant",
-    "a lot of other surprises and above all"=>"plein d'autre surprises et surtout",
-    "a lot of posts and photos !"=>"beaucoup de posts et de photos !",
-    "It's awesome!"=>"C'est génial !",
-    "The adventure has begun since"=>"L'aventure a commencé il y a",
-    "If this is your first time, pick a funny name!"=>"Si c'est ta première fois, choisis un nom marrant !"
-        
-    );
+    "On the agenda" => "Au programme",
+    "2500 miles of aventure, sweat and laugther" => "2500 miles d'aventure de sueur et de rire ",
+    "lot of beers to fight Death Valley heat" => "beaucoup de bières contre la chaleur de la Death Valley",
+    "wedding at Vegas" => " mariage à Vegas",
+    "earplugs to let Thomas sing with the radio" => "boules Quies pour laisser Thomas chanter avec la radio",
+    "divorce at Vegas" => "divorce à Vegas",
+    "a cooler to put Micheaux in when she is too hot and the beers are gone" => "une glacière pour mettre Micheaux dedans quand elle aura trop chaud et qu'on aura bu toutes les bieres",
+    "a tent to prevent Marine from taking all the space in the van" => " une tente pour éviter à Marine de prendre toute la place dans le van",
+    "bankruptcy at Vegas" => "banqueroute à Vegas",
+    "no grimace on Greg's photos" => " pas de grimace sur les photos de Greg",
+    "culturation in museums or lying on the beach" => "culturation dans des musées ou allongé sur la plage au soleil",
+    "car breakdown" => "panne régulière",
+    "waking up Guigui while driving" => "réveil de Guigui au volant",
+    "a lot of other surprises and above all" => "plein d'autre surprises et surtout",
+    "a lot of posts and photos !" => "beaucoup de posts et de photos !",
+    "It's awesome!" => "C'est génial !",
+    "The adventure has begun since" => "L'aventure a commencé il y a",
+    "If this is your first time, pick a funny name!" => "Si c'est ta première fois, choisis un nom marrant !"
+);
 ?>

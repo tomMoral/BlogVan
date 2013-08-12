@@ -326,12 +326,15 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             $("#full_screen_background").remove();
             $("body").append("<img src='" + src + "' id='full_screen_photo' onload='resize();'/>");
             $("body").append("<img src='images/black.jpg' id='full_screen_background'/>");
+            $("body").append("<img src='images/right_arrow.png' class='arrow' id='right_arrow'/>");
+            $("body").append("<img src='images/left_arrow.png' class='arrow' id='left_arrow'/>");
+            $("body").append("<img src='images/cross.png' class='arrow' id='cross'/>");
         }
 
         function resize() {
             var windowW = $(window).width();
             var windowH = $(window).height();
-            var imgW = windowW;
+            var imgW = windowW - 100;
             var imgH = windowH;
             var bigPic = $("#full_screen_photo");
             //set the image size
@@ -349,6 +352,10 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             //set the image position
             bigPic.css("left", ((windowW - width) / 2) + "px");
             bigPic.css("top", ((windowH - height) / 2) + "px");
+            $("#right_arrow").css("right",((windowW - width) / 2)-50 + "px");
+            $("#left_arrow").css("left",((windowW - width) / 2)-50 + "px");
+            $("#right_arrow").css("top",(windowH  / 2)-20 + "px");
+            $("#left_arrow").css("top",(windowH / 2)-20 + "px");
         }
     </script>
     <h2><?php echo_trad("On the agenda"); ?>:</h2>

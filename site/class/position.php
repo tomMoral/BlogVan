@@ -22,9 +22,11 @@ class position {
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;'
         );
+        echo $time .'<br/>';
+        echo "INSERT INTO `position` (`id`, `latitude`, `longitude`,`time`,`precision`) VALUES($id,$lat,$lon,'$time',$precision) ";
         $query->execute();
-        $query = $db->prepare("INSERT INTO `position` (`id`, `latitude`, `longitude`,`time`,`precision`) VALUES(?,?,?,?,?) ");
-        $query->execute(array($id, $lat, $lon, $time, $precision));
+        $query = $db->prepare("INSERT INTO `position` (`id`, `latitude`, `longitude`,`time`,`precision`) VALUES($id,$lat,$lon,'$time',$precision) ");
+        $query->execute();
     }
 
     private static function nextId() {

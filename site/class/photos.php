@@ -153,10 +153,13 @@ class photo {
         while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
             $pos1 = position::lastPositionBefore($photo['time']);
             $pos2 = position::firstPositionAfter($photo['time']);
+            $id = $photo['id'];
+            print_r($pos1);
+            print_r($pos2);
             if ($pos1 != null && $pos2 != null) {
-                $lat = ((strtotime($photo['time']) - strtotime($pos1['time'])) * $pos1['latitude'] + (strtotime($pos2['time']) - strtotime($photo['time'])) + $pos2['latitude']) / (strtotime($pos2['time']) - strtotime($pos1['time']));
-                $lon = ((strtotime($photo['time']) - strtotime($pos1['time'])) * $pos1['longitude'] + (strtotime($pos2['time']) - strtotime($photo['time'])) + $pos2['longitude']) / (strtotime($pos2['time']) - strtotime($pos1['time']));
-                $query2 = $db->prepare("UPDATE `photos` SET `latitude` =$lat , `longitude`=$lon;");
+                $lat = ((strtotime($photo['time']) - strtotime($pos1['time'])) * $pos1['latitude'] + (strtotime($pos2['time']) - strtotime($photo['time'])) * $pos2['latitude']) / (strtotime($pos2['time']) - strtotime($pos1['time']));
+                $lon = ((strtotime($photo['time']) - strtotime($pos1['time'])) * $pos1['longitude'] + (strtotime($pos2['time']) - strtotime($photo['time'])) * $pos2['longitude']) / (strtotime($pos2['time']) - strtotime($pos1['time']));
+                $query2 = $db->prepare("UPDATE `photos` SET `latitude` =$lat , `longitude`=$lon WHERE `id`=$id;");
                 $query2->execute();
             }
         }

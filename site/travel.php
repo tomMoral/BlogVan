@@ -39,13 +39,15 @@ $query = $db->prepare('CREATE TABLE IF NOT EXISTS `position` (
 $query->execute();
 $query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position` WHERE `precision`< 200 ORDER BY `time` ASC;");
 $query->execute();
+$i = 0;
 while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp = array();
     $temp['id'] = $position['id'];
     $temp['lat'] = $position['latitude'];
     $temp['lon'] = $position['longitude'];
     $temp['time'] = $position['time'];
-    $positions[$position['id']] = $temp;
+    $positions[$i] = $temp;
+    $i += 1;
 }
 
 $query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position` WHERE `time` in

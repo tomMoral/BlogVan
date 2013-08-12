@@ -6,7 +6,7 @@ if(isset($_GET['delete'])){
 }
 //position::create(rand(0, 100), rand(0, 100), date("Y-m-d H:i:s", rand(0, 400000000000)));
 $db = database::connect();
-$id_limit = 10;
+$id_limit = 494;
 //get the GPS positions
 $positions1 = array();
 $positions2 = array();
@@ -21,7 +21,7 @@ $query = $db->prepare('CREATE TABLE IF NOT EXISTS `position` (
 );
 $query->execute();
 $query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position` WHERE `precision`< 200 AND `id`<$id_limit
-                       ORDER BY `time` ASC;");
+    ORDER BY `time` ASC;");
 $query->execute();
 while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp = array();
@@ -32,7 +32,7 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
     $positions1[$position['id']] = $temp;
 }
 $query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position` WHERE `precision`< 200 AND `id`>=$id_limit
-                       ORDER BY `time` ASC;");
+    ORDER BY `time` ASC;");
 $query->execute();
 while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp = array();
@@ -86,7 +86,7 @@ print_r($_POST);
             var id = event.target.id;
             var src = event.target.src;
             var cluster = src.substr(src.length - 11, 1);
-            $("#time").html(cluster === "1" ? positions1[id]['time'] : positions2[id]['time']);
+            $("#time").html(cluster === "1" ? positions1[id]['time'] +"   cluster1<br/>Lat : " + positions1[id]['latitude'] +"<br/>Lon: " + positions1[id]['longitude'] :positions2[id]['time']+"   cluster2<br/>Lat : " + positions2[id]['latitude'] +"<br/>Lon: " + positions2[id]['longitude'] );
         });
         $("img").click(function(event) {
             var id = event.target.id;

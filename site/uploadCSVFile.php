@@ -10,7 +10,8 @@ if (isset($user) && $user->type == 2) {
         foreach ($file as $line_number => $line) {
             $tab = explode(",", $line);
             print_r($tab);
-            $time = $tab[0] - $offset;
+            $time = "$tab[0]";
+            echo $time;
             $lat = $tab[1];
             $lon = $tab[2];
             $accuracy = $tab[3];

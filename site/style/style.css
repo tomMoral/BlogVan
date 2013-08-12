@@ -251,6 +251,9 @@ nav div
     display: inline-block;
     width:50px;
 }
+#logo_com{
+    vertical-align: middle;
+}
 
 .text_container
 {

@@ -9,10 +9,38 @@ body
     color: #181818;
 }
 
+.map_photo
+{
+    position:absolute;
+    top:-10000px;
+    left:-10000px;
+    width:20px;
+}
+
+#full_screen_photo
+{
+    position:fixed;
+    top:0px;
+    left:0px;
+}
 .display_comment{
     width:245px;
-    text-align:center;
-    padding: 10px 0px;
+    display: inline-block;
+    padding: 10px;
+    position: relative;
+    background-color: #706b64;
+    box-shadow: 0px 2px 5px #1c1a19;
+    border-radius: 5px;
+    margin-bottom:10px;
+    color: white;
+    font-size: 0.9em;
+    background:#18D60A;
+    color:#fff;	
+}
+
+.display_comment:hover
+{
+    cursor:pointer
 }
 #go td
 {
@@ -20,17 +48,17 @@ body
 }
 .center ul
 {
-margin-left: 0;
-padding-left: 0;
+    margin-left: 0;
+    padding-left: 0;
     list-style: none;
 }
 .center li
 {height: 40px;
-background: url(../images/face_1_small.png) no-repeat top left;
-background-position: 0 .5em;
-    padding:5px 5px 5px 50px;
-    text-align:left;
-    font-size:20px;
+ background: url(../images/face_1_small.png) no-repeat top left;
+ background-position: 0 .5em;
+ padding:5px 5px 5px 50px;
+ text-align:left;
+ font-size:20px;
 }
 #bloc_page
 {
@@ -114,6 +142,7 @@ background-position: 0 .5em;
     position:relative;
     width:446px;
     margin:0px;
+    text-align:center;
 }
 .all_photos
 {
@@ -219,12 +248,19 @@ nav div
 }
 .logo_container
 {
+    display: inline-block;
     width:50px;
 }
 
 .text_container
 {
     width:80px;
+}
+.text_container_plus
+{
+    display: inline-block;
+    text-align:center;
+    width:150px;
 }
 nav a
 {
@@ -515,7 +551,7 @@ textarea{
 
 .new_post
 {
-min-height:55px !important;
+    min-height:55px !important;
 }
 
 .fake_textarea

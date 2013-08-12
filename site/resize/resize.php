@@ -1,5 +1,6 @@
 <?php
 include_once("../class/resize.php");
+ini_set('max_execution_time', 1000);
 $A = scandir("toresize");
 for ($i = 0; $i < count($A); $i++) {
     if (substr($A[$i], 0, 1) != ".") {

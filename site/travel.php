@@ -62,7 +62,6 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
         height: 100%;
     }
 </style>
-<link href="/maps/documentation/javascript/examples/default.css" rel="stylesheet">
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 <script>
 
@@ -267,10 +266,84 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
     <div style="position:relative; width: 900px; height: 500px" id="container"><div id="map-canvas"></div>
         <?php
         foreach ($photos as $photo) {
-            echo'<img src="' . $photo['icon'] . '" id="' . $photo['id'] . '" style="position:absolute; top:-10000px; left:-10000px; width:20px"/>';
+            echo'<img src="' . $photo['icon'] . '" id="' . $photo['id'] . '" class="map_photo"/>';
         }
         ?>
     </div>
+    <script>
+        var hovered = "";
+        $(document).ready(function() {
+            $(".map_photo").hover(function() {
+                var pic = this;
+                var id = pic.id;
+                if (id !== hovered) {
+                    $("#" + hovered).css("width", "20px");
+                    $("#" + hovered).css("height", "auto");
+                    hovered = id;
+                    var h = pic.height;
+                    var src = pic.src;
+                    if (src.indexOf("Icon" != -1)) {
+                        // pic.src = src.replace("Icon"
+                        //       , "Medium");
+                    }
+                    pic.height = 6 * h;
+                    pic.style.width = "auto";
+                }
+            });
+            $(".map_photo").mouseout(function() {
+                var pic = this;
+                var id = pic.id;
+                if (hovered != "") {
+                    $("#" + hovered).css("width", "20px");
+                    $("#" + hovered).css("height", "auto");
+                    hovered = "";
+                }
+            });
+            $(".map_photo").click(function() {
+                var pic = this;
+                displayFullScreen(pic);
+            });
+        });
+
+        function getOffset(el) {
+            var _x = 0;
+            var _y = 0;
+            while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
+                _x += el.offsetLeft - el.scrollLeft;
+                _y += el.offsetTop - el.scrollTop;
+                el = el.offsetParent;
+            }
+            return {top: _y, left: _x};
+        }
+
+        function displayFullScreen(pic) {
+            var id = pic.id;
+            src = pic.src.indexOf("Icon") != -1 ? pic.src.replace("Icon", "") : pic.src;
+
+            var windowW = window.width;
+            var windowH = window.height;
+            var imgW = windowW;
+            var imgH = windowH;
+            $("#full_screen_photo").remove();
+            $("#full_screen_background").remove();
+            $("body").append("<img src='" + src + "' id='full_screen_photo'/>");
+            var bigPic = $("#full_screen_photo");
+            //set the image size
+            if (bigPic.width > imgW) {
+                bigPic.width = imgW;
+                bigPic.style.height = 'auto';
+            }
+            if (bigPic.height > imgH) {
+                bigPic.height = imgH;
+                bigPic.style.width = 'auto';
+            }
+            //set the image position
+            var l =getOffset(bigPic).left;
+            var t =getOffset(bigPic).top;
+            alert(bigPic.css("width"));
+            bigPic.css("left",(windowW-bigPic.width)/2+"px");
+        }
+    </script>
     <h2><?php echo_trad("On the agenda"); ?>:</h2>
     <ul>
         <li><?php echo_trad("2500 miles of aventure, sweat and laugther"); ?>
@@ -278,38 +351,38 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
         <li><?php echo_trad("lot of beers to fight Death Valley heat"); ?>
         </li>
         <li>
-<?php echo_trad("wedding at Vegas"); ?>
+            <?php echo_trad("wedding at Vegas"); ?>
         </li>
         <li>
-<?php echo_trad("earplugs to let Thomas sing with the radio"); ?>
+            <?php echo_trad("earplugs to let Thomas sing with the radio"); ?>
         </li>
         <li>
-<?php echo_trad("divorce at Vegas"); ?>
+            <?php echo_trad("divorce at Vegas"); ?>
         </li>
         <li>
-<?php echo_trad("a cooler to put Micheaux in when she is too hot and the beers are gone"); ?>
+            <?php echo_trad("a cooler to put Micheaux in when she is too hot and the beers are gone"); ?>
         </li>
         <li>
-<?php echo_trad("a tent to prevent Marine from taking all the space in the van"); ?>
+            <?php echo_trad("a tent to prevent Marine from taking all the space in the van"); ?>
         </li>
         <li>
-<?php echo_trad("bankruptcy at Vegas"); ?>
+            <?php echo_trad("bankruptcy at Vegas"); ?>
         </li>
         <li>
-<?php echo_trad("no grimace on Greg's photos"); ?>
+            <?php echo_trad("no grimace on Greg's photos"); ?>
         </li>
         <li>
-<?php echo_trad("culturation in museums or lying on the beach"); ?>
+            <?php echo_trad("culturation in museums or lying on the beach"); ?>
         </li>
         <li>
-<?php echo_trad("car breakdown"); ?>
+            <?php echo_trad("car breakdown"); ?>
         </li>
         <li>
-<?php echo_trad("waking up Guigui while driving"); ?>
+            <?php echo_trad("waking up Guigui while driving"); ?>
         </li>
     </ul>
     <h2>
-<?php echo_trad("a lot of other surprises and above all"); ?></h2>
+        <?php echo_trad("a lot of other surprises and above all"); ?></h2>
 
     <h1><?php echo_trad("a lot of posts and photos !"); ?></h1>
 </div>

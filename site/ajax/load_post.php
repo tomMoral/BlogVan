@@ -126,8 +126,8 @@ if (isset($_POST['last_id']) || true) {
                         var nbCommentstoHide<?php echo $row['id']; ?> = 0;
                         var nbComments<?php echo $row['id']; ?> = nbCommentsIni<?php echo $row['id']; ?>;
                         if (nbComments<?php echo $row['id']; ?> > 1 && hMax<?php echo $row['id']; ?> + 200 < h<?php echo $row['id']; ?>) {
-                            $("#asside_<?php echo $row['id']; ?>").prepend("<div class=\"display_comment\"><?php echo_trad("show all comments"); ?></div>");
-
+                            $("#asside_<?php echo $row['id']; ?>").prepend("<div class=\"display_comment\"><div class='logo_container'><img src ='images/plus.png'/></div><div  class='text_container_plus'><?php echo_trad("show all comments"); ?></div></div>");
+                                                                       
                             var i = 0;
                             while (nbComments<?php echo $row['id']; ?> > 1 && hMax<?php echo $row['id']; ?> + 100 < h<?php echo $row['id']; ?>) {
                                 nbComments<?php echo $row['id']; ?>--;
@@ -141,12 +141,12 @@ if (isset($_POST['last_id']) || true) {
                         }
                         $("#asside_<?php echo $row['id']; ?> .display_comment").click(function() {
                             if (disp_all) {
-                                $(this).html("<?php echo_trad("show all comments"); ?>");
+                                $(this).html("<div class='logo_container'><img src ='images/plus.png'/></div><div  class='text_container_plus'><?php echo_trad("show all comments"); ?></div>");
                                 var i = 0;
                                 toogle(<?php echo $row['id']; ?>, 0, nbCommentstoHide<?php echo $row['id']; ?>, true);
                                 disp_all = false;
                             } else {
-                                $(this).html("<?php echo_trad("hide comments"); ?>");
+                                $(this).html("<div class='logo_container'><img src ='images/minus.png'/></div><div  class='text_container_plus'><?php echo_trad("hide comments"); ?></div>");
                                 var i = 0;
                                 toogle(<?php echo $row['id']; ?>, 0, nbCommentstoHide<?php echo $row['id']; ?>, false);
                                 disp_all = true;

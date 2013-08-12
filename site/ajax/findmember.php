@@ -115,7 +115,7 @@ if ($user != null && $user->type == 2) {
                     <input type="hidden" name="id" value="<?php echo $id ?>"/>
                     <input type="submit" value="Modify"/>
                 </form>
-            </div>'
+            </div>
 
             <?php
         }

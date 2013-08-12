@@ -14,9 +14,9 @@ if (isset($_POST['already_load'])) {
             $name = $photo['medium'];
             echo $j % 2 == 1 ? '<tr><td>' : '<td>';
             if ($j % 2 == 1) {
-                echo "<div class='photo photo_left' style='top'><img class='all_photos' src='" . $name . "'/> ";
+                echo "<div class='photo photo_left' style='top'><img class='all_photos'  id='photo_" . $photo['id'] . "'  src='" . $name . "' onload='resize(\"photo_" . $photo['id'] . "\");'/> ";
             } else {
-                echo "<div class='photo photo_right'><img class='all_photos' src='" . $name . "'/> ";
+                echo "<div class='photo photo_right'><img class='all_photos'  id='photo_" . $photo['id'] . "'  src='" . $name . "' onload='resize(\"photo_" . $photo['id'] . "\");'/> ";
             }
             if ($user && $user->type == 2) {
                 echo "<div class='delete_photo' id='" . $photo['id'] . "'><a class='delete_photo_a' href='#'>(" . string_trad("delete") . ")</a></div>";
@@ -38,6 +38,23 @@ if (isset($_POST['already_load'])) {
     }if ($j == $already_load + 2) {
         ?>
         <script>
+            var maxWidth = 530;
+            var maxHeight = 334;
+            $(window).load(function() {
+                allPic = document.getElementsByClassName("all_photos"), i = 0;
+                while (allPic[i]) {
+                    var a = allPic[i];
+                    if (a.width > maxWidth) {
+                        a.width = maxWidth;
+                        a.style.height = 'auto';
+                    }
+                    if (a.height > maxHeight) {
+                        a.height = maxHeight;
+                        a.style.width = 'auto';
+                    }
+                    i++;
+                }
+            });
             $(document).ready(function() {
                 $.post("ajax/load_photo.php", {already_load: "<?php echo $j; ?>"})
                         .done(function(data) {

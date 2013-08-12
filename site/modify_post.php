@@ -6,13 +6,77 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
     if (!isset($_POST['post'])) {
         ?>
         <script>
+            var displayResultats = 0;
+            function voteVisualization(text, area){
+                var vote = new RegExp(/\[([^\]]+)\]/);
+                prop = text.match(vote);
+                if(prop != null && prop[1].indexOf('::') > 0){
+                    var props = prop[1].split('::');
+
+                    var balise_text = prop[0];
+                    var tmp = '<form >';
+                    tmp += '<fieldset>';
+                    tmp += "<div class='vote' >";
+                    end1 = "</div><br/>";
+                    end2 = "\n</fieldset>\n</form>";
+                    for (opt in props) {
+                        tmp += "<div class='prop'>\n<input name='vote' type='radio'/>";
+                        tmp += "<div class='vote_left'>" + props[opt];
+                        tmp += "</div><div class='vote_right'>";
+                        tmp += "<span class='result'>";
+                        tmp += "20% </span></div></div>";
+                    }
+                    tmp += end1;
+                    tmp += "<div class='voteit'><span></span></div>";
+                    tmp += end2;
+                    text = text.replace(balise_text, tmp);
+                    $(area).html(text);
+                    var maxHeight = Math.max($('.vote_left').height(), $('.vote_right').height());
+                    $('.vote .prop').height(maxHeight+30);
+                    $(".vote_right").append('<a class="vote-select" href="#">Select</a><a class="vote-deselect" href="#">Cancel</a>');
+                    $(".vote .vote-select").click(
+                        function(event) {
+                            event.preventDefault();
+                            var boxes = $(this).parent().parent().parent().children();
+                            boxes.removeClass("selected");
+                            $(this).parent().parent().addClass("selected");
+                            $(this).parent().parent().find(":radio").attr("checked","checked");
+                        }
+                    );
+
+                    $(".vote .vote-deselect").click(
+                        function(event) {
+                            event.preventDefault();
+                            $(this).parent().parent().removeClass("selected");
+                            $(this).parent().parent().find(":radio").removeAttr("checked");
+                        }
+                      );
+                          
+                          
+                        $(".voteit").click(
+                            function(event) {
+                                event.preventDefault();
+                                if(!displayResultats){   
+                                    $('.vote_right a').hide();
+                                    displayResultats= 1 ;
+                                }
+                                else{   
+                                    $('.vote_right .vote-select').show();
+                                    displayResultats= 0 ;
+                                }
+                            }
+                          );
+                        }
+                else
+                    $(area).html(text);
+            }
             function vizualizePostEN() {
                 var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
-                $("#bodyvisualization").html(text);
+                voteVisualization(text,"#bodyvisualization");
             }
             function vizualizePostFR() {
                 var text = $("#postareaFrench").val().replace(/\r?\n/g, '<br/>');
-                $("#bodyvisualizationFrench").html(text);
+                voteVisualization(text,"#bodyvisualizationFrench");
             }
             function vizualizeTitleEN() {
                 var text = document.getElementById("title").value;
@@ -158,15 +222,78 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
                 $i += 1;
             }
             htmlHeader("blog");
-            ?> <script>
-                            function vizualizePostEN() {
-                                var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
-                                $("#bodyvisualization").html(text);
+            ?> <script>var displayResultats = 0;
+            function voteVisualization(text, area){
+                var vote = new RegExp(/\[([^\]]+)\]/);
+                prop = text.match(vote);
+                if(prop != null && prop[1].indexOf('::') > 0){
+                    var props = prop[1].split('::');
+
+                    var balise_text = prop[0];
+                    var tmp = '<form >';
+                    tmp += '<fieldset>';
+                    tmp += "<div class='vote' >";
+                    end1 = "</div><br/>";
+                    end2 = "\n</fieldset>\n</form>";
+                    for (opt in props) {
+                        tmp += "<div class='prop'>\n<input name='vote' type='radio'/>";
+                        tmp += "<div class='vote_left'>" + props[opt];
+                        tmp += "</div><div class='vote_right'>";
+                        tmp += "<span class='result'>";
+                        tmp += "20% </span></div></div>";
+                    }
+                    tmp += end1;
+                    tmp += "<div class='voteit'><span></span></div>";
+                    tmp += end2;
+                    text = text.replace(balise_text, tmp);
+                    $(area).html(text);
+                    var maxHeight = Math.max($('.vote_left').height(), $('.vote_right').height());
+                    $('.vote .prop').height(maxHeight+30);
+                    $(".vote_right").append('<a class="vote-select" href="#">Select</a><a class="vote-deselect" href="#">Cancel</a>');
+                    $(".vote .vote-select").click(
+                        function(event) {
+                            event.preventDefault();
+                            var boxes = $(this).parent().parent().parent().children();
+                            boxes.removeClass("selected");
+                            $(this).parent().parent().addClass("selected");
+                            $(this).parent().parent().find(":radio").attr("checked","checked");
+                        }
+                    );
+
+                    $(".vote .vote-deselect").click(
+                        function(event) {
+                            event.preventDefault();
+                            $(this).parent().parent().removeClass("selected");
+                            $(this).parent().parent().find(":radio").removeAttr("checked");
+                        }
+                      );
+                          
+                          
+                        $(".voteit").click(
+                            function(event) {
+                                event.preventDefault();
+                                if(!displayResultats){   
+                                    $('.vote_right a').hide();
+                                    displayResultats= 1 ;
+                                }
+                                else{   
+                                    $('.vote_right .vote-select').show();
+                                    displayResultats= 0 ;
+                                }
                             }
-                            function vizualizePostFR() {
-                                var text = $("#postareaFrench").val().replace(/\r?\n/g, '<br/>');
-                                $("#bodyvisualizationFrench").html(text);
-                            }
+                          );
+                        }
+                else
+                    $(area).html(text);
+            }
+            function vizualizePostEN() {
+                var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
+                voteVisualization(text,"#bodyvisualization");
+            }
+            function vizualizePostFR() {
+                var text = $("#postareaFrench").val().replace(/\r?\n/g, '<br/>');
+                voteVisualization(text,"#bodyvisualizationFrench");
+            }
                             function vizualizeTitleEN() {
                                 var text = document.getElementById("title").value;
                                 $("#titlevisualization").html(text);

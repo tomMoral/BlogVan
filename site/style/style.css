@@ -940,7 +940,7 @@ a.vote-deselect {
 
 }
 
-.voteit input
+.voteit input, .voteit span
 {
     display: block;
     position:absolute;	

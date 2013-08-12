@@ -76,13 +76,80 @@ if ($user != null && $user->type == 2) {
         </table>
 
         <script>
+            
+            var displayResultats = 0;
+            function voteVisualization(text, area){
+                var vote = new RegExp(/\[([^\]]+)\]/);
+                prop = text.match(vote);
+                if(prop != null && prop[1].indexOf('::') > 0){
+                    var props = prop[1].split('::');
+
+                    var balise_text = prop[0];
+                    var tmp = '<form >';
+                    tmp += '<fieldset>';
+                    tmp += "<div class='vote' >";
+                    end1 = "</div><br/>";
+                    end2 = "\n</fieldset>\n</form>";
+                    for (opt in props) {
+                        tmp += "<div class='prop'>\n<input name='vote' type='radio'/>";
+                        tmp += "<div class='vote_left'>" + props[opt];
+                        tmp += "</div><div class='vote_right'>";
+                        tmp += "<span class='result'>";
+                        tmp += "20% </span></div></div>";
+                    }
+                    tmp += end1;
+                    tmp += "<div class='voteit'><span></span></div>";
+                    tmp += end2;
+                    text = text.replace(balise_text, tmp);
+                    $(area).html(text);
+                    var maxHeight = Math.max($('.vote_left').height(), $('.vote_right').height());
+                    $('.vote .prop').height(maxHeight+30);
+                    $(".vote_right").append('<a class="vote-select" href="#">Select</a><a class="vote-deselect" href="#">Cancel</a>');
+                    $(".vote .vote-select").click(
+                        function(event) {
+                            event.preventDefault();
+                            var boxes = $(this).parent().parent().parent().children();
+                            boxes.removeClass("selected");
+                            $(this).parent().parent().addClass("selected");
+                            $(this).parent().parent().find(":radio").attr("checked","checked");
+                        }
+                    );
+
+                    $(".vote .vote-deselect").click(
+                        function(event) {
+                            event.preventDefault();
+                            $(this).parent().parent().removeClass("selected");
+                            $(this).parent().parent().find(":radio").removeAttr("checked");
+                        }
+                      );
+                          
+                          
+                        $(".voteit").click(
+                            function(event) {
+                                event.preventDefault();
+                                if(!displayResultats){   
+                                    $('.vote_right a').hide();
+                                    displayResultats= 1 ;
+                                }
+                                else{   
+                                    $('.vote_right .vote-select').show();
+                                    displayResultats= 0 ;
+                                }
+                            }
+                          );
+                        }
+                else
+                    $(area).html(text);
+            }
+            
+            
             var lastFieldUsed = 1;
             $(document).ready(function() {
                 $('textarea').autosize();
                 $("#postarea").keyup(function() {
                     lastFieldUsed = 1;
                     var text = $("#postarea").val().replace(/\r?\n/g, '<br/>');
-                    $("#bodyvisualization").html(text);
+                    voteVisualization( text, '#bodyvisualization');
                 });
                 $("#title").keyup(function() {
                     var text = document.getElementById("title").value;
@@ -91,7 +158,7 @@ if ($user != null && $user->type == 2) {
                 $("#postareaFrench").keyup(function() {
                     lastFieldUsed = 2;
                     var text = $("#postareaFrench").val().replace(/\r?\n/g, '<br/>');
-                    $("#bodyvisualizationFrench").html(text);
+                    voteVisualization( text, "#bodyvisualizationFrench");
                 });
                 $("#titleFrench").keyup(function() {
                     var text = document.getElementById("titleFrench").value;
@@ -248,46 +315,62 @@ if ($user != null && $user->type == 2) {
                         text = text.replace(re, '<img src="' + pic[i].name + '" style="max-width: 530px"/>');
                     }
                     
+                    
+                    $("#postarea").html(text);
+                    
                     var vote = new RegExp(/\[([^\]+])\]/);
                     prop = text.match(vote);
                     if(prop != null && prop[1].indexOf('::') > 0){
-                        props = prop[1].split('::')
+                        var props = prop[1].split('::');
                         
-                        var $balise_text = prop[0];
-                        $tmp = '<form action="new_comment.php" method="post" id="form_' . $id . '">';
-                        $tmp .= '<fieldset>';
-                        $tmp .= "<input type='hidden' name='id' value='$id'/>";
-                        $tmp .= "<div class='vote' id='vote_$id'>";
-                        $i = 0;
-                        $end1 = "</div><br/>";
-                        $end2 = "\n</fieldset>\n</form>";
-                        foreach ($opts as $n => $prop) {
-                            $tmp .= "<div class='prop'>\n<input name='vote' value=" . $n . " type='radio'/>";
-                            $tmp .= "<div class='vote_left'>" . $prop;
-                            $tmp .= "</div><div class='vote_right'>";
-                            $tmp .= "<span class='result'>";
-                            if (!isset($results[$n]))
-                                $results[$n] = 0;
-                            $tmp .= strval(number_format(100 * $results[$n] / max($n_votes, 1), 1));
-                            $tmp .= "% </span></div></div>";
-
-                            $i++;
+                        var balise_text = prop[0];
+                        var tmp = '<form >';
+                        tmp += '<fieldset>';
+                        tmp += "<div class='vote' >";
+                        end1 = "</div><br/>";
+                        end2 = "\n</fieldset>\n</form>";
+                        for (opt in props) {
+                            tmp += "<div class='prop'>\n<input name='vote' type='radio'/>";
+                            tmp += "<div class='vote_left'>" + opt;
+                            tmp += "</div><div class='vote_right'>";
+                            tmp += "<span class='result'>";
+                            tmp += "20% </span></div></div>";
                         }
-                        $tmp .= $end1;
-                        $tmp.="<script>
-                                $(document).ready(function(){
-                                 var maxHeight = Math.max($('#vote_$id .vote_left').height(), $('#vote_$id .vote_right').height());
-               $('#vote_$id .prop').height(maxHeight+30);
-                                });</script>";
+                        tmp += end1;
+                        tmp += "<div class='voteit'><input type='submit' name='submibutton' title='Vote!' /></div>";
+                        tmp += end2;
+                        text = text.replace(balise_text, tmp);
+                        $("#bodyvisualization").html(text.replace(/\r?\n/g, '<br/>'));
+                        var maxHeight = Math.max($('.vote_left').height(), $('.vote_right').height());
+                        $('.vote .prop').height(maxHeight+30);
+                        $(".vote_right").append('<a class="vote-select" href="#">Select</a><a class="vote-deselect" href="#">Cancel</a>');
+                        $(".vote .vote-select").click(
+                            function(event) {
+                                event.preventDefault();
+                                var boxes = $(this).parent().parent().parent().children();
+                                boxes.removeClass("selected");
+                                $(this).parent().parent().addClass("selected");
+                                $(this).parent().parent().find(":radio").attr("checked","checked");
+                            }
+                        );
 
-                        if ($with_script && $usr != null && !($voters != null && in_array($usr->id, $voters))) {
-                            $tmp .= "<div class='voteit'><input type='submit' name='submibutton' title='Vote!' /></div>";
-                            $tmp .= $end2;
-                            $tmp .= "<script>
+                        $(".vote .vote-deselect").click(
+                            function(event) {
+                                event.preventDefault();
+                                $(this).parent().parent().removeClass("selected");
+                                $(this).parent().parent().find(":radio").removeAttr("checked");
+                            }
+                          );
+                              
+                        $(".vote .voteit input").click(
+                            function(event) {
+                                event.preventDefault();
+                                $('.vote_right a').hide();
+                            }
+                          );
                     }
-                    
-                    $("#postarea").html(text);
-                    $("#bodyvisualization").html(text.replace(/\r?\n/g, '<br/>'));
+                    else
+                        $("#bodyvisualization").html(text.replace(/\r?\n/g, '<br/>'));
                     var text = document.getElementById("title").value;
                     $("#titlevisualization").html(text);
 

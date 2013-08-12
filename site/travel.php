@@ -316,32 +316,39 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             return {top: _y, left: _x};
         }
 
-        function displayFullScreen(pic) {
-            var id = pic.id;
-            src = pic.src.indexOf("Icon") != -1 ? pic.src.replace("Icon", "") : pic.src;
-
-            var windowW = window.width;
-            var windowH = window.height;
-            var imgW = windowW;
-            var imgH = windowH;
+        function close() {
             $("#full_screen_photo").remove();
             $("#full_screen_background").remove();
-            $("body").append("<img src='" + src + "' id='full_screen_photo'/>");
+        }
+        function displayFullScreen(pic) {
+            src = pic.src.indexOf("Icon") != -1 ? pic.src.replace("Icon", "") : pic.src;
+            $("#full_screen_photo").remove();
+            $("#full_screen_background").remove();
+            $("body").append("<img src='" + src + "' id='full_screen_photo' onload='resize();'/>");
+            $("body").append("<img src='images/black.jpg' id='full_screen_background'/>");
+        }
+
+        function resize() {
+            var windowW = $(window).width();
+            var windowH = $(window).height();
+            var imgW = windowW;
+            var imgH = windowH;
             var bigPic = $("#full_screen_photo");
             //set the image size
-            if (bigPic.width > imgW) {
-                bigPic.width = imgW;
-                bigPic.style.height = 'auto';
+            var width = parseInt(bigPic.css("width").replace("px", ""));
+            var height = parseInt(bigPic.css("height").replace("px", ""));
+            if (width > imgW) {
+                bigPic.css("width", imgW + "px");
             }
-            if (bigPic.height > imgH) {
-                bigPic.height = imgH;
-                bigPic.style.width = 'auto';
+            height = parseInt(bigPic.css("height").replace("px", ""));
+            if (height > imgH) {
+                bigPic.css("height", imgH + "px");
             }
+            height = parseInt(bigPic.css("height").replace("px", ""));
+            width = parseInt(bigPic.css("width").replace("px", ""));
             //set the image position
-            var l =getOffset(bigPic).left;
-            var t =getOffset(bigPic).top;
-            alert(bigPic.css("width"));
-            bigPic.css("left",(windowW-bigPic.width)/2+"px");
+            bigPic.css("left", ((windowW - width) / 2) + "px");
+            bigPic.css("top", ((windowH - height) / 2) + "px");
         }
     </script>
     <h2><?php echo_trad("On the agenda"); ?>:</h2>

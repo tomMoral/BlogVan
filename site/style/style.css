@@ -19,9 +19,21 @@ body
 
 #full_screen_photo
 {
+    z-index:1000;
     position:fixed;
     top:0px;
     left:0px;
+}
+
+#full_screen_background
+{
+    z-index:999;
+    position:fixed;
+    top:0px;
+    left:0px;
+    width:5000px;
+    height: 5000px;
+    opacity:0.9;
 }
 .display_comment{
     width:245px;

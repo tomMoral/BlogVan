@@ -2,8 +2,8 @@
 include_once("headerPHP.php"); //les post sont enregistré avec notre horloge, donc heure USA
 htmlHeader("blog");
 if (isset($_POST['destinataire']) && isset($_POST['object']) && isset($_POST['email'])) {
-    $headers = 'From: babariders@california-here-we.com' . "\r\n".
-    'Reply-To: babariders@california-here-we.com . "\r\n" ';
+    $headers = 'From: baba-riders@california-here-we.com' . "\r\n".
+    'Reply-To: baba-riders@california-here-we.com . "\r\n" ';
     $succeed = mail($_POST['destinataire'], $_POST['object'], $_POST['email'], $headers);
     if ($succeed) {
         echo"eamil send!";

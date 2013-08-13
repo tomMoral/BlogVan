@@ -6,7 +6,8 @@ if (!isset($_SESSION['language'])) {
 //get the user location
     $content = @file_get_contents('http://api.hostip.info/get_html.php?ip=');
     if ($content) {
-        $country = explode(" ", $content)[1];
+        $ex = explode(" ", $content);
+        $country = $ex[1];
         if ($country == "FRANCE") {
             $default_country = "FR";
         }

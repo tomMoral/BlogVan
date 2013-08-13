@@ -90,7 +90,8 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
         $modify_post = Posts::get_by_id($_GET['id_modify']);
         htmlHeader("photo");
         ?>
-        Write a post in French and English. You can create a pool with [proposition1::...::last proposition] and insert images with @1, @2... (don't forget to add the image) What you see is what you get. Enjoy!
+        Write a post in French and English. You can create a pool with [proposition1::...::last proposition] and insert images with @1, @2... (don't forget to add the image) What you see is what you get. Enjoy!<br/>
+        use <?php echo htmlspecialchars('<script>$(document).ready(function() {play_sound(sound,selector);});</script>');?> (without linebreak) to play a sound
         <table class="tablepost">
             <tr>
                 <td >
@@ -302,7 +303,8 @@ if ($user != null && $user->type == 2 && (isset($_GET['id_modify']) && Posts::ge
                                 var text = document.getElementById("titleFrench").value;
                                 $("#titlevisualizationFrench").html(text);
                             }</script>
-            Write a post in French and English. You can create a pool with [proposition1::...::last proposition] and insert images with @1, @2... (don't forget to add the image) What you see is what you get. Enjoy!
+            Write a post in French and English. You can create a pool with [proposition1::...::last proposition] and insert images with @1, @2... (don't forget to add the image) What you see is what you get. Enjoy!<br/>
+        use <?php echo htmlspecialchars('<script>$(document).ready(function() {play_sound(sound,selector);});</script>');?> (without linebreak) to play a sound
 
 
             <table class="tablepost">

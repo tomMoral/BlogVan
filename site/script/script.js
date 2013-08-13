@@ -3,14 +3,33 @@
  * and open the template in the editor.
  */
 
+function play_sound(soundFile, selector) {
+    //input : a string like mySound without extention and a jQuery selector
+    //we assume that the mp3 and ogg extension are available
+    //plays the sound in the good format on mouse hover and stop on mouse out
+    var sound = new Audio();
+    if (sound.canPlayType('audio/mpeg;')) {
+        sound.src = soundFile + ".mp3";
+    } else {
+        sound.src = soundFile + '.ogg';
+    }
+    sound.load();
+    $(selector).hover(function() {
+        sound.play();
+    });
+    $(selector).mouseout(function() {
+        sound.pause();
+    });
+    return sound;
+}
 
 function send_music(currentTime, src, songs, song_num, is_playing) {
-        $.post("ajax/continue_music.php", {currentTime: currentTime, playing: src, songs: songs, song_num: song_num, is_playing:is_playing})
-                .done(function(data) {
-        });
-    }
-    
-    
+    $.post("ajax/continue_music.php", {currentTime: currentTime, playing: src, songs: songs, song_num: song_num, is_playing: is_playing})
+            .done(function(data) {
+    });
+}
+
+
 new_comment = function(id) {
     $(".button").click(function() {
         var body = $(this).parent().parent().parent();

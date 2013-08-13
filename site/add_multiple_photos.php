@@ -1,6 +1,12 @@
 <?php
 include("headerPHP.php");
 include_once("class/resize.php");
+
+$test = ini_get_all();
+print_r($test['max_file_uploads']);
+ini_set('max_file_uploads', 10);
+$test = ini_get_all();
+print_r($test['max_file_uploads']);
 $user = user::getSessionUser();
 
 

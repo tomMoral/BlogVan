@@ -349,10 +349,10 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
         function keyboardHandler(event) {
             switch (event.which) {
                 case 37:
-                case 39:
+                case 38:
                     diapoPrev();
                     break;
-                case 38:
+                case 39:
                 case 40:
                     diapoNext();
                     break;

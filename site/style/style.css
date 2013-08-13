@@ -15,6 +15,11 @@ body
     width:900px
 }
 
+.all_photos:hover
+{
+    cursor:pointer
+}
+
 
 #diaporama:hover
 {

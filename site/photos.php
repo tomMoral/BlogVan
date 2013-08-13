@@ -7,10 +7,11 @@ if ($user != null && $user->type == 2 && isset($_GET['delete_photo'])) {
     photo::remove($delete);
 }
 $photos = array();
+$id_to_num = array();
 $db = database::connect();
 $perm = $user->type;
 $query = $db->prepare("SELECT `medium`, `original`, `id` FROM `photos` 
-                       WHERE `permission`<=$perm ORDER BY `time` ASC");
+                       WHERE `permission`<=$perm ORDER BY `time` DESC");
 $query->execute();
 $i = 0;
 while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -19,6 +20,7 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp['original'] = $photo['original'];
     $temp['medium'] = $photo['medium'];
     $photos[$i] = $temp;
+    $id_to_num[$photo['id']] = $i;
     $i++;
 }
 $query->closeCursor();
@@ -30,6 +32,7 @@ $query->closeCursor();
             displayFullScreen(photos[idDiapo]['original']);
         });
         var photos = <?php echo json_encode($photos); ?>;
+        var idToNum =<?php echo json_encode($id_to_num); ?>;
         var idDiapo = 0,
                 diapoLenght = photos.length,
                 diaporamaRunning = false,
@@ -91,8 +94,8 @@ $query->closeCursor();
 
 
         function resizeDiapo() {
-            var windowW =  window.innerWidth;
-            var windowH =  window.innerHeight;
+            var windowW = window.innerWidth;
+            var windowH = window.innerHeight;
             var imgW = windowW - 150;
             var imgH = windowH * 0.9;
             var bigPic = $("#full_screen_photo");
@@ -120,8 +123,8 @@ $query->closeCursor();
             $("#left_arrow").css("left", ((windowW - width) / 2) - 50 + "px");
             $("#right_arrow").css("top", (windowH / 2) - 20 + "px");
             $("#left_arrow").css("top", (windowH / 2) - 20 + "px");
-      
-    }
+
+        }
         function getOffset(el) {
             var _x = 0;
             var _y = 0;
@@ -136,10 +139,10 @@ $query->closeCursor();
         function keyboardHandler(event) {
             switch (event.which) {
                 case 37:
-                case 39:
+                case 38:
                     diapoPrev();
                     break;
-                case 38:
+                case 39:
                 case 40:
                     diapoNext();
                     break;
@@ -178,7 +181,7 @@ $query->closeCursor();
         if ($j == 6) {
             ?>
             <script>
-                var maxWidth = 530;
+                var maxWidth = 445;
                 var maxHeight = 334;
                 function resize(id_photo) {
                     var a = document.getElementById(id_photo);
@@ -205,6 +208,16 @@ $query->closeCursor();
 
     </table>
 </div>
+<script>
+    $(document).ready(function() {
+        $(".all_photos").click(function() {
+            var id = parseInt(this.id.replace("photo_", ""));
+            var num = idToNum[id];
+            idDiapo = num;
+            displayFullScreen(photos[num]['original']);
+        });
+    });
+</script>
 
 <?php if ($user != null && $user->type == 2) {
     ?>

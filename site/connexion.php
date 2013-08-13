@@ -286,7 +286,7 @@ htmlHeader("connexion");
             update();
         });
         $("#password").keydown(function(event) {
-            if(event.which === 13)
+            if (event.which === 13)
                 $('#go').click();
         });
     });
@@ -350,9 +350,9 @@ htmlHeader("connexion");
     <img src="images/camembert.png" width="110px"/>
     <img src="images/cloud.png"/>
     <img src="images/face_<?php
-         $random_van = rand(0, 6);
-         echo $random_van;
-         ?>_big.png"/>
+    $random_van = rand(0, 6);
+    echo $random_van;
+    ?>_big.png"/>
 </div>
 <footer>
 
@@ -410,6 +410,7 @@ htmlHeader("connexion");
     var img_h = 250;
     var numCloud = 0;
     var myInterval;
+    var Tchange = 3500;
 
     function showVan() {
         var t = new Date().getTime() - t0;
@@ -419,15 +420,15 @@ htmlHeader("connexion");
         var wi = parseInt($("#van").css("width").split("px")[0]);
         var o = parseFloat($("#blank").css("opacity") * ratio);
         var TmaxVan = 5000;
-        var Tchange = 3500;
         wi *= ratio;
         wi = 2 * w * Math.atan(t / TmaxVan);
-        $("#blank").css("opacity", t / Tmax * 2);
-        if (!pageLoaded) {
+        $("#blank").css("opacity", Math.pow(t / Tmax * 2, 0.35));
+        if (!pageLoaded || t<2000) {
+            Tchange = t;
             $("#van").css("width", wi + "px");
             $("#van").css("top", (h - wi) / 2 + 100 * t / TmaxVan + "px");
             $("#van").css("left", (w - wi) / 2 + "px");
-            if (t > 2500 && !request_index_send) {
+            if (t > 500 && !request_index_send) {
                 request_index_send = true;
                 var name = $("#name").val();
                 var password = $("#password").val();
@@ -438,11 +439,10 @@ htmlHeader("connexion");
                     $("#bloc_page").html(data);
                 });
             }
-            Tchange = t;
-        } else if (t < Tchange + 2000) {
+        } else if (t < Tchange + 1000) {
             if (!TchangeSet) {
-                Tchange = t;
                 TchangeSet = true;
+                Tchange = t;
             }
             var h = window.innerHeight;
             var w = window.innerWidth;
@@ -452,8 +452,8 @@ htmlHeader("connexion");
             $("#van").css("width", wi + "px");
             $("#van").css("top", (h - wi) / 2 + 100 * t / TmaxVan + "px");
             $("#van").css("left", (w - wi) / 2 + "px");
-            $("#blank").css("opacity", 1 - (t - Tchange) / 2000);
-            $("#van").css("opacity", 1 - (t - Tchange) / 2000);
+            $("#blank").css("opacity", (Tchange / Tmax * 2)*(1-(t-Tchange)/1000));// +(1-Tchange/ Tmax * 2)*( (t - Tchange) / 2000));
+            $("#van").css("opacity", 1-(t-Tchange)/1000);// +(1-Tchange/ Tmax * 2)*( (t - Tchange) / 2000));
         }
         else {
             var image_x = document.getElementById('van');

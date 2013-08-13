@@ -1,6 +1,11 @@
 <?php
 include_once("../class/resize.php");
-ini_set('max_execution_time', 1000);
+$test=ini_get_all();
+print_r($test['max_file_uploads'] );
+print_r($test['max_execution_time'] );
+ini_set('max_execution_time', 10000);
+$test=ini_get_all();
+print_r($test['max_execution_time'] );
 $A = scandir("toresize");
 for ($i = 0; $i < count($A); $i++) {
     if (substr($A[$i], 0, 1) != ".") {

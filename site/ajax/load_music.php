@@ -3,8 +3,9 @@ include_once("../headerPHPforConnexion.php");
 
 $A = scandir("../sounds/music");
 for ($i = 0; $i < count($A); $i++) {
-    if (substr($A[$i], 0, 1) != "." && explode('.', $A[$i])[1] == "mp3") {
-        $A[$i] = "sounds/music/" . explode('.', $A[$i])[0];
+    $ex = explode('.', $A[$i]);
+    if (substr($A[$i], 0, 1) != "." && $ex[1] == "mp3") {
+        $A[$i] = "sounds/music/" . $ex[0];
     } else {
         $A[$i] = "";
     }
@@ -49,7 +50,8 @@ if (!isset($_SESSION['songs'])) {
             audio.load();
         }
         function myPlay() {
-            audio.play();draw_play();
+            audio.play();
+            draw_play();
             audio.addEventListener('ended', function() {
                 load();
                 myPlay();
@@ -145,4 +147,3 @@ if (isset($_SESSION['currentTime']) && isset($_SESSION['playing']) && isset($_SE
     });
 
 </script>
-

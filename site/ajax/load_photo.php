@@ -24,6 +24,18 @@ if (isset($_POST['already_load'])) {
             echo $j % 2 == 1 ? "</div></td>" : "</div></td></tr>";
         }
     }
+    ?>
+    <script>
+        $(document).ready(function() {
+            $(".all_photos").click(function() {
+                var id = parseInt(this.id.replace("photo_", ""));
+                var num = idToNum[id];
+                idDiapo = num;
+                displayFullScreen(photos[num]['original']);
+            });
+        });
+    </script>
+    <?php
     if ($user != null && $user->type == 2) {
         ?>
         <script>

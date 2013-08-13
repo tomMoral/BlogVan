@@ -32,6 +32,11 @@ body
     right:20px;
 }
 
+.arrow:hover
+{
+    cursor:pointer
+}
+
 #full_screen_background
 {
     z-index:999;

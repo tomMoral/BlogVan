@@ -341,11 +341,16 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             var width = parseInt(bigPic.css("width").replace("px", ""));
             var height = parseInt(bigPic.css("height").replace("px", ""));
             if (width > imgW) {
+                var ratio = width/height;
                 bigPic.css("width", imgW + "px");
+                bigPic.css("height", imgW/ratio + "px");
             }
+            width = parseInt(bigPic.css("width").replace("px", ""));
             height = parseInt(bigPic.css("height").replace("px", ""));
             if (height > imgH) {
+                var ratio = width/height;
                 bigPic.css("height", imgH + "px");
+                bigPic.css("width", imgW*ratio + "px");
             }
             height = parseInt(bigPic.css("height").replace("px", ""));
             width = parseInt(bigPic.css("width").replace("px", ""));

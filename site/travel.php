@@ -406,8 +406,8 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
 
 
         function resize() {
-            var windowW = $(window).width();
-            var windowH = $(window).height();
+            var windowW =  window.innerWidth;
+            var windowH =  window.innerHeight;
             var imgW = windowW - 150;
             var imgH = windowH * 0.9;
             var bigPic = $("#full_screen_photo");

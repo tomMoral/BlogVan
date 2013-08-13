@@ -6,8 +6,9 @@ $user = user::getSessionUser();
 
 
 if ($user != null && $user->type == 2) {
-    if (isset($_FILES['pic']) && isset($_POST['permission'])) {
-        $perm = $_POST['permission'];
+    if (isset($_FILES['pic'])) {
+        $perm = isset($_POST['permission']) && $_POST['permission'] == "on" ? 1 : 0;
+        print_r($_POST);
         $reverse = array();
         $pics = $_FILES['pic'];
         $n = count($pics['name']);
@@ -24,7 +25,7 @@ if ($user != null && $user->type == 2) {
     }
     htmlHeader("photo");
     ?>
-Pas plus de 20 d'un coup!
+    Pas plus de 20 d'un coup!
     <form action="add_multiple_photos.php" method="post" enctype="multipart/form-data" id="np">
         <input type="file" multiple  name="pic[]" id="pics">
         Permission: <input type="checkbox" name="permission" checked="checked">

@@ -154,8 +154,6 @@ class photo {
             $pos1 = position::lastPositionBefore($photo['time']);
             $pos2 = position::firstPositionAfter($photo['time']);
             $id = $photo['id'];
-            print_r($pos1);
-            print_r($pos2);
             if ($pos1 != null && $pos2 != null) {
                 $lat = ((strtotime($photo['time']) - strtotime($pos1['time'])) * $pos1['latitude'] + (strtotime($pos2['time']) - strtotime($photo['time'])) * $pos2['latitude']) / (strtotime($pos2['time']) - strtotime($pos1['time']));
                 $lon = ((strtotime($photo['time']) - strtotime($pos1['time'])) * $pos1['longitude'] + (strtotime($pos2['time']) - strtotime($photo['time'])) * $pos2['longitude']) / (strtotime($pos2['time']) - strtotime($pos1['time']));

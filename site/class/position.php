@@ -75,6 +75,12 @@ class position {
         $query = $db->prepare("DELETE FROM `position` WHERE `id` = $id;");
         $query->execute();
     }
+    
+    public static function reset(){
+        $db = database::connect();
+        $query = $db->prepare("DROP TABLE `position`;");
+        $query->execute();
+    }
 
 }
 

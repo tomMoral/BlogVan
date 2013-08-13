@@ -360,27 +360,36 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             $("#full_screen_background").remove();
             $("body").append("<img src='" + src + "' id='full_screen_photo' onload='resize();'/>");
             $("body").append("<img src='images/black.jpg' id='full_screen_background'/>");
-            $("body").append("<img src='images/right_arrow.png' class='arrow' id='right_arrow'/>");
-            $("body").append("<img src='images/left_arrow.png' class='arrow' id='left_arrow'/>");
-            $("body").append("<img src='images/cross.png' class='arrow' id='cross'/>");
+            
             if(firstDiapo){
                 firstDiapo = false;
+                $("body").append("<img src='images/right_arrow.png' class='arrow' id='right_arrow'/>");
+                $("body").append("<img src='images/left_arrow.png' class='arrow' id='left_arrow'/>");
+                $("body").append("<img src='images/cross.png' class='arrow' id='cross'/>");
                 $(document).bind('keydown', keyboardHandler);
+                $('#cross').click(close);
+                $('#left_arrow').click(diapoPrev);
+                $('#right_arrow').click(diapoNext);
             }
         }
 
         function close() {
             $("#full_screen_photo").remove();
             $("#full_screen_background").remove();
+            $("#right_arrow").remove();
+            $("#left_arrow").remove();
+            $("#cross").remove();
             $(document).unbind('keydown', keyboardHandler);
             firstDiapo = true;
         }
+        
+       
 
         function resize() {
             var windowW = $(window).width();
             var windowH = $(window).height();
-            var imgW = windowW - 100;
-            var imgH = windowH;
+            var imgW = windowW - 150;
+            var imgH = windowH * 0.9;
             var bigPic = $("#full_screen_photo");
             //set the image size
             var width = parseInt(bigPic.css("width").replace("px", ""));

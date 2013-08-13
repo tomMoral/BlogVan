@@ -12,8 +12,11 @@ photo::updatePosition();
 $photos = array();
 $db = database::connect();
 $perm = $user->type;
-$query = $db->prepare("SELECT `icon`, `latitude`, `longitude`, `medium`, `original`, `id` FROM `photos` WHERE `permission`<=$perm AND `latitude`IS NOT NULL");
+$query = $db->prepare("SELECT `icon`, `latitude`, `longitude`, `medium`, `original`, `id` FROM `photos` 
+                       WHERE `permission`<=$perm AND `latitude`IS NOT NULL
+                        ORDER BY `time` ASC");
 $query->execute();
+$i = 0;
 while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp = array();
     $temp['id'] = $photo['id'];
@@ -22,7 +25,8 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp['icon'] = $photo['icon'];
     $temp['lat'] = $photo['latitude'];
     $temp['lon'] = $photo['longitude'];
-    $photos[$photo['id']] = $temp;
+    $photos[$i] = $temp;
+    $i++;
 }
 $query->closeCursor();
 
@@ -271,6 +275,23 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
         ?>
     </div>
     <script>
+        var idDiapo = 0,
+            diapoLenght = photos.length,
+            diaporamaRunning = false,
+            firstDiapo = true;
+        function diapoNext() {
+            idDiapo = (idDiapo + 1 + diapoLenght) % diapoLenght;
+            displayFullScreen(photos[idDiapo]['original'])
+           // if (diaporamaRunning)
+             //   setTimeout(diapoNext, 2000);
+        }
+        function diapoPrev() {
+            idDiapo = (idDiapo - 1 + diapoLenght) % diapoLenght;
+            displayFullScreen(photos[idDiapo]['original'])
+            //if (diaporamaRunning)
+              //  setTimeout(diapoNext, 2000);
+        }
+
         var hovered = "";
         $(document).ready(function() {
             $(".map_photo").hover(function() {
@@ -301,7 +322,8 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             });
             $(".map_photo").click(function() {
                 var pic = this;
-                displayFullScreen(pic);
+                idDiapo = parseInt(pic.id)-1;
+                displayFullScreen(pic.src);
             });
         });
 
@@ -316,12 +338,24 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             return {top: _y, left: _x};
         }
 
-        function close() {
-            $("#full_screen_photo").remove();
-            $("#full_screen_background").remove();
+        function keyboardHandler(event) {
+            switch (event.which) {
+                case 37:
+                case 39:
+                    diapoPrev();
+                    break;
+                case 38:
+                case 40:
+                    diapoNext();
+                    break;
+                case 27:
+                    close();
+            }
+
         }
-        function displayFullScreen(pic) {
-            src = pic.src.indexOf("Icon") != -1 ? pic.src.replace("Icon", "") : pic.src;
+
+        function displayFullScreen(src) {
+            src = src.indexOf("Icon") != -1 ? src.replace("Icon", "") : src;
             $("#full_screen_photo").remove();
             $("#full_screen_background").remove();
             $("body").append("<img src='" + src + "' id='full_screen_photo' onload='resize();'/>");
@@ -329,6 +363,17 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             $("body").append("<img src='images/right_arrow.png' class='arrow' id='right_arrow'/>");
             $("body").append("<img src='images/left_arrow.png' class='arrow' id='left_arrow'/>");
             $("body").append("<img src='images/cross.png' class='arrow' id='cross'/>");
+            if(firstDiapo){
+                firstDiapo = false;
+                $(document).bind('keydown', keyboardHandler);
+            }
+        }
+
+        function close() {
+            $("#full_screen_photo").remove();
+            $("#full_screen_background").remove();
+            $(document).unbind('keydown', keyboardHandler);
+            firstDiapo = true;
         }
 
         function resize() {

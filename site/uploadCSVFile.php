@@ -18,6 +18,7 @@ if (isset($user) && $user->type == 2) {
             position::create($lat, $lon, $time, $accuracy);
             echo $line . "<br/>";
         }
+        last_position::update();
     }
     ?>
     <form action="uploadCSVFile.php" method="post" enctype="multipart/form-data" id="np">    

@@ -1,13 +1,22 @@
 <?php
-//load the first 6 pictures and the other assyncronously
-include_once("headerPHP.php");
-htmlHeader("photo");
+include("headerPHP.php");
+htmlHeader("travel");
+
+//get the time from the begining of the adventure ;)
+$date = strtotime("August 1, 2013 8:00 AM");
+$remaining = time() - $date;
+$days_remaining = floor(($remaining % 2678400) / 86400);
 photo::updatePosition();
+
+//get the photos with GPS position
 $photos = array();
 $db = database::connect();
 $perm = $user->type;
-$query = $db->prepare("SELECT `icon`, `latitude`, `longitude`, `medium`, `original`, `id` FROM `photos` WHERE `permission`<=$perm AND `latitude`IS NOT NULL");
+$query = $db->prepare("SELECT `icon`, `latitude`, `longitude`, `medium`, `original`, `id` FROM `photos` 
+                       WHERE `permission`<=$perm AND `latitude`IS NOT NULL
+                        ORDER BY `time` ASC");
 $query->execute();
+$i = 0;
 while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp = array();
     $temp['id'] = $photo['id'];
@@ -16,24 +25,38 @@ while ($photo = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp['icon'] = $photo['icon'];
     $temp['lat'] = $photo['latitude'];
     $temp['lon'] = $photo['longitude'];
-    $photos[$photo['id']] = $temp;
+    $photos[$i] = $temp;
+    $i++;
 }
 $query->closeCursor();
 
+//get the GPS positions
 $positions = array();
-$query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position`;");
+$query = $db->prepare('CREATE TABLE IF NOT EXISTS `position` (
+  `latitude` double NOT NULL,
+  `longitude` double NOT NULL,
+  `time` datetime NOT NULL,
+  `precision` float NOT NULL,
+  `id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;');
 $query->execute();
+$query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position` WHERE `precision`< 200 ORDER BY `time` ASC;");
+$query->execute();
+$i = 0;
 while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp = array();
     $temp['id'] = $position['id'];
     $temp['lat'] = $position['latitude'];
     $temp['lon'] = $position['longitude'];
     $temp['time'] = $position['time'];
-    $positions[$position['id']] = $temp;
+    $positions[$i] = $temp;
+    $i += 1;
 }
+echo $i;
 
-$query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position` WHERE `time` in
-    (SELECT MAX(`time`) FROM `position`);");
+$query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position` WHERE `id` in
+    (SELECT MAX(`id`) FROM `position`);");
 $query->execute();
 $last_position = $query->fetch(PDO::FETCH_ASSOC);
 ?>
@@ -44,7 +67,6 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
         height: 100%;
     }
 </style>
-<link href="/maps/documentation/javascript/examples/default.css" rel="stylesheet">
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 <script>
 
@@ -68,10 +90,10 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
     var width = 900;
 
     function initialize() {
-        var myLatLng = new google.maps.LatLng(38, -100);
+        var myLatLng = new google.maps.LatLng(37.081416, -116.599812);
         //define the default map
         var mapOptions = {
-            zoom: 3,
+            zoom: 6,
             center: myLatLng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -107,6 +129,78 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             icon: imageVan
         });
         markerVan.setMap(map);
+        var objectives = [];
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(39.10662, -120.027809),
+            map: map,
+            title: 'Lac Tahoe',
+            icon: "images/cible.png"
+        }));
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(36.463263, -117.062531),
+            map: map,
+            title: 'Death Valley',
+            icon: "images/cible.png"
+        }));
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(36.134216, -115.095657),
+            map: map,
+            title: 'Las Vegas',
+            icon: "images/cible.png"
+        }));
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(36.067001, -112.101088),
+            map: map,
+            title: 'Gran Canyon',
+            icon: "images/cible.png"
+        }));
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(38.729782, -109.605153),
+            map: map,
+            title: 'Arches national Parc',
+            icon: "images/cible.png"
+        }));
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(37.222759, -112.95585),
+            map: map,
+            title: 'Zion National Parc',
+            icon: "images/cible.png"
+        }));
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(34.061257, -118.246397),
+            map: map,
+            title: 'Los Angeles',
+            icon: "images/cible.png"
+        }));
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(34.01441, -118.801465),
+            map: map,
+            title: 'Malibu',
+            icon: "images/cible.png"
+        }));
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(34.421934, -119.695833),
+            map: map,
+            title: 'Santa Barbara',
+            icon: "images/cible.png"
+        }));
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(36.272338, -121.807058),
+            map: map,
+            title: 'Big Sur',
+            icon: "images/cible.png"
+        }));
+        objectives.push(new google.maps.Marker({
+            position: new google.maps.LatLng(37.776378, -122.428621),
+            map: map,
+            title: 'San Francisco',
+            icon: "images/cible.png"
+        }));
+
+        for (var obj in objectives) {
+            objectives[obj].setMap(map);
+        }
+
 
         //if the map change or is loaded, we change the photos position
         google.maps.event.addListener(map, 'bounds_changed', function() { // screenCoords is a GPoint object7
@@ -167,78 +261,221 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
 </script> 
 
 
-<div style="position:relative; width: 900px; height: 500px" id="container"><div id="map-canvas"></div>
-    <?php
-    foreach ($photos as $photo) {
-        echo'<img src="' . $photo['icon'] . '" id="' . $photo['id'] . '" style="position:absolute; top:-10000px; left:-10000px; width:20px"/>';
-    }
-    ?>
-</div>
-<script>
-
-
-    document.getElementById("map-canvas").style.height = height + "px";
-    document.getElementById("map-canvas").style.width = width + "px";
-    $(document).ready(function() {
-        //enlarge photos on mouse over
-        var enlarged = -1;
-        $("img").mouseover(function(event) {
-            var id = event.target.id;
-            if (id !== enlarged) {
-                makeSmaller(enlarged);
-                enlarge(id);
-            }
-        });
-        $("img").mouseout(function() {
-            if (enlarged !== -1) {
-                makeSmaller(enlarged);
-                enlarged = -1;
-            }
-        });
-
-        //show them in full sreen when click
-        $("img").click(function(event) {
-            var id = event.target.id;
-            $("#bloc_page").append("<img src = 'images/black.jpg' style='position:fixed; top: 0px; left: 0px; width: 4000px; height: 5000px; z-index:999; opacity:0.5' id='black'/>");
-            $("#bloc_page").append("<img src = '" + photos[id]['medium'] + "' style='position: absolute; top: 200px; left: 185px; z-index:1000' id='big_photo'/>");
-            $("#big_photo").click(function() {
-                $("#big_photo").remove();
-                $("#black").remove();
-            });
-            $("#black").click(function() {
-                $("#big_photo").remove();
-                $("#black").remove();
-            });
-        });
-
-        function enlarge(id) {
-            enlarged = id;
-            var pic = document.getElementById(id);
-
-            var previousHeight = parseFloat(pic.height);
-            var newHeight = 50;
-            pic.style.height = newHeight + "px";
-            pic.style.width = parseFloat(pic.width)*newHeight/previousHeight;
-
-         /*   var str = pic.style.top;
-            var previousTop = parseFloat(str.substr(0, str.length - 2));
-            
-            pic.style.top = (previousTop - 10 + previousHeight - newHeight) + "px";*/
+<div class="center">
+    <h1><?php
+        echo_trad("The adventure began");
+        echo " " . $days_remaining . " ";
+        echo_trad("days ago");
+        ?>.<br/><?php echo_trad("It's awesome!"); ?>
+    </h1>
+    <div style="position:relative; width: 900px; height: 500px" id="container"><div id="map-canvas"></div>
+        <?php
+        foreach ($photos as $photo) {
+            echo'<img src="' . $photo['icon'] . '" id="' . $photo['id'] . '" class="map_photo"/>';
+        }
+        ?>
+    </div>
+    <script>
+        var idDiapo = 0,
+            diapoLenght = photos.length,
+            diaporamaRunning = false,
+            firstDiapo = true;
+        function diapoNext() {
+            idDiapo = (idDiapo + 1 + diapoLenght) % diapoLenght;
+            displayFullScreen(photos[idDiapo]['original'])
+           // if (diaporamaRunning)
+             //   setTimeout(diapoNext, 2000);
+        }
+        function diapoPrev() {
+            idDiapo = (idDiapo - 1 + diapoLenght) % diapoLenght;
+            displayFullScreen(photos[idDiapo]['original'])
+            //if (diaporamaRunning)
+              //  setTimeout(diapoNext, 2000);
         }
 
-        function makeSmaller(id) {
-            var pic = document.getElementById(id);
-            if (pic !== null) {
-                var str = pic.style.top;
-                var previousTop = parseFloat(str.substr(0, str.length - 2));
-                str = pic.height;
-                var previousHeight = parseFloat(str);
-                pic.style.height = 20 + "px";
-                str = pic.height;
-                var newHeight = parseFloat(str);
-                 pic.style.width = parseFloat(pic.width)*newHeight/previousHeight;
-             //   pic.style.top = (previousTop + 20 + previousHeight - newHeight) + "px";
+        var hovered = "";
+        $(document).ready(function() {
+            $(".map_photo").hover(function() {
+                var pic = this;
+                var id = pic.id;
+                if (id !== hovered) {
+                    makeSmall();
+                    hovered = id;
+                    var h = pic.height;
+                    var src = pic.src;
+                    if (src.indexOf("Icon" != -1)) {
+                        // pic.src = src.replace("Icon"
+                        //       , "Medium");
+                    }
+                    var previousH = pic.height;
+                    var previousW = pic.width;
+                    pic.height = 50;
+                    pic.style.width = "auto";
+                    $("#" + id).css("top", parseInt($("#" + id).css("top").replace("px", "")) - (pic.height - previousH) / 2 + "px");
+                    $("#" + id).css("left", parseInt($("#" + id).css("left").replace("px", "")) - (pic.width - previousW) / 2 + "px");
+                    $("#" + id).css("z_index", "20");
+                }
+            });
+            function makeSmall() {
+                if (hovered != "") {
+                    var pic = $("#" + hovered);
+                    var previousH = parseInt(pic.css("height").replace("px", ""));
+                    var previousW = parseInt(pic.css("width").replace("px", ""));
+                    $("#" + hovered).css("width", "20px");
+                    $("#" + hovered).css("height", "auto");
+                    $("#" + hovered).css("top", parseInt($("#" + hovered).css("top").replace("px", "")) - (parseInt(pic.css("height").replace("px", "")) - previousH) / 2 + "px");
+                    $("#" + hovered).css("left", parseInt($("#" + hovered).css("left").replace("px", "")) - (parseInt(pic.css("width").replace("px", "")) - previousW) / 2 + "px");
+                    $("#" + hovered).css("z_index", "1");
+                    hovered = "";
+                }
             }
+            $(".map_photo").mouseout(function() {
+                makeSmall();
+            });
+            $(".map_photo").click(function() {
+                var pic = this;
+                idDiapo = parseInt(pic.id)-1;
+                displayFullScreen(pic.src);
+            });
+        });
+
+        function getOffset(el) {
+            var _x = 0;
+            var _y = 0;
+            while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
+                _x += el.offsetLeft - el.scrollLeft;
+                _y += el.offsetTop - el.scrollTop;
+                el = el.offsetParent;
+            }
+            return {top: _y, left: _x};
+        }
+
+        function keyboardHandler(event) {
+            switch (event.which) {
+                case 37:
+                case 39:
+                    diapoPrev();
+                    break;
+                case 38:
+                case 40:
+                    diapoNext();
+                    break;
+                case 27:
+                    close();
+            }
+
+        }
+
+        function displayFullScreen(src) {
+            src = src.indexOf("Icon") != -1 ? src.replace("Icon", "") : src;
+            $("#full_screen_photo").remove();
+            $("#full_screen_background").remove();
+            $("body").append("<img src='" + src + "' id='full_screen_photo' onload='resize();'/>");
+            $("body").append("<img src='images/black.jpg' id='full_screen_background'/>");
+            
+            if(firstDiapo){
+                firstDiapo = false;
+                $("body").append("<img src='images/right_arrow.png' class='arrow' id='right_arrow'/>");
+                $("body").append("<img src='images/left_arrow.png' class='arrow' id='left_arrow'/>");
+                $("body").append("<img src='images/cross.png' class='arrow' id='cross'/>");
+                $(document).bind('keydown', keyboardHandler);
+                $('#cross').click(close);
+                $('#left_arrow').click(diapoPrev);
+                $('#right_arrow').click(diapoNext);
+            }
+        }
+
+        function close() {
+            $("#full_screen_photo").remove();
+            $("#full_screen_background").remove();
+            $("#right_arrow").remove();
+            $("#left_arrow").remove();
+            $("#cross").remove();
+            $(document).unbind('keydown', keyboardHandler);
+            firstDiapo = true;
+        }
+        
+       
+
+        function resize() {
+            var windowW = $(window).width();
+            var windowH = $(window).height();
+            var imgW = windowW - 150;
+            var imgH = windowH * 0.9;
+            var bigPic = $("#full_screen_photo");
+            //set the image size
+            var width = parseInt(bigPic.css("width").replace("px", ""));
+            var height = parseInt(bigPic.css("height").replace("px", ""));
+            if (width > imgW) {
+                var ratio = width / height;
+                bigPic.css("width", imgW + "px");
+                bigPic.css("height", imgW / ratio + "px");
+            }
+            width = parseInt(bigPic.css("width").replace("px", ""));
+            height = parseInt(bigPic.css("height").replace("px", ""));
+            if (height > imgH) {
+                var ratio = width / height;
+                bigPic.css("height", imgH + "px");
+                bigPic.css("width", imgW * ratio + "px");
+            }
+            height = parseInt(bigPic.css("height").replace("px", ""));
+            width = parseInt(bigPic.css("width").replace("px", ""));
+            //set the image position
+            bigPic.css("left", ((windowW - width) / 2) + "px");
+            bigPic.css("top", ((windowH - height) / 2) + "px");
+            $("#right_arrow").css("right", ((windowW - width) / 2) - 50 + "px");
+            $("#left_arrow").css("left", ((windowW - width) / 2) - 50 + "px");
+            $("#right_arrow").css("top", (windowH / 2) - 20 + "px");
+            $("#left_arrow").css("top", (windowH / 2) - 20 + "px");
+        }
+    </script>
+    <h2><?php echo_trad("On the agenda"); ?>:</h2>
+    <ul>
+        <li><?php echo_trad("2500 miles of aventure, sweat and laugther"); ?>
+        </li>
+        <li><?php echo_trad("lot of beers to fight Death Valley heat"); ?>
+        </li>
+        <li>
+            <?php echo_trad("wedding at Vegas"); ?>
+        </li>
+        <li>
+            <?php echo_trad("earplugs to let Thomas sing with the radio"); ?>
+        </li>
+        <li>
+            <?php echo_trad("divorce at Vegas"); ?>
+        </li>
+        <li>
+            <?php echo_trad("a cooler to put Micheaux in when she is too hot and the beers are gone"); ?>
+        </li>
+        <li>
+            <?php echo_trad("a tent to prevent Marine from taking all the space in the van"); ?>
+        </li>
+        <li>
+            <?php echo_trad("bankruptcy at Vegas"); ?>
+        </li>
+        <li>
+            <?php echo_trad("no grimace on Greg's photos"); ?>
+        </li>
+        <li>
+            <?php echo_trad("culturation in museums or lying on the beach"); ?>
+        </li>
+        <li>
+            <?php echo_trad("car breakdown"); ?>
+        </li>
+        <li>
+            <?php echo_trad("waking up Guigui while driving"); ?>
+        </li>
+    </ul>
+    <h2>
+        <?php echo_trad("a lot of other surprises and above all"); ?></h2>
+
+    <h1><?php echo_trad("a lot of posts and photos !"); ?></h1>
+</div>
+<script>
+    $(document).ready(function() {
+        var n = $("ul").children().length;
+        for (var i = 0; i < n; i++) {
+            $("ul li:nth-child(" + i + ")").css("background", "url(images/face_" + Math.floor(7 * Math.random()) + "_small.png) no-repeat top left");
         }
     });
 </script>

@@ -52,12 +52,8 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp['time'] = $position['time'];
     $positions[$i] = $temp;
     $i += 1;
+    $last_position = $position;
 }
-
-$query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position` WHERE `time` in
-    (SELECT MAX(`time`) FROM `position`);");
-$query->execute();
-$last_position = $query->fetch(PDO::FETCH_ASSOC);
 ?>
 <style>
     html, body, #map-canvas {
@@ -276,20 +272,20 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
     </div>
     <script>
         var idDiapo = 0,
-            diapoLenght = photos.length,
-            diaporamaRunning = false,
-            firstDiapo = true;
+                diapoLenght = photos.length,
+                diaporamaRunning = false,
+                firstDiapo = true;
         function diapoNext() {
             idDiapo = (idDiapo + 1 + diapoLenght) % diapoLenght;
             displayFullScreen(photos[idDiapo]['original'])
-           // if (diaporamaRunning)
-             //   setTimeout(diapoNext, 2000);
+            // if (diaporamaRunning)
+            //   setTimeout(diapoNext, 2000);
         }
         function diapoPrev() {
             idDiapo = (idDiapo - 1 + diapoLenght) % diapoLenght;
             displayFullScreen(photos[idDiapo]['original'])
             //if (diaporamaRunning)
-              //  setTimeout(diapoNext, 2000);
+            //  setTimeout(diapoNext, 2000);
         }
 
         var hovered = "";
@@ -333,7 +329,7 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             });
             $(".map_photo").click(function() {
                 var pic = this;
-                idDiapo = parseInt(pic.id)-1;
+                idDiapo = parseInt(pic.id) - 1;
                 displayFullScreen(pic.src);
             });
         });
@@ -371,8 +367,8 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             $("#full_screen_background").remove();
             $("body").append("<img src='" + src + "' id='full_screen_photo' onload='resize();'/>");
             $("body").append("<img src='images/black.jpg' id='full_screen_background'/>");
-            
-            if(firstDiapo){
+
+            if (firstDiapo) {
                 firstDiapo = false;
                 $("body").append("<img src='images/right_arrow.png' class='arrow' id='right_arrow'/>");
                 $("body").append("<img src='images/left_arrow.png' class='arrow' id='left_arrow'/>");
@@ -393,8 +389,8 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             $(document).unbind('keydown', keyboardHandler);
             firstDiapo = true;
         }
-        
-       
+
+
 
         function resize() {
             var windowW = $(window).width();

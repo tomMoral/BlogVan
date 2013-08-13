@@ -285,6 +285,10 @@ htmlHeader("connexion");
         $("#password").keyup(function() {
             update();
         });
+        $("#password").keydown(function(event) {
+            if(event.which === 13)
+                $('#go').click();
+        });
     });
 </script>
 <div class="center">

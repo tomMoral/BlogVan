@@ -17,6 +17,13 @@ body
     width:20px;
 }
 
+#for_load
+{
+    position: absolute;
+    top:-10000px;
+    left:-10000px;
+}
+
 #full_screen_photo
 {
     z-index:1000;

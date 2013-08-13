@@ -277,18 +277,19 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
                 firstDiapo = true;
         function diapoNext() {
             idDiapo = (idDiapo + 1 + diapoLenght) % diapoLenght;
-            displayFullScreen(photos[idDiapo]['original'])
+            displayFullScreen(photos[idDiapo]['original']);
             // if (diaporamaRunning)
             //   setTimeout(diapoNext, 2000);
         }
         function diapoPrev() {
             idDiapo = (idDiapo - 1 + diapoLenght) % diapoLenght;
-            displayFullScreen(photos[idDiapo]['original'])
+            displayFullScreen(photos[idDiapo]['original']);
             //if (diaporamaRunning)
             //  setTimeout(diapoNext, 2000);
         }
 
         var hovered = "";
+        var loaded = "";
         $(document).ready(function() {
             $(".map_photo").hover(function() {
                 var pic = this;
@@ -362,12 +363,6 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
         }
 
         function displayFullScreen(src) {
-            src = src.indexOf("Icon") != -1 ? src.replace("Icon", "") : src;
-            $("#full_screen_photo").remove();
-            $("#full_screen_background").remove();
-            $("body").append("<img src='" + src + "' id='full_screen_photo' onload='resize();'/>");
-            $("body").append("<img src='images/black.jpg' id='full_screen_background'/>");
-
             if (firstDiapo) {
                 firstDiapo = false;
                 $("body").append("<img src='images/right_arrow.png' class='arrow' id='right_arrow'/>");
@@ -378,6 +373,21 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
                 $('#left_arrow').click(diapoPrev);
                 $('#right_arrow').click(diapoNext);
             }
+
+            src = src.indexOf("Icon") !== -1 ? src.replace("Icon", "") : src;
+            $("#full_screen_photo").remove();
+            $("#full_screen_background").remove();
+            $("body").append("<img src='" + src + "' id='full_screen_photo' onload='resize();'/>");
+            $("body").append("<img src='images/black.jpg' id='full_screen_background'/>");
+            if (loaded !== "") {
+                $("#for_load1").remove();
+                $("#for_load2").remove();
+            }
+            var previous = (idDiapo - 1 + diapoLenght) % diapoLenght;
+            $("body").append("<div id='for_load1'><img src='" + photos[previous]['original'] + "'/></div>");
+            var next = (idDiapo + 1 + diapoLenght) % diapoLenght;
+            $("body").append("<div id='for_load2'><img src='" + photos[next]['original'] + "'/></div>");
+            loaded = "1";
         }
 
         function close() {
@@ -386,6 +396,9 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
             $("#right_arrow").remove();
             $("#left_arrow").remove();
             $("#cross").remove();
+            $("#for_load1").remove();
+            $("#for_load2").remove();
+            load = "";
             $(document).unbind('keydown', keyboardHandler);
             firstDiapo = true;
         }
@@ -411,7 +424,7 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
             if (height > imgH) {
                 var ratio = width / height;
                 bigPic.css("height", imgH + "px");
-                bigPic.css("width", imgW * ratio + "px");
+                bigPic.css("width", imgH * ratio + "px");
             }
             height = parseInt(bigPic.css("height").replace("px", ""));
             width = parseInt(bigPic.css("width").replace("px", ""));

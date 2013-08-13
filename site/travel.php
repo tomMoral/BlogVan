@@ -41,15 +41,15 @@ $query = $db->prepare('CREATE TABLE IF NOT EXISTS `position` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;');
 $query->execute();
-$query = $db->prepare("SELECT `id`, `latitude`, `longitude`, `time` FROM `position` WHERE `precision`< 200 ORDER BY `time` ASC;");
+$query = $db->prepare("SELECT `latitude`, `longitude` FROM `position` 
+                       WHERE `precision`< 200
+                       ORDER BY `time` ASC;");
 $query->execute();
 $i = 0;
 while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
     $temp = array();
-    $temp['id'] = $position['id'];
     $temp['lat'] = $position['latitude'];
     $temp['lon'] = $position['longitude'];
-    $temp['time'] = $position['time'];
     $positions[$i] = $temp;
     $i += 1;
     $last_position = $position;
@@ -467,12 +467,14 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
     <h1><?php echo_trad("a lot of posts and photos !"); ?></h1>
 </div>
 <script>
+    var $start_id = 500;
     $(document).ready(function() {
         var n = $("ul").children().length;
         for (var i = 0; i < n; i++) {
             $("ul li:nth-child(" + i + ")").css("background", "url(images/face_" + Math.floor(7 * Math.random()) + "_small.png) no-repeat top left");
         }
     });
+    
 </script>
 <?php
 include_once("footer.php");

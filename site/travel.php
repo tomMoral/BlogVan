@@ -309,7 +309,7 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
                     pic.style.width = "auto";
                     $("#" + id).css("top", parseInt($("#" + id).css("top").replace("px", "")) - (pic.height - previousH) / 2 + "px");
                     $("#" + id).css("left", parseInt($("#" + id).css("left").replace("px", "")) - (pic.width - previousW) / 2 + "px");
-                    $("#" + id).css("z_index", "20");
+                    $("#" + id).css("z-index", "20");
                 }
             });
             function makeSmall() {
@@ -321,7 +321,7 @@ while ($position = $query->fetch(PDO::FETCH_ASSOC)) {
                     $("#" + hovered).css("height", "auto");
                     $("#" + hovered).css("top", parseInt($("#" + hovered).css("top").replace("px", "")) - (parseInt(pic.css("height").replace("px", "")) - previousH) / 2 + "px");
                     $("#" + hovered).css("left", parseInt($("#" + hovered).css("left").replace("px", "")) - (parseInt(pic.css("width").replace("px", "")) - previousW) / 2 + "px");
-                    $("#" + hovered).css("z_index", "1");
+                    $("#" + hovered).css("z-index", "1");
                     hovered = "";
                 }
             }

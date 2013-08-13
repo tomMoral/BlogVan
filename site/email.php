@@ -2,7 +2,11 @@
 include_once("headerPHP.php"); //les post sont enregistré avec notre horloge, donc heure USA
 htmlHeader("blog");
 if (isset($_POST['destinataire']) && isset($_POST['object']) && isset($_POST['email'])) {
-    $headers = 'From: baba-riders@california-here-we.com' . "\r\n".
+    
+$headers  = 'MIME-Version: 1.0' . "\r\n";
+$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+    $headers .= 'From: baba-riders@california-here-we.com' . "\r\n".
     'Reply-To: baba-riders@california-here-we.com . "\r\n" ';
     $succeed = mail($_POST['destinataire'], $_POST['object'], $_POST['email'], $headers);
     if ($succeed) {

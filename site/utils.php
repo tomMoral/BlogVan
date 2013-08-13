@@ -234,7 +234,8 @@ $trad = array(
     "a lot of other surprises and above all" => "plein d'autre surprises et surtout",
     "a lot of posts and photos !" => "beaucoup de posts et de photos !",
     "It's awesome!" => "C'est génial !",
-    "The adventure has begun since" => "L'aventure a commencé il y a",
+    "The adventure began since" => "L'aventure a commencé il y a",
+    "days ago"=>'jours',
     "If this is your first time, pick a funny name!" => "Si c'est ta première fois, choisis un nom marrant !"
 );
 ?>

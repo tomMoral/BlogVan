@@ -262,10 +262,10 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
 
 <div class="center">
     <h1><?php
-        echo_trad("The adventure has begun since");
+        echo_trad("The adventure began");
         echo " " . $days_remaining . " ";
-        echo_trad("day");
-        ?>s.<br/><?php echo_trad("It's awesome!"); ?>
+        echo_trad("days ago");
+        ?>.<br/><?php echo_trad("It's awesome!"); ?>
     </h1>
     <div style="position:relative; width: 900px; height: 500px" id="container"><div id="map-canvas"></div>
         <?php
@@ -298,8 +298,7 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
                 var pic = this;
                 var id = pic.id;
                 if (id !== hovered) {
-                    $("#" + hovered).css("width", "20px");
-                    $("#" + hovered).css("height", "auto");
+                    makeSmall();
                     hovered = id;
                     var h = pic.height;
                     var src = pic.src;
@@ -307,18 +306,30 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
                         // pic.src = src.replace("Icon"
                         //       , "Medium");
                     }
-                    pic.height = 6 * h;
+                    var previousH = pic.height;
+                    var previousW = pic.width;
+                    pic.height = 50;
                     pic.style.width = "auto";
+                    $("#" + id).css("top", parseInt($("#" + id).css("top").replace("px", "")) - (pic.height - previousH) / 2 + "px");
+                    $("#" + id).css("left", parseInt($("#" + id).css("left").replace("px", "")) - (pic.width - previousW) / 2 + "px");
+                    $("#" + id).css("z_index", "20");
                 }
             });
-            $(".map_photo").mouseout(function() {
-                var pic = this;
-                var id = pic.id;
+            function makeSmall() {
                 if (hovered != "") {
+                    var pic = $("#" + hovered);
+                    var previousH = parseInt(pic.css("height").replace("px", ""));
+                    var previousW = parseInt(pic.css("width").replace("px", ""));
                     $("#" + hovered).css("width", "20px");
                     $("#" + hovered).css("height", "auto");
+                    $("#" + hovered).css("top", parseInt($("#" + hovered).css("top").replace("px", "")) - (parseInt(pic.css("height").replace("px", "")) - previousH) / 2 + "px");
+                    $("#" + hovered).css("left", parseInt($("#" + hovered).css("left").replace("px", "")) - (parseInt(pic.css("width").replace("px", "")) - previousW) / 2 + "px");
+                    $("#" + hovered).css("z_index", "1");
                     hovered = "";
                 }
+            }
+            $(".map_photo").mouseout(function() {
+                makeSmall();
             });
             $(".map_photo").click(function() {
                 var pic = this;
@@ -395,26 +406,26 @@ $last_position = $query->fetch(PDO::FETCH_ASSOC);
             var width = parseInt(bigPic.css("width").replace("px", ""));
             var height = parseInt(bigPic.css("height").replace("px", ""));
             if (width > imgW) {
-                var ratio = width/height;
+                var ratio = width / height;
                 bigPic.css("width", imgW + "px");
-                bigPic.css("height", imgW/ratio + "px");
+                bigPic.css("height", imgW / ratio + "px");
             }
             width = parseInt(bigPic.css("width").replace("px", ""));
             height = parseInt(bigPic.css("height").replace("px", ""));
             if (height > imgH) {
-                var ratio = width/height;
+                var ratio = width / height;
                 bigPic.css("height", imgH + "px");
-                bigPic.css("width", imgW*ratio + "px");
+                bigPic.css("width", imgW * ratio + "px");
             }
             height = parseInt(bigPic.css("height").replace("px", ""));
             width = parseInt(bigPic.css("width").replace("px", ""));
             //set the image position
             bigPic.css("left", ((windowW - width) / 2) + "px");
             bigPic.css("top", ((windowH - height) / 2) + "px");
-            $("#right_arrow").css("right",((windowW - width) / 2)-50 + "px");
-            $("#left_arrow").css("left",((windowW - width) / 2)-50 + "px");
-            $("#right_arrow").css("top",(windowH  / 2)-20 + "px");
-            $("#left_arrow").css("top",(windowH / 2)-20 + "px");
+            $("#right_arrow").css("right", ((windowW - width) / 2) - 50 + "px");
+            $("#left_arrow").css("left", ((windowW - width) / 2) - 50 + "px");
+            $("#right_arrow").css("top", (windowH / 2) - 20 + "px");
+            $("#left_arrow").css("top", (windowH / 2) - 20 + "px");
         }
     </script>
     <h2><?php echo_trad("On the agenda"); ?>:</h2>

@@ -28,6 +28,21 @@ $query->closeCursor();
 <div class="relative">
     <div id="diaporama" ><h1>diaporama</h1></div>
     <script>
+        var maxWidth = 445;
+        var maxHeight = 334;
+        function resize(id_photo) {
+            var a = document.getElementById(id_photo);
+            if (a) {
+                if (a.width > maxWidth) {
+                    a.width = maxWidth;
+                    a.style.height = 'auto';
+                }
+                if (a.height > maxHeight) {
+                    a.height = maxHeight;
+                    a.style.width = 'auto';
+                }
+            }
+        }
         $("#diaporama").click(function() {
             displayFullScreen(photos[idDiapo]['original']);
         });
@@ -181,21 +196,6 @@ $query->closeCursor();
         if ($j == 6) {
             ?>
             <script>
-                var maxWidth = 445;
-                var maxHeight = 334;
-                function resize(id_photo) {
-                    var a = document.getElementById(id_photo);
-                    if (a) {
-                        if (a.width > maxWidth) {
-                            a.width = maxWidth;
-                            a.style.height = 'auto';
-                        }
-                        if (a.height > maxHeight) {
-                            a.height = maxHeight;
-                            a.style.width = 'auto';
-                        }
-                    }
-                }
                 $(document).ready(function() {
                     $.post("ajax/load_photo.php", {already_load: "<?php echo $j; ?>"})
                             .done(function(data) {
